@@ -1,4 +1,6 @@
 import * as PIXI from "pixi.js";
+import { questionBox } from "./questionBox";
+import qBoxSprite from "./images/qBoxSprite.png";
 
 export class Game {
   pixi: PIXI.Application;
@@ -11,11 +13,14 @@ export class Game {
     this.pixi = new PIXI.Application({ width: this.screenWidth, height: this.screenHeight, backgroundColor: 0x2980b9 });
     document.body.appendChild(this.pixi.view);
     this.loader = new PIXI.Loader();
+    this.loader.add("qBoxSprite", qBoxSprite);
     this.loader.load(() => this.loadCompleted());
   }
 
   loadCompleted() {
     console.log("loaded");
+    let qBox = new questionBox(this);
+    this.pixi.stage.addChild(qBox.qBoxSprite);
   }
 }
 
