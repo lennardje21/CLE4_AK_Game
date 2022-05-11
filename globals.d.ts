@@ -1,4 +1,5 @@
-declare module "*.png"
-declare module "*.jpg"
+declare module "*.png";
+declare module "*.jpg";
 
 //test push
+//test push max
