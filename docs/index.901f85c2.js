@@ -546,7 +546,7 @@ class Game {
 }
 let game = new Game();
 
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./questionBox":"l0HAd","./images/qBoxSprite.png":"3N9En"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./questionBox":"l0HAd","./images/qBoxSprite.png":"3N9En","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37049,18 +37049,39 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "questionBox", ()=>questionBox
 );
 var _pixiJs = require("pixi.js");
+var _questionJson = require("../static/question.json");
+var _questionJsonDefault = parcelHelpers.interopDefault(_questionJson);
 class questionBox {
     answers = [];
     constructor(game){
         //show itself
         this.game = game;
+        let questionId = this.getRandomInt(1, 3);
+        this.question = _questionJsonDefault.default["1"].question;
         this.qBoxSprite = new _pixiJs.Sprite(game.loader.resources["qBoxSprite"].texture);
+        this.qText = new _pixiJs.Text(this.question, {
+            fontFamily: "Arial",
+            fontSize: 24,
+            fill: 16777215,
+            align: "center"
+        });
+        this.qText.x = this.qBoxSprite.x + 150;
+        this.qText.y = this.qBoxSprite.y + 150;
+        game.pixi.stage.addChild(this.qText);
         //show answers as A, B, and C
         console.log(this);
     }
+    getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","pixi.js":"dsYej"}],"3N9En":[function(require,module,exports) {
+},{"pixi.js":"dsYej","../static/question.json":"fskmQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fskmQ":[function(require,module,exports) {
+module.exports = JSON.parse("{\"1\":{\"question\":\"test question 1\",\"answers\":[\"test 1\",\"test 2\",\"test 3\"]},\"2\":{\"question\":\"test question 2\",\"answers\":[\"test 1\",\"test 2\",\"test 3\"]},\"3\":{\"question\":\"test question 3\",\"answers\":[\"test 1\",\"test 2\",\"test 3\"]}}");
+
+},{}],"3N9En":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "qBoxSprite.c6eec9fc.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {

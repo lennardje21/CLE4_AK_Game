@@ -14,6 +14,7 @@ export class Game {
     document.body.appendChild(this.pixi.view);
     this.loader = new PIXI.Loader();
     this.loader.add("qBoxSprite", qBoxSprite);
+
     this.loader.load(() => this.loadCompleted());
   }
 
