@@ -522,6 +522,8 @@ var _pixiJs = require("pixi.js");
 var _questionBox = require("./questionBox");
 var _qBoxSpritePng = require("./images/qBoxSprite.png");
 var _qBoxSpritePngDefault = parcelHelpers.interopDefault(_qBoxSpritePng);
+var _aBoxSpritePng = require("./images/aBoxSprite.png");
+var _aBoxSpritePngDefault = parcelHelpers.interopDefault(_aBoxSpritePng);
 class Game {
     screenWidth = 1280;
     screenHeight = 720;
@@ -535,6 +537,7 @@ class Game {
         document.body.appendChild(this.pixi.view);
         this.loader = new _pixiJs.Loader();
         this.loader.add("qBoxSprite", _qBoxSpritePngDefault.default);
+        this.loader.add("aBoxSprite", _aBoxSpritePngDefault.default);
         this.loader.load(()=>this.loadCompleted()
         );
     }
@@ -546,7 +549,7 @@ class Game {
 }
 let game = new Game();
 
-},{"pixi.js":"dsYej","./questionBox":"l0HAd","./images/qBoxSprite.png":"3N9En","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./questionBox":"l0HAd","./images/qBoxSprite.png":"3N9En","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/aBoxSprite.png":"174qL"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37061,14 +37064,14 @@ class questionBox {
             let json = response.json();
             return json;
         }).then((json)=>{
-            this.generateQuestion(json);
+            this.generateQuestion(json, game);
         }).catch(this.errorHandler);
         //show box
         this.qBoxSprite = new _pixiJs.Sprite(game.loader.resources["qBoxSprite"].texture);
         //show answers as A, B, and C
         console.log(this);
     }
-    generateQuestion(data) {
+    generateQuestion(data, game) {
         let questionId = this.getRandomInt(1, 3);
         //question
         this.question = data[questionId].question;
@@ -37088,11 +37091,24 @@ class questionBox {
                 fill: 16777215,
                 align: "center"
             });
-            this.aText.x = this.qBoxSprite.x + 150 + index * 150;
-            this.aText.y = this.qBoxSprite.y + 350;
-            this.game.pixi.stage.addChild(this.aText);
+            this.aBoxSprite = new _pixiJs.Sprite(game.loader.resources["aBoxSprite"].texture);
+            this.aBoxSprite.scale.set(0.1, 0.3);
+            this.aBoxSprite.anchor.set(0.5);
+            this.aBoxSprite.x = this.qBoxSprite.x + 100 * index + 240;
+            this.aBoxSprite.y = this.qBoxSprite.y + 380;
+            this.aBoxSprite.interactive = true;
+            this.aBoxSprite.buttonMode = true;
+            this.aBoxSprite.on("pointerdown", (event)=>this.onButtonDown(event, answer)
+            );
+            this.aText.anchor.set(0.5);
+            this.aText.x = this.aBoxSprite.x;
+            this.aText.y = this.aBoxSprite.y;
+            this.game.pixi.stage.addChild(this.aBoxSprite, this.aText);
         });
         this.game.pixi.stage.addChild(this.qText);
+    }
+    onButtonDown(event, answer) {
+        console.log(`answer you clicked: ${answer}`);
     }
     errorHandler(event) {
         console.log(event);
@@ -37141,6 +37157,9 @@ exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
-},{}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
+},{}],"174qL":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "aBoxSprite.e0b77fd8.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
 
 //# sourceMappingURL=index.901f85c2.js.map

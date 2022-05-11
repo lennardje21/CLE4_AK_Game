@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import { questionBox } from "./questionBox";
 import qBoxSprite from "./images/qBoxSprite.png";
+import aBoxSprite from "./images/aBoxSprite.png";
 
 export class Game {
   pixi: PIXI.Application;
@@ -14,6 +15,7 @@ export class Game {
     document.body.appendChild(this.pixi.view);
     this.loader = new PIXI.Loader();
     this.loader.add("qBoxSprite", qBoxSprite);
+    this.loader.add("aBoxSprite", aBoxSprite);
 
     this.loader.load(() => this.loadCompleted());
   }
