@@ -37054,6 +37054,7 @@ class questionBox {
     constructor(game){
         //show itself
         this.game = game;
+        //fetch questions json
         fetch("question.json").then((response)=>{
             if (!response.ok) throw new Error(response.statusText);
             console.log(response);
@@ -37062,14 +37063,14 @@ class questionBox {
         }).then((json)=>{
             this.generateQuestion(json);
         }).catch(this.errorHandler);
-        // this.question = data[questionId];
+        //show box
         this.qBoxSprite = new _pixiJs.Sprite(game.loader.resources["qBoxSprite"].texture);
         //show answers as A, B, and C
         console.log(this);
     }
     generateQuestion(data) {
-        console.log(data);
         let questionId = this.getRandomInt(1, 3);
+        //question
         this.question = data[questionId].question;
         this.qText = new _pixiJs.Text(this.question, {
             fontFamily: "Arial",
@@ -37079,6 +37080,18 @@ class questionBox {
         });
         this.qText.x = this.qBoxSprite.x + 150;
         this.qText.y = this.qBoxSprite.y + 150;
+        //answers
+        data[questionId].answers.forEach((answer, index)=>{
+            this.aText = new _pixiJs.Text(answer, {
+                fontFamily: "Arial",
+                fontSize: 24,
+                fill: 16777215,
+                align: "center"
+            });
+            this.aText.x = this.qBoxSprite.x + 150 + index * 150;
+            this.aText.y = this.qBoxSprite.y + 350;
+            this.game.pixi.stage.addChild(this.aText);
+        });
         this.game.pixi.stage.addChild(this.qText);
     }
     errorHandler(event) {
