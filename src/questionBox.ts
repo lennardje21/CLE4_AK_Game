@@ -81,6 +81,7 @@ export class questionBox {
   onButtonDown(event: Event, answer: string, correctAnswer: string) {
     if (answer === correctAnswer) {
       //TODO: correct answer behaviour (generate new question, give hitpoints to enemy)
+      this.game.makeQbox();
       console.log("correct answer");
     } else {
       //TODO: wrong answer behaviour (take dammage, time penalty, generate new question)

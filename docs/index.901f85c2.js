@@ -541,7 +541,11 @@ class Game {
         );
     }
     loadCompleted() {
-        let qBox = new _questionBox.questionBox(this);
+        this.makeQbox();
+    }
+    makeQbox() {
+        let qBox = null;
+        qBox = new _questionBox.questionBox(this);
     }
 }
 let game = new Game();
@@ -37109,9 +37113,11 @@ class questionBox {
         this.game.pixi.stage.addChild(this.qText);
     }
     onButtonDown(event, answer, correctAnswer) {
-        if (answer === correctAnswer) //TODO: correct answer behaviour (generate new question, give hitpoints to enemy)
-        console.log("correct answer");
-        else //TODO: wrong answer behaviour (take dammage, time penalty, generate new question)
+        if (answer === correctAnswer) {
+            //TODO: correct answer behaviour (generate new question, give hitpoints to enemy)
+            this.game.makeQbox();
+            console.log("correct answer");
+        } else //TODO: wrong answer behaviour (take dammage, time penalty, generate new question)
         console.log("wrong answer");
     }
     errorHandler(event) {

@@ -20,7 +20,12 @@ export class Game {
   }
 
   loadCompleted() {
-    let qBox = new questionBox(this);
+    this.makeQbox();
+  }
+
+  makeQbox() {
+    let qBox = null;
+    qBox = new questionBox(this);
   }
 }
 
