@@ -25,7 +25,6 @@ export class questionBox {
         if (!response.ok) {
           throw new Error(response.statusText);
         }
-        console.log(response);
         let json = response.json();
         return json;
       })
@@ -35,15 +34,15 @@ export class questionBox {
       .catch(this.errorHandler);
 
     //show box
-    this.qBoxSprite = new PIXI.Sprite(game.loader.resources["qBoxSprite"].texture!);
 
     //show answers as A, B, and C
-
-    console.log(this);
   }
 
   generateQuestion(data: any, game: Game) {
+    this.qBoxSprite = new PIXI.Sprite(game.loader.resources["qBoxSprite"].texture!);
     let questionId: number = this.getRandomInt(1, 3);
+
+    let correctAnswer = data[questionId].correctA;
 
     //question
     this.question = data[questionId].question;
@@ -53,9 +52,9 @@ export class questionBox {
 
     //answers
     data[questionId].answers.forEach((answer: string, index: number) => {
+      this.aBoxSprite = new PIXI.Sprite(game.loader.resources["aBoxSprite"].texture!);
       this.aText = new PIXI.Text(answer, { fontFamily: "Arial", fontSize: 24, fill: 0xffffff, align: "center" });
 
-      this.aBoxSprite = new PIXI.Sprite(game.loader.resources["aBoxSprite"].texture!);
       this.aBoxSprite.scale.set(0.1, 0.3);
       this.aBoxSprite.anchor.set(0.5);
       this.aBoxSprite.x = this.qBoxSprite.x + 100 * index + 240;
@@ -63,19 +62,23 @@ export class questionBox {
       this.aBoxSprite.interactive = true;
       this.aBoxSprite.buttonMode = true;
 
-      this.aBoxSprite.on("pointerdown", (event: Event) => this.onButtonDown(event, answer));
+      this.aBoxSprite.on("pointerdown", (event: Event) => this.onButtonDown(event, answer, correctAnswer));
 
       this.aText.anchor.set(0.5);
       this.aText.x = this.aBoxSprite.x;
       this.aText.y = this.aBoxSprite.y;
       this.game.pixi.stage.addChild(this.aBoxSprite, this.aText);
     });
-
+    this.game.pixi.stage.addChild(this.qBoxSprite);
     this.game.pixi.stage.addChild(this.qText);
   }
 
-  onButtonDown(event: Event, answer: string) {
-    console.log(`answer you clicked: ${answer}`);
+  onButtonDown(event: Event, answer: string, correctAnswer: string) {
+    if (answer === correctAnswer) {
+      console.log("correct answer");
+    } else {
+      console.log("wrong answer");
+    }
   }
 
   errorHandler(event: any) {

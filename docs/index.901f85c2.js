@@ -528,7 +528,6 @@ class Game {
     screenWidth = 1280;
     screenHeight = 720;
     constructor(){
-        console.log("constructor");
         this.pixi = new _pixiJs.Application({
             width: this.screenWidth,
             height: this.screenHeight,
@@ -542,14 +541,12 @@ class Game {
         );
     }
     loadCompleted() {
-        console.log("loaded");
         let qBox = new _questionBox.questionBox(this);
-        this.pixi.stage.addChild(qBox.qBoxSprite);
     }
 }
 let game = new Game();
 
-},{"pixi.js":"dsYej","./questionBox":"l0HAd","./images/qBoxSprite.png":"3N9En","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/aBoxSprite.png":"174qL"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./questionBox":"l0HAd","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37060,19 +37057,18 @@ class questionBox {
         //fetch questions json
         fetch("question.json").then((response)=>{
             if (!response.ok) throw new Error(response.statusText);
-            console.log(response);
             let json = response.json();
             return json;
         }).then((json)=>{
             this.generateQuestion(json, game);
         }).catch(this.errorHandler);
-        //show box
-        this.qBoxSprite = new _pixiJs.Sprite(game.loader.resources["qBoxSprite"].texture);
-        //show answers as A, B, and C
-        console.log(this);
+    //show box
+    //show answers as A, B, and C
     }
     generateQuestion(data, game) {
+        this.qBoxSprite = new _pixiJs.Sprite(game.loader.resources["qBoxSprite"].texture);
         let questionId = this.getRandomInt(1, 3);
+        let correctAnswer = data[questionId].correctA;
         //question
         this.question = data[questionId].question;
         this.qText = new _pixiJs.Text(this.question, {
@@ -37085,30 +37081,32 @@ class questionBox {
         this.qText.y = this.qBoxSprite.y + 150;
         //answers
         data[questionId].answers.forEach((answer, index)=>{
+            this.aBoxSprite = new _pixiJs.Sprite(game.loader.resources["aBoxSprite"].texture);
             this.aText = new _pixiJs.Text(answer, {
                 fontFamily: "Arial",
                 fontSize: 24,
                 fill: 16777215,
                 align: "center"
             });
-            this.aBoxSprite = new _pixiJs.Sprite(game.loader.resources["aBoxSprite"].texture);
             this.aBoxSprite.scale.set(0.1, 0.3);
             this.aBoxSprite.anchor.set(0.5);
             this.aBoxSprite.x = this.qBoxSprite.x + 100 * index + 240;
             this.aBoxSprite.y = this.qBoxSprite.y + 380;
             this.aBoxSprite.interactive = true;
             this.aBoxSprite.buttonMode = true;
-            this.aBoxSprite.on("pointerdown", (event)=>this.onButtonDown(event, answer)
+            this.aBoxSprite.on("pointerdown", (event)=>this.onButtonDown(event, answer, correctAnswer)
             );
             this.aText.anchor.set(0.5);
             this.aText.x = this.aBoxSprite.x;
             this.aText.y = this.aBoxSprite.y;
             this.game.pixi.stage.addChild(this.aBoxSprite, this.aText);
         });
+        this.game.pixi.stage.addChild(this.qBoxSprite);
         this.game.pixi.stage.addChild(this.qText);
     }
-    onButtonDown(event, answer) {
-        console.log(`answer you clicked: ${answer}`);
+    onButtonDown(event, answer, correctAnswer) {
+        if (answer === correctAnswer) console.log("correct answer");
+        else console.log("wrong answer");
     }
     errorHandler(event) {
         console.log(event);
