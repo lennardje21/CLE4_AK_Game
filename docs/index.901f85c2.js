@@ -524,6 +524,8 @@ var _qBoxSpritePng = require("./images/qBoxSprite.png");
 var _qBoxSpritePngDefault = parcelHelpers.interopDefault(_qBoxSpritePng);
 var _aBoxSpritePng = require("./images/aBoxSprite.png");
 var _aBoxSpritePngDefault = parcelHelpers.interopDefault(_aBoxSpritePng);
+var _aBoxSpriteDeactivatedPng = require("./images/aBoxSpriteDeactivated.png");
+var _aBoxSpriteDeactivatedPngDefault = parcelHelpers.interopDefault(_aBoxSpriteDeactivatedPng);
 class Game {
     screenWidth = 1280;
     screenHeight = 720;
@@ -537,6 +539,7 @@ class Game {
         this.loader = new _pixiJs.Loader();
         this.loader.add("qBoxSprite", _qBoxSpritePngDefault.default);
         this.loader.add("aBoxSprite", _aBoxSpritePngDefault.default);
+        this.loader.add("aBoxSpriteDeactivated", _aBoxSpriteDeactivatedPngDefault.default);
         this.loader.load(()=>this.loadCompleted()
         );
     }
@@ -550,7 +553,7 @@ class Game {
 }
 let game = new Game();
 
-},{"pixi.js":"dsYej","./questionBox":"l0HAd","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./questionBox":"l0HAd","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/aBoxSpriteDeactivated.png":"3IoZl"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37097,6 +37100,8 @@ class questionBox {
             //lock the answers so you cant answer correct multiple times
             this.answers.forEach((a, index)=>{
                 console.log(a);
+                //change to black and white texture
+                a.aBoxSprite.texture = this.game.loader.resources["aBoxSpriteDeactivated"].texture;
                 a.aBoxSprite.interactive = false;
                 a.aBoxSprite.buttonMode = false;
             });
@@ -37218,6 +37223,9 @@ exports.getOrigin = getOrigin;
 
 },{}],"174qL":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "aBoxSprite.e0b77fd8.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"3IoZl":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "aBoxSpriteDeactivated.e6cf7c61.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
 

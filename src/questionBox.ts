@@ -62,6 +62,9 @@ export class questionBox {
       this.answers.forEach((a: Answer, index: number) => {
         console.log(a);
 
+        //change to black and white texture
+        a.aBoxSprite.texture = this.game.loader.resources["aBoxSpriteDeactivated"].texture!;
+
         a.aBoxSprite.interactive = false;
         a.aBoxSprite.buttonMode = false;
       });
