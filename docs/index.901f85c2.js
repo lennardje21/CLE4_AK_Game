@@ -37068,10 +37068,13 @@ class questionBox {
         }).catch(this.errorHandler);
     }
     generateQuestion(data, game) {
+        //get random question
+        this.questionId = this.getRandomInt(1, 3);
+        this.question = data[this.questionId].question;
+        //question box sprite
         this.qBoxSprite = new _pixiJs.Sprite(game.loader.resources["qBoxSprite"].texture);
-        let questionId = this.getRandomInt(1, 3);
-        //question
-        this.question = data[questionId].question;
+        this.game.pixi.stage.addChild(this.qBoxSprite);
+        //question text
         this.qText = new _pixiJs.Text(this.question, {
             fontFamily: "Arial",
             fontSize: 24,
@@ -37080,15 +37083,35 @@ class questionBox {
         });
         this.qText.x = this.qBoxSprite.x + 150;
         this.qText.y = this.qBoxSprite.y + 150;
-        //append question box sprite
-        this.game.pixi.stage.addChild(this.qBoxSprite);
-        //append question text
         this.game.pixi.stage.addChild(this.qText);
         //generate answers
         for(let i = 0; i < 3; i++){
-            let answer = new _answerBox.Answer(game, questionId, this.qBoxSprite);
+            let answer = new _answerBox.Answer(game, this, i);
             this.answers.push(answer);
         }
+    }
+    async answerHandler(event, answer, correctAnswer) {
+        if (answer === correctAnswer) {
+            //TODO: correct answer behaviour (generate new question, give hitpoints to enemy)
+            console.log("correct answer");
+            //lock the answers so you cant answer correct multiple times
+            this.answers.forEach((a, index)=>{
+                console.log(a);
+                a.aBoxSprite.interactive = false;
+                a.aBoxSprite.buttonMode = false;
+            });
+            //show that the answer is correct
+            //wait 5 seconds
+            await this.sleep(5000);
+            //generate a new question
+            this.game.makeQbox();
+        } else //TODO: wrong answer behaviour (take dammage, time penalty, generate new question)
+        // this.game.makeQbox();
+        console.log("wrong answer");
+    }
+    sleep(ms) {
+        return new Promise((resolve)=>setTimeout(resolve, ms)
+        );
     }
     errorHandler(event) {
         console.log(event);
@@ -37107,69 +37130,49 @@ parcelHelpers.export(exports, "Answer", ()=>Answer
 );
 var _pixiJs = require("pixi.js");
 class Answer {
-    constructor(game, questionId, qBoxSprite){
+    constructor(game, qBox, i){
         this.game = game;
+        this.questionBox = qBox;
         //fetch questions from json file
         fetch("question.json").then((response)=>{
             if (!response.ok) throw new Error(response.statusText);
             let json = response.json();
             return json;
         }).then((json)=>{
-            this.generateAnswers(json, game, questionId, qBoxSprite);
+            this.generateAnswers(json, game, qBox, i);
         }).catch(this.errorHandler);
     }
-    generateAnswers(data, game, questionId, qBoxSprite) {
+    generateAnswers(data, game, qBox, i) {
         //correct answer
-        this.correctAnswer = data[questionId].correctA;
-        //answers
-        data[questionId].answers.forEach((answer, index)=>{
-            //show answer box sprite
-            this.aBoxSprite = new _pixiJs.Sprite(game.loader.resources["aBoxSprite"].texture);
-            this.aBoxSprite.scale.set(0.1, 0.3);
-            this.aBoxSprite.anchor.set(0.5);
-            this.aBoxSprite.x = qBoxSprite.x + 100 * index + 240;
-            this.aBoxSprite.y = qBoxSprite.y + 380;
-            //give them text
-            this.aText = new _pixiJs.Text(answer, {
-                fontFamily: "Arial",
-                fontSize: 24,
-                fill: 16777215,
-                align: "center"
-            });
-            this.aText.anchor.set(0.5);
-            this.aText.x = this.aBoxSprite.x;
-            this.aText.y = this.aBoxSprite.y;
-            //make them interactive buttons
-            this.aBoxSprite.interactive = true;
-            this.aBoxSprite.buttonMode = true;
-            this.aBoxSprite.on("pointerdown", (event)=>this.onButtonDown(event, answer, this.correctAnswer)
-            );
-            //append answer box sprite and text
-            this.game.pixi.stage.addChild(this.aBoxSprite, this.aText);
+        this.correctAnswer = data[qBox.questionId].correctA;
+        //answer
+        this.answer = data[qBox.questionId].answers[i];
+        //show answer box sprite
+        this.aBoxSprite = new _pixiJs.Sprite(game.loader.resources["aBoxSprite"].texture);
+        this.aBoxSprite.scale.set(0.1, 0.3);
+        this.aBoxSprite.anchor.set(0.5);
+        this.aBoxSprite.x = qBox.qBoxSprite.x + 100 * i + 240;
+        this.aBoxSprite.y = qBox.qBoxSprite.y + 380;
+        //give them text
+        this.aText = new _pixiJs.Text(this.answer, {
+            fontFamily: "Arial",
+            fontSize: 24,
+            fill: 16777215,
+            align: "center"
         });
-    }
-    onButtonDown(event, answer, correctAnswer) {
-        this.answerHandler(answer, correctAnswer);
-    }
-    async answerHandler(answer, correctAnswer) {
-        if (answer === correctAnswer) {
-            //TODO: correct answer behaviour (generate new question, give hitpoints to enemy)
-            //lock the answers so you cant answer correct multiple times
-            this.aBoxSprite.interactive = false;
-            this.aBoxSprite.buttonMode = false;
-            //show that the answer is correct
-            //wait 2 seconds
-            await this.sleep(2000);
-            //generate a new question
-            this.game.makeQbox();
-            console.log("correct answer");
-        } else //TODO: wrong answer behaviour (take dammage, time penalty, generate new question)
-        // this.game.makeQbox();
-        console.log("wrong answer");
-    }
-    sleep(ms) {
-        return new Promise((resolve)=>setTimeout(resolve, ms)
+        this.aText.anchor.set(0.5);
+        this.aText.x = this.aBoxSprite.x;
+        this.aText.y = this.aBoxSprite.y;
+        //make the answer sprite interactive
+        this.aBoxSprite.interactive = true;
+        this.aBoxSprite.buttonMode = true;
+        this.aBoxSprite.on("pointerdown", (event)=>this.onButtonDown(event, qBox, this.answer, this.correctAnswer)
         );
+        //append answer box sprite and text
+        this.game.pixi.stage.addChild(this.aBoxSprite, this.aText);
+    }
+    onButtonDown(event, qBox, answer, correctAnswer) {
+        qBox.answerHandler(event, answer, correctAnswer);
     }
     errorHandler(event) {
         console.log(event);
