@@ -37053,6 +37053,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "questionBox", ()=>questionBox
 );
 var _pixiJs = require("pixi.js");
+var _answerBox = require("./answerBox");
 class questionBox {
     answers = [];
     constructor(game){
@@ -37079,6 +37080,45 @@ class questionBox {
         });
         this.qText.x = this.qBoxSprite.x + 150;
         this.qText.y = this.qBoxSprite.y + 150;
+        //append question box sprite
+        this.game.pixi.stage.addChild(this.qBoxSprite);
+        //append question text
+        this.game.pixi.stage.addChild(this.qText);
+        //generate answers
+        for(let i = 0; i < 3; i++){
+            let answer = new _answerBox.Answer(game, questionId, this.qBoxSprite);
+            this.answers.push(answer);
+        }
+    }
+    errorHandler(event) {
+        console.log(event);
+    }
+    getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./answerBox":"1r5FN"}],"1r5FN":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Answer", ()=>Answer
+);
+var _pixiJs = require("pixi.js");
+class Answer {
+    constructor(game, questionId, qBoxSprite){
+        this.game = game;
+        //fetch questions from json file
+        fetch("question.json").then((response)=>{
+            if (!response.ok) throw new Error(response.statusText);
+            let json = response.json();
+            return json;
+        }).then((json)=>{
+            this.generateAnswers(json, game, questionId, qBoxSprite);
+        }).catch(this.errorHandler);
+    }
+    generateAnswers(data, game, questionId, qBoxSprite) {
         //correct answer
         this.correctAnswer = data[questionId].correctA;
         //answers
@@ -37087,8 +37127,8 @@ class questionBox {
             this.aBoxSprite = new _pixiJs.Sprite(game.loader.resources["aBoxSprite"].texture);
             this.aBoxSprite.scale.set(0.1, 0.3);
             this.aBoxSprite.anchor.set(0.5);
-            this.aBoxSprite.x = this.qBoxSprite.x + 100 * index + 240;
-            this.aBoxSprite.y = this.qBoxSprite.y + 380;
+            this.aBoxSprite.x = qBoxSprite.x + 100 * index + 240;
+            this.aBoxSprite.y = qBoxSprite.y + 380;
             //give them text
             this.aText = new _pixiJs.Text(answer, {
                 fontFamily: "Arial",
@@ -37107,26 +37147,32 @@ class questionBox {
             //append answer box sprite and text
             this.game.pixi.stage.addChild(this.aBoxSprite, this.aText);
         });
-        //append question box sprite
-        this.game.pixi.stage.addChild(this.qBoxSprite);
-        //append question text
-        this.game.pixi.stage.addChild(this.qText);
     }
     onButtonDown(event, answer, correctAnswer) {
+        this.answerHandler(answer, correctAnswer);
+    }
+    async answerHandler(answer, correctAnswer) {
         if (answer === correctAnswer) {
             //TODO: correct answer behaviour (generate new question, give hitpoints to enemy)
+            //lock the answers so you cant answer correct multiple times
+            this.aBoxSprite.interactive = false;
+            this.aBoxSprite.buttonMode = false;
+            //show that the answer is correct
+            //wait 2 seconds
+            await this.sleep(2000);
+            //generate a new question
             this.game.makeQbox();
             console.log("correct answer");
         } else //TODO: wrong answer behaviour (take dammage, time penalty, generate new question)
+        // this.game.makeQbox();
         console.log("wrong answer");
+    }
+    sleep(ms) {
+        return new Promise((resolve)=>setTimeout(resolve, ms)
+        );
     }
     errorHandler(event) {
         console.log(event);
-    }
-    getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 }
 
