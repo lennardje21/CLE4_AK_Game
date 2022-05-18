@@ -37084,6 +37084,7 @@ class questionBox {
         this.question = data[this.questionId].question;
         //question box sprite
         this.qBoxSprite = new _pixiJs.Sprite(game.loader.resources["qBoxSprite"].texture);
+        this.qBoxSprite.scale.set(0.8, 0.8);
         this.game.pixi.stage.addChild(this.qBoxSprite);
         //question text
         this.qText = new _pixiJs.Text(this.question, {
@@ -37105,6 +37106,7 @@ class questionBox {
         if (answer === correctAnswer) {
             //TODO: correct answer behaviour (generate new question, give hitpoints to enemy)
             console.log("correct answer");
+            //show that the answer is correct
             let check = new _check.Check(this.game, this);
             //lock the answers so you cant answer correct multiple times
             this.answers.forEach((a, index)=>{
@@ -37113,7 +37115,6 @@ class questionBox {
                 a.aBoxSprite.interactive = false;
                 a.aBoxSprite.buttonMode = false;
             });
-            //show that the answer is correct
             //wait 5 seconds
             await this.sleep(5000);
             //generate a new question
