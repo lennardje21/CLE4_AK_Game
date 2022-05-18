@@ -23,12 +23,15 @@ export class Game {
     this.loader.add("background", background);
     this.loader.add("aBoxSpriteDeactivated", aBoxSpriteDeactivated);
 
+    //haal de json op om de animated spritesheet te maken
     new Assets(this)
     this.loader.load(() => this.loadCompleted());
   }
 
   loadCompleted() {
+    //in frames komen de images te staan die de enemy animate
     let frames = this.createZombieFrames()
+    //creeër een nieuwe zombie
     this.zombie = new Enemy(this, frames)
     this.makeQbox();
 
