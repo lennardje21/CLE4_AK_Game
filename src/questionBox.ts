@@ -1,6 +1,9 @@
 import * as PIXI from "pixi.js";
 import { Answer } from "./answerBox";
 import { Game } from "./game";
+import { Check } from "./check";
+import { Cross } from "./crossSprite";
+import { destroyTextureCache } from "@pixi/utils";
 
 export class questionBox {
   question: string;
@@ -38,6 +41,7 @@ export class questionBox {
 
     //question box sprite
     this.qBoxSprite = new PIXI.Sprite(game.loader.resources["qBoxSprite"].texture!);
+
     this.game.pixi.stage.addChild(this.qBoxSprite);
 
     //question text
@@ -58,10 +62,9 @@ export class questionBox {
       //TODO: correct answer behaviour (generate new question, give hitpoints to enemy)
       console.log("correct answer");
 
+      let check = new Check(this.game, this);
       //lock the answers so you cant answer correct multiple times
       this.answers.forEach((a: Answer, index: number) => {
-        console.log(a);
-
         //change to black and white texture
         a.aBoxSprite.texture = this.game.loader.resources["aBoxSpriteDeactivated"].texture!;
 
@@ -77,9 +80,26 @@ export class questionBox {
       //generate a new question
       this.game.makeQbox();
     } else {
-      //TODO: wrong answer behaviour (take dammage, time penalty, generate new question)
-      // this.game.makeQbox();
-      console.log("wrong answer");
+      //TODO: wrong answer behaviour (generate new question, give hitpoints to player)
+      console.log("correct answer");
+
+      //show that the answer is wrong
+      let cross = new Cross(this.game, this);
+
+      //lock the answers so you cant answer correct multiple times
+      this.answers.forEach((a: Answer, index: number) => {
+        //change to black and white texture
+        a.aBoxSprite.texture = this.game.loader.resources["aBoxSpriteDeactivated"].texture!;
+
+        a.aBoxSprite.interactive = false;
+        a.aBoxSprite.buttonMode = false;
+      });
+
+      //wait 5 seconds
+      await this.sleep(5000);
+
+      //generate a new question
+      this.game.makeQbox();
     }
   }
 

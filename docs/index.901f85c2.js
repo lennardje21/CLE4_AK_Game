@@ -524,6 +524,10 @@ var _qBoxSpritePng = require("./images/qBoxSprite.png");
 var _qBoxSpritePngDefault = parcelHelpers.interopDefault(_qBoxSpritePng);
 var _aBoxSpritePng = require("./images/aBoxSprite.png");
 var _aBoxSpritePngDefault = parcelHelpers.interopDefault(_aBoxSpritePng);
+var _checkSpritePng = require("./images/checkSprite.png");
+var _checkSpritePngDefault = parcelHelpers.interopDefault(_checkSpritePng);
+var _crossSpritePng = require("./images/crossSprite.png");
+var _crossSpritePngDefault = parcelHelpers.interopDefault(_crossSpritePng);
 var _aBoxSpriteDeactivatedPng = require("./images/aBoxSpriteDeactivated.png");
 var _aBoxSpriteDeactivatedPngDefault = parcelHelpers.interopDefault(_aBoxSpriteDeactivatedPng);
 class Game {
@@ -540,6 +544,8 @@ class Game {
         this.loader.add("qBoxSprite", _qBoxSpritePngDefault.default);
         this.loader.add("aBoxSprite", _aBoxSpritePngDefault.default);
         this.loader.add("aBoxSpriteDeactivated", _aBoxSpriteDeactivatedPngDefault.default);
+        this.loader.add("checkSprite", _checkSpritePngDefault.default);
+        this.loader.add("crossSprite", _crossSpritePngDefault.default);
         this.loader.load(()=>this.loadCompleted()
         );
     }
@@ -553,7 +559,7 @@ class Game {
 }
 let game = new Game();
 
-},{"pixi.js":"dsYej","./questionBox":"l0HAd","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/aBoxSpriteDeactivated.png":"3IoZl"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./questionBox":"l0HAd","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","./images/aBoxSpriteDeactivated.png":"3IoZl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/checkSprite.png":"bwOzm","./images/crossSprite.png":"2oJww"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37057,6 +37063,8 @@ parcelHelpers.export(exports, "questionBox", ()=>questionBox
 );
 var _pixiJs = require("pixi.js");
 var _answerBox = require("./answerBox");
+var _check = require("./check");
+var _crossSprite = require("./crossSprite");
 class questionBox {
     answers = [];
     constructor(game){
@@ -37097,9 +37105,9 @@ class questionBox {
         if (answer === correctAnswer) {
             //TODO: correct answer behaviour (generate new question, give hitpoints to enemy)
             console.log("correct answer");
+            let check = new _check.Check(this.game, this);
             //lock the answers so you cant answer correct multiple times
             this.answers.forEach((a, index)=>{
-                console.log(a);
                 //change to black and white texture
                 a.aBoxSprite.texture = this.game.loader.resources["aBoxSpriteDeactivated"].texture;
                 a.aBoxSprite.interactive = false;
@@ -37110,9 +37118,23 @@ class questionBox {
             await this.sleep(5000);
             //generate a new question
             this.game.makeQbox();
-        } else //TODO: wrong answer behaviour (take dammage, time penalty, generate new question)
-        // this.game.makeQbox();
-        console.log("wrong answer");
+        } else {
+            //TODO: wrong answer behaviour (generate new question, give hitpoints to player)
+            console.log("correct answer");
+            //show that the answer is wrong
+            let cross = new _crossSprite.Cross(this.game, this);
+            //lock the answers so you cant answer correct multiple times
+            this.answers.forEach((a, index)=>{
+                //change to black and white texture
+                a.aBoxSprite.texture = this.game.loader.resources["aBoxSpriteDeactivated"].texture;
+                a.aBoxSprite.interactive = false;
+                a.aBoxSprite.buttonMode = false;
+            });
+            //wait 5 seconds
+            await this.sleep(5000);
+            //generate a new question
+            this.game.makeQbox();
+        }
     }
     sleep(ms) {
         return new Promise((resolve)=>setTimeout(resolve, ms)
@@ -37128,7 +37150,7 @@ class questionBox {
     }
 }
 
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./answerBox":"1r5FN"}],"1r5FN":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./answerBox":"1r5FN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./check":"8MCqV","./crossSprite":"a28w1"}],"1r5FN":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Answer", ()=>Answer
@@ -37184,6 +37206,39 @@ class Answer {
     }
 }
 
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8MCqV":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Check", ()=>Check
+);
+var _pixiJs = require("pixi.js");
+class Check {
+    constructor(game, qBox){
+        this.game = game;
+        this.checkSprite = new _pixiJs.Sprite(game.loader.resources["checkSprite"].texture);
+        this.checkSprite.scale.set(0.08);
+        this.checkSprite.x = qBox.qBoxSprite.x + 450;
+        this.checkSprite.y = qBox.qBoxSprite.y + 210;
+        this.game.pixi.stage.addChild(this.checkSprite);
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"a28w1":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Cross", ()=>Cross
+);
+var _pixiJs = require("pixi.js");
+class Cross {
+    constructor(game, qBox){
+        this.game = game;
+        this.crossSprite = new _pixiJs.Sprite(game.loader.resources["crossSprite"].texture);
+        this.crossSprite.scale.set(0.07);
+        this.crossSprite.x = qBox.qBoxSprite.x + 450;
+        this.crossSprite.y = qBox.qBoxSprite.y + 210;
+    }
+}
+
 },{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3N9En":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "qBoxSprite.c6eec9fc.png" + "?" + Date.now();
 
@@ -37226,6 +37281,12 @@ module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "aBoxSp
 
 },{"./helpers/bundle-url":"lgJ39"}],"3IoZl":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "aBoxSpriteDeactivated.e6cf7c61.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"bwOzm":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "checkSprite.602f5535.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"2oJww":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "crossSprite.efdb226f.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
 

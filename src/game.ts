@@ -2,6 +2,8 @@ import * as PIXI from "pixi.js";
 import { questionBox } from "./questionBox";
 import qBoxSprite from "./images/qBoxSprite.png";
 import aBoxSprite from "./images/aBoxSprite.png";
+import checkSprite from "./images/checkSprite.png";
+import crossSprite from "./images/crossSprite.png";
 import aBoxSpriteDeactivated from "./images/aBoxSpriteDeactivated.png";
 
 export class Game {
@@ -17,6 +19,8 @@ export class Game {
     this.loader.add("qBoxSprite", qBoxSprite);
     this.loader.add("aBoxSprite", aBoxSprite);
     this.loader.add("aBoxSpriteDeactivated", aBoxSpriteDeactivated);
+    this.loader.add("checkSprite", checkSprite);
+    this.loader.add("crossSprite", crossSprite);
 
     this.loader.load(() => this.loadCompleted());
   }
