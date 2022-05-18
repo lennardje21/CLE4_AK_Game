@@ -538,6 +538,7 @@ var _backgroundPngDefault = parcelHelpers.interopDefault(_backgroundPng);
 var _assets = require("./assets");
 var _enemy = require("./enemy");
 var _background = require("./background");
+var _hero = require("./hero");
 class Game {
     screenWidth = 1280;
     screenHeight = 720;
@@ -563,17 +564,30 @@ class Game {
     }
     loadCompleted() {
         const background = new _background.Background(this.loader.resources["background"].texture, this.screenWidth, this.screenHeight);
+        this.pixi.stage.addChild(background);
         //in frames komen de images te staan die de enemy animate
         let frames = this.createZombieFrames();
+        let knightFrames = this.createKnightFrames();
+        this.knight = new _hero.Hero(this, knightFrames);
         //creeër een nieuwe zombie
         this.zombie = new _enemy.Enemy(this, frames);
         this.makeQbox();
-        this.makeZombie();
+        //this.makeZombie();
+        this.pixi.ticker.add(()=>this.update()
+        );
     }
     makeZombie() {
         let zombie = new _zombie.Zombie(this);
         this.pixi.ticker.add(()=>this.update()
         );
+    }
+    createKnightFrames() {
+        let knightFrames = [];
+        for(let i = 1; i <= 8; i++){
+            const texture = _pixiJs.Texture.from(`knight_${i}.png`);
+            knightFrames.push(texture);
+        }
+        return knightFrames;
     }
     createZombieFrames() {
         let frames = [];
@@ -593,7 +607,7 @@ class Game {
 }
 let game = new Game();
 
-},{"pixi.js":"dsYej","./questionBox":"l0HAd","./zombie":"dUnIV","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","./images/aBoxSpriteDeactivated.png":"3IoZl","./images/crossSprite.png":"2oJww","./images/checkSprite.png":"bwOzm","./images/zombieSprite.png":"i2G3Q","./images/background.png":"fwQMR","./assets":"jyCU7","./enemy":"e8Rej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./background":"6FKGH"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./questionBox":"l0HAd","./zombie":"dUnIV","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","./images/aBoxSpriteDeactivated.png":"3IoZl","./images/crossSprite.png":"2oJww","./images/checkSprite.png":"bwOzm","./images/zombieSprite.png":"i2G3Q","./images/background.png":"fwQMR","./assets":"jyCU7","./enemy":"e8Rej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./background":"6FKGH","./hero":"jMGFP"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37359,19 +37373,22 @@ class Assets extends _pixiJs.Loader {
             {
                 name: "zombieJson",
                 url: "zombie.json"
+            },
+            {
+                name: "knightJson",
+                url: "knight.json"
+            },
+            {
+                name: "silverKnightJson",
+                url: "silverKnight.json"
             }
         ];
         this.assets.forEach((asset)=>{
             // Add to loader
             this.add(asset.name, asset.url);
         });
-        this.onProgress.add((loader)=>this.showProgress(loader)
-        );
         this.load(()=>game.loadCompleted()
         );
-    }
-    showProgress(loader) {
-        console.log(`Loading ${loader.progress}%`);
     }
 }
 
@@ -37387,9 +37404,10 @@ class Enemy extends _pixiJs.AnimatedSprite {
         console.log("I'm a zombie");
         super(textures);
         this.game = game;
+        this.keepMoving = true;
         this.anchor.set(0.5);
         this.x = -100;
-        this.y = 500;
+        this.y = 430;
         this.animationSpeed = 0.1;
         this.loop = true;
         this.play();
@@ -37398,8 +37416,11 @@ class Enemy extends _pixiJs.AnimatedSprite {
     }
     //laat de enemy bewegen
     move() {
-        this.x += 1;
-        if (this.x >= 1400) this.x = -100;
+        if (this.keepMoving === true) {
+            this.x += 1;
+            if (this.x === 800) this.keepMoving = false;
+            if (this.x >= 1400) this.x = -100;
+        } else this.animationSpeed = 0;
     }
 }
 
@@ -37415,6 +37436,29 @@ class Background extends _pixiJs.Sprite {
         console.log("i'm the background");
         this.width = x;
         this.height = y;
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jMGFP":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Hero", ()=>Hero
+);
+var _pixiJs = require("pixi.js");
+class Hero extends _pixiJs.AnimatedSprite {
+    //geef aan hoe en snel de enemy is ook de positie waar de zombie is word hier aangegeven
+    constructor(game, textures){
+        console.log("I'm a zombie");
+        super(textures);
+        this.game = game;
+        this.anchor.set(0.5);
+        this.x = 1100;
+        this.y = 400;
+        this.animationSpeed = 0.1;
+        this.loop = true;
+        this.play();
+        //voeg de enemy aan het beeld toe
+        this.game.pixi.stage.addChild(this);
     }
 }
 

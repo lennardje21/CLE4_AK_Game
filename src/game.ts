@@ -8,14 +8,16 @@ import crossSprite from "./images/crossSprite.png";
 import checkSprite from "./images/checkSprite.png";
 import zombieSprite from "./images/zombieSprite.png";
 import background from "./images/background.png"
-import {Assets} from "./assets"
+import { Assets } from "./assets"
 import { Enemy } from "./enemy";
 import { Background } from "./background";
+import { Hero } from "./hero";
 
 export class Game {
   pixi: PIXI.Application;
   loader: PIXI.Loader;
   zombie: Enemy
+  knight: Hero
   screenWidth: number = 1280;
   screenHeight: number = 720;
 
@@ -38,18 +40,36 @@ export class Game {
 
   loadCompleted() {
     const background = new Background(this.loader.resources["background"].texture!, this.screenWidth, this.screenHeight)
+    this.pixi.stage.addChild(background)
+
     //in frames komen de images te staan die de enemy animate
     let frames = this.createZombieFrames()
+    let knightFrames = this.createKnightFrames()
+
+    this.knight = new Hero(this, knightFrames)
     //creeër een nieuwe zombie
     this.zombie = new Enemy(this, frames)
     this.makeQbox();
-    this.makeZombie();
+    //this.makeZombie();
+
+    this.pixi.ticker.add(() => this.update() )
   }
 
   makeZombie() {
     let zombie = new Zombie(this);
 
     this.pixi.ticker.add(() => this.update() )
+  }
+
+  createKnightFrames(){
+    let knightFrames: PIXI.Texture[] = []
+
+    for (let i = 1; i <= 8; i++) {
+      const texture =
+              PIXI.Texture.from(`knight_${i}.png`)
+              knightFrames.push(texture)
+    }
+    return knightFrames
   }
 
   createZombieFrames(){

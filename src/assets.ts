@@ -12,7 +12,9 @@ export class Assets extends PIXI.Loader{
         super()
 
         this.assets = [
-            {name: "zombieJson", url: "zombie.json"}
+            {name: "zombieJson", url: "zombie.json"},
+            {name: "knightJson", url: "knight.json"},
+            {name: "silverKnightJson", url: "silverKnight.json"}
         ]
 
         this.assets.forEach(asset => {
@@ -20,11 +22,7 @@ export class Assets extends PIXI.Loader{
             this.add(asset.name, asset.url)
         })
 
-        this.onProgress.add((loader) => this.showProgress(loader))
-
         this.load( () => game.loadCompleted() )
     }
-    private showProgress(loader) {
-        console.log(`Loading ${loader.progress}%`)
-    }
+
 }
