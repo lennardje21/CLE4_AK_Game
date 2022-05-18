@@ -4,15 +4,13 @@ import { Zombie } from "./zombie";
 import qBoxSprite from "./images/qBoxSprite.png";
 import aBoxSprite from "./images/aBoxSprite.png";
 import aBoxSpriteDeactivated from "./images/aBoxSpriteDeactivated.png";
-<<<<<<< HEAD
 import crossSprite from "./images/crossSprite.png";
 import checkSprite from "./images/checkSprite.png";
 import zombieSprite from "./images/zombieSprite.png";
-=======
 import background from "./images/background.png"
 import {Assets} from "./assets"
 import { Enemy } from "./enemy";
->>>>>>> enemy
+import { Background } from "./background";
 
 export class Game {
   pixi: PIXI.Application;
@@ -39,18 +37,17 @@ export class Game {
   }
 
   loadCompleted() {
+    const background = new Background(this.loader.resources["background"].texture!, this.screenWidth, this.screenHeight)
     //in frames komen de images te staan die de enemy animate
     let frames = this.createZombieFrames()
     //creeër een nieuwe zombie
     this.zombie = new Enemy(this, frames)
     this.makeQbox();
-<<<<<<< HEAD
     this.makeZombie();
   }
 
   makeZombie() {
     let zombie = new Zombie(this);
-=======
 
     this.pixi.ticker.add(() => this.update() )
   }
@@ -64,7 +61,6 @@ export class Game {
       frames.push(texture)
     }
     return frames
->>>>>>> enemy
   }
 
   makeQbox() {
