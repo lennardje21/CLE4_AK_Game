@@ -3,7 +3,6 @@ import { Answer } from "./answerBox";
 import { Game } from "./game";
 import { Check } from "./check";
 import { Cross } from "./crossSprite";
-import { destroyTextureCache } from "@pixi/utils";
 
 export class questionBox {
   question: string;
@@ -41,13 +40,14 @@ export class questionBox {
 
     //question box sprite
     this.qBoxSprite = new PIXI.Sprite(game.loader.resources["qBoxSprite"].texture!);
-    this.qBoxSprite.scale.set(0.8, 0.8);
+    this.qBoxSprite.x = 100;
+    this.qBoxSprite.y = 10;
     this.game.pixi.stage.addChild(this.qBoxSprite);
 
     //question text
-    this.qText = new PIXI.Text(this.question, { fontFamily: "Arial", fontSize: 24, fill: 0xffffff, align: "center" });
-    this.qText.x = this.qBoxSprite.x + 150;
-    this.qText.y = this.qBoxSprite.y + 150;
+    this.qText = new PIXI.Text(this.question, { fontFamily: "Arial", fontSize: 24, fill: 0x000000, align: "center" });
+    this.qText.x = this.qBoxSprite.x + 10;
+    this.qText.y = this.qBoxSprite.y + 20;
     this.game.pixi.stage.addChild(this.qText);
 
     //generate answers
@@ -80,7 +80,7 @@ export class questionBox {
       this.game.makeQbox();
     } else {
       //TODO: wrong answer behaviour (generate new question, give hitpoints to player)
-      console.log("correct answer");
+      console.log("wrong answer");
 
       //show that the answer is wrong
       let cross = new Cross(this.game, this);

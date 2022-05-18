@@ -4,7 +4,9 @@ import { Zombie } from "./zombie";
 import qBoxSprite from "./images/qBoxSprite.png";
 import aBoxSprite from "./images/aBoxSprite.png";
 import aBoxSpriteDeactivated from "./images/aBoxSpriteDeactivated.png";
-import zombieSprite from "./images/zombieSprite.png"
+import crossSprite from "./images/crossSprite.png";
+import checkSprite from "./images/checkSprite.png";
+import zombieSprite from "./images/zombieSprite.png";
 
 export class Game {
   pixi: PIXI.Application;
@@ -19,7 +21,9 @@ export class Game {
     this.loader.add("qBoxSprite", qBoxSprite);
     this.loader.add("aBoxSprite", aBoxSprite);
     this.loader.add("aBoxSpriteDeactivated", aBoxSpriteDeactivated);
-    this.loader.add("zombieSprite", zombieSprite)
+    this.loader.add("crossSprite", crossSprite);
+    this.loader.add("checkSprite", checkSprite);
+    this.loader.add("zombieSprite", zombieSprite);
 
     this.loader.load(() => this.loadCompleted());
   }
@@ -29,7 +33,7 @@ export class Game {
     this.makeZombie();
   }
 
-  makeZombie(){
+  makeZombie() {
     let zombie = new Zombie(this);
   }
 
