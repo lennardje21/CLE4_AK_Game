@@ -520,12 +520,15 @@ parcelHelpers.export(exports, "Game", ()=>Game
 );
 var _pixiJs = require("pixi.js");
 var _questionBox = require("./questionBox");
+var _zombie = require("./zombie");
 var _qBoxSpritePng = require("./images/qBoxSprite.png");
 var _qBoxSpritePngDefault = parcelHelpers.interopDefault(_qBoxSpritePng);
 var _aBoxSpritePng = require("./images/aBoxSprite.png");
 var _aBoxSpritePngDefault = parcelHelpers.interopDefault(_aBoxSpritePng);
 var _aBoxSpriteDeactivatedPng = require("./images/aBoxSpriteDeactivated.png");
 var _aBoxSpriteDeactivatedPngDefault = parcelHelpers.interopDefault(_aBoxSpriteDeactivatedPng);
+var _zombieSpritePng = require("./images/zombieSprite.png");
+var _zombieSpritePngDefault = parcelHelpers.interopDefault(_zombieSpritePng);
 class Game {
     screenWidth = 1280;
     screenHeight = 720;
@@ -540,11 +543,16 @@ class Game {
         this.loader.add("qBoxSprite", _qBoxSpritePngDefault.default);
         this.loader.add("aBoxSprite", _aBoxSpritePngDefault.default);
         this.loader.add("aBoxSpriteDeactivated", _aBoxSpriteDeactivatedPngDefault.default);
+        this.loader.add("zombieSprite", _zombieSpritePngDefault.default);
         this.loader.load(()=>this.loadCompleted()
         );
     }
     loadCompleted() {
         this.makeQbox();
+        this.makeZombie();
+    }
+    makeZombie() {
+        let zombie = new _zombie.Zombie(this);
     }
     makeQbox() {
         let qBox = null;
@@ -553,7 +561,7 @@ class Game {
 }
 let game = new Game();
 
-},{"pixi.js":"dsYej","./questionBox":"l0HAd","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/aBoxSpriteDeactivated.png":"3IoZl"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./questionBox":"l0HAd","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","./images/aBoxSpriteDeactivated.png":"3IoZl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/zombieSprite.png":"i2G3Q","./zombie":"dUnIV"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37128,7 +37136,7 @@ class questionBox {
     }
 }
 
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./answerBox":"1r5FN"}],"1r5FN":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./answerBox":"1r5FN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1r5FN":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Answer", ()=>Answer
@@ -37227,6 +37235,25 @@ module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "aBoxSp
 },{"./helpers/bundle-url":"lgJ39"}],"3IoZl":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "aBoxSpriteDeactivated.e6cf7c61.png" + "?" + Date.now();
 
-},{"./helpers/bundle-url":"lgJ39"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
+},{"./helpers/bundle-url":"lgJ39"}],"i2G3Q":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "zombieSprite.7ed0c344.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"dUnIV":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Zombie", ()=>Zombie
+);
+var _pixiJs = require("pixi.js");
+class Zombie {
+    constructor(game){
+        this.game = game;
+        this.zombieSprite = new _pixiJs.Sprite(game.loader.resources["zombieSprite"].texture);
+        // this.zombieSprite.x = Math.random() * 600
+        // this.zombieSprite.y = Math.random() * 600
+        this.game.pixi.stage.addChild(this.zombieSprite);
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
 
 //# sourceMappingURL=index.901f85c2.js.map

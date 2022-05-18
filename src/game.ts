@@ -1,8 +1,10 @@
 import * as PIXI from "pixi.js";
 import { questionBox } from "./questionBox";
+import { Zombie } from "./zombie";
 import qBoxSprite from "./images/qBoxSprite.png";
 import aBoxSprite from "./images/aBoxSprite.png";
 import aBoxSpriteDeactivated from "./images/aBoxSpriteDeactivated.png";
+import zombieSprite from "./images/zombieSprite.png"
 
 export class Game {
   pixi: PIXI.Application;
@@ -17,12 +19,18 @@ export class Game {
     this.loader.add("qBoxSprite", qBoxSprite);
     this.loader.add("aBoxSprite", aBoxSprite);
     this.loader.add("aBoxSpriteDeactivated", aBoxSpriteDeactivated);
+    this.loader.add("zombieSprite", zombieSprite)
 
     this.loader.load(() => this.loadCompleted());
   }
 
   loadCompleted() {
     this.makeQbox();
+    this.makeZombie();
+  }
+
+  makeZombie(){
+    let zombie = new Zombie(this);
   }
 
   makeQbox() {
