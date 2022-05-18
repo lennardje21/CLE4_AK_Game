@@ -37092,6 +37092,7 @@ class questionBox {
         this.question = data[this.questionId].question;
         //question box sprite
         this.qBoxSprite = new _pixiJs.Sprite(game.loader.resources["qBoxSprite"].texture);
+        this.qBoxSprite.scale.set(2);
         this.qBoxSprite.x = 100;
         this.qBoxSprite.y = 10;
         this.game.pixi.stage.addChild(this.qBoxSprite);
@@ -37102,7 +37103,7 @@ class questionBox {
             fill: 0,
             align: "center"
         });
-        this.qText.x = this.qBoxSprite.x + 10;
+        this.qText.x = this.qBoxSprite.x + 20;
         this.qText.y = this.qBoxSprite.y + 20;
         this.game.pixi.stage.addChild(this.qText);
         //generate answers
@@ -37187,8 +37188,8 @@ class Answer {
         //show answer box sprite
         this.aBoxSprite = new _pixiJs.Sprite(game.loader.resources["aBoxSprite"].texture);
         this.aBoxSprite.anchor.set(0.5);
-        this.aBoxSprite.x = qBox.qBoxSprite.x + 120 * i;
-        this.aBoxSprite.y = qBox.qBoxSprite.y + 150;
+        this.aBoxSprite.x = qBox.qBoxSprite.x + 200 * i + 50;
+        this.aBoxSprite.y = qBox.qBoxSprite.y + 240;
         //give them text
         this.aText = new _pixiJs.Text(this.answer, {
             fontFamily: "Arial",
