@@ -4,13 +4,20 @@ import { Zombie } from "./zombie";
 import qBoxSprite from "./images/qBoxSprite.png";
 import aBoxSprite from "./images/aBoxSprite.png";
 import aBoxSpriteDeactivated from "./images/aBoxSpriteDeactivated.png";
+<<<<<<< HEAD
 import crossSprite from "./images/crossSprite.png";
 import checkSprite from "./images/checkSprite.png";
 import zombieSprite from "./images/zombieSprite.png";
+=======
+import background from "./images/background.png"
+import {Assets} from "./assets"
+import { Enemy } from "./enemy";
+>>>>>>> enemy
 
 export class Game {
   pixi: PIXI.Application;
   loader: PIXI.Loader;
+  zombie: Enemy
   screenWidth: number = 1280;
   screenHeight: number = 720;
 
@@ -20,26 +27,50 @@ export class Game {
     this.loader = new PIXI.Loader();
     this.loader.add("qBoxSprite", qBoxSprite);
     this.loader.add("aBoxSprite", aBoxSprite);
+    this.loader.add("background", background);
     this.loader.add("aBoxSpriteDeactivated", aBoxSpriteDeactivated);
     this.loader.add("crossSprite", crossSprite);
     this.loader.add("checkSprite", checkSprite);
     this.loader.add("zombieSprite", zombieSprite);
 
+    new Assets(this)
     this.loader.load(() => this.loadCompleted());
   }
 
   loadCompleted() {
+    let frames = this.createZombieFrames()
+    this.zombie = new Enemy(this, frames)
     this.makeQbox();
+<<<<<<< HEAD
     this.makeZombie();
   }
 
   makeZombie() {
     let zombie = new Zombie(this);
+=======
+
+    this.pixi.ticker.add(() => this.update() )
+  }
+
+  createZombieFrames(){
+    let frames: PIXI.Texture[] = []
+
+    for (let i = 1; i <= 8; i++) {
+      const texture =
+              PIXI.Texture.from(`zombie_${i}.png`)
+      frames.push(texture)
+    }
+    return frames
+>>>>>>> enemy
   }
 
   makeQbox() {
     let qBox = null;
     qBox = new questionBox(this);
+  }
+
+  update() {
+    this.zombie.move()
   }
 }
 
