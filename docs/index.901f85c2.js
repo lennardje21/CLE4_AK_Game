@@ -520,16 +520,26 @@ parcelHelpers.export(exports, "Game", ()=>Game
 );
 var _pixiJs = require("pixi.js");
 var _questionBox = require("./questionBox");
+var _zombie = require("./zombie");
 var _qBoxSpritePng = require("./images/qBoxSprite.png");
 var _qBoxSpritePngDefault = parcelHelpers.interopDefault(_qBoxSpritePng);
 var _aBoxSpritePng = require("./images/aBoxSprite.png");
 var _aBoxSpritePngDefault = parcelHelpers.interopDefault(_aBoxSpritePng);
 var _aBoxSpriteDeactivatedPng = require("./images/aBoxSpriteDeactivated.png");
 var _aBoxSpriteDeactivatedPngDefault = parcelHelpers.interopDefault(_aBoxSpriteDeactivatedPng);
+<<<<<<< HEAD
+var _crossSpritePng = require("./images/crossSprite.png");
+var _crossSpritePngDefault = parcelHelpers.interopDefault(_crossSpritePng);
+var _checkSpritePng = require("./images/checkSprite.png");
+var _checkSpritePngDefault = parcelHelpers.interopDefault(_checkSpritePng);
+var _zombieSpritePng = require("./images/zombieSprite.png");
+var _zombieSpritePngDefault = parcelHelpers.interopDefault(_zombieSpritePng);
+=======
 var _backgroundPng = require("./images/background.png");
 var _backgroundPngDefault = parcelHelpers.interopDefault(_backgroundPng);
 var _assets = require("./assets");
 var _enemy = require("./enemy");
+>>>>>>> enemy
 class Game {
     screenWidth = 1280;
     screenHeight = 720;
@@ -545,7 +555,13 @@ class Game {
         this.loader.add("aBoxSprite", _aBoxSpritePngDefault.default);
         this.loader.add("background", _backgroundPngDefault.default);
         this.loader.add("aBoxSpriteDeactivated", _aBoxSpriteDeactivatedPngDefault.default);
+<<<<<<< HEAD
+        this.loader.add("crossSprite", _crossSpritePngDefault.default);
+        this.loader.add("checkSprite", _checkSpritePngDefault.default);
+        this.loader.add("zombieSprite", _zombieSpritePngDefault.default);
+=======
         new _assets.Assets(this);
+>>>>>>> enemy
         this.loader.load(()=>this.loadCompleted()
         );
     }
@@ -553,6 +569,12 @@ class Game {
         let frames = this.createZombieFrames();
         this.zombie = new _enemy.Enemy(this, frames);
         this.makeQbox();
+<<<<<<< HEAD
+        this.makeZombie();
+    }
+    makeZombie() {
+        let zombie = new _zombie.Zombie(this);
+=======
         this.pixi.ticker.add(()=>this.update()
         );
     }
@@ -563,6 +585,7 @@ class Game {
             frames.push(texture);
         }
         return frames;
+>>>>>>> enemy
     }
     makeQbox() {
         let qBox = null;
@@ -574,7 +597,11 @@ class Game {
 }
 let game = new Game();
 
+<<<<<<< HEAD
+},{"pixi.js":"dsYej","./questionBox":"l0HAd","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","./images/aBoxSpriteDeactivated.png":"3IoZl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./zombie":"dUnIV","./images/zombieSprite.png":"i2G3Q","./images/crossSprite.png":"2oJww","./images/checkSprite.png":"bwOzm"}],"dsYej":[function(require,module,exports) {
+=======
 },{"pixi.js":"dsYej","./questionBox":"l0HAd","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","./images/aBoxSpriteDeactivated.png":"3IoZl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./assets":"jyCU7","./enemy":"e8Rej","./images/background.png":"fwQMR"}],"dsYej":[function(require,module,exports) {
+>>>>>>> enemy
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37078,6 +37105,8 @@ parcelHelpers.export(exports, "questionBox", ()=>questionBox
 );
 var _pixiJs = require("pixi.js");
 var _answerBox = require("./answerBox");
+var _check = require("./check");
+var _crossSprite = require("./crossSprite");
 class questionBox {
     answers = [];
     constructor(game){
@@ -37097,16 +37126,19 @@ class questionBox {
         this.question = data[this.questionId].question;
         //question box sprite
         this.qBoxSprite = new _pixiJs.Sprite(game.loader.resources["qBoxSprite"].texture);
+        this.qBoxSprite.scale.set(2);
+        this.qBoxSprite.x = 100;
+        this.qBoxSprite.y = 10;
         this.game.pixi.stage.addChild(this.qBoxSprite);
         //question text
         this.qText = new _pixiJs.Text(this.question, {
             fontFamily: "Arial",
             fontSize: 24,
-            fill: 16777215,
+            fill: 0,
             align: "center"
         });
-        this.qText.x = this.qBoxSprite.x + 150;
-        this.qText.y = this.qBoxSprite.y + 150;
+        this.qText.x = this.qBoxSprite.x + 20;
+        this.qText.y = this.qBoxSprite.y + 20;
         this.game.pixi.stage.addChild(this.qText);
         //generate answers
         for(let i = 0; i < 3; i++){
@@ -37118,22 +37150,36 @@ class questionBox {
         if (answer === correctAnswer) {
             //TODO: correct answer behaviour (generate new question, give hitpoints to enemy)
             console.log("correct answer");
+            //show that the answer is correct
+            let check = new _check.Check(this.game, this);
             //lock the answers so you cant answer correct multiple times
             this.answers.forEach((a, index)=>{
-                console.log(a);
                 //change to black and white texture
                 a.aBoxSprite.texture = this.game.loader.resources["aBoxSpriteDeactivated"].texture;
                 a.aBoxSprite.interactive = false;
                 a.aBoxSprite.buttonMode = false;
             });
-            //show that the answer is correct
             //wait 5 seconds
             await this.sleep(5000);
             //generate a new question
             this.game.makeQbox();
-        } else //TODO: wrong answer behaviour (take dammage, time penalty, generate new question)
-        // this.game.makeQbox();
-        console.log("wrong answer");
+        } else {
+            //TODO: wrong answer behaviour (generate new question, give hitpoints to player)
+            console.log("wrong answer");
+            //show that the answer is wrong
+            let cross = new _crossSprite.Cross(this.game, this);
+            //lock the answers so you cant answer correct multiple times
+            this.answers.forEach((a, index)=>{
+                //change to black and white texture
+                a.aBoxSprite.texture = this.game.loader.resources["aBoxSpriteDeactivated"].texture;
+                a.aBoxSprite.interactive = false;
+                a.aBoxSprite.buttonMode = false;
+            });
+            //wait 5 seconds
+            await this.sleep(5000);
+            //generate a new question
+            this.game.makeQbox();
+        }
     }
     sleep(ms) {
         return new Promise((resolve)=>setTimeout(resolve, ms)
@@ -37149,7 +37195,11 @@ class questionBox {
     }
 }
 
+<<<<<<< HEAD
+},{"pixi.js":"dsYej","./answerBox":"1r5FN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./check":"8MCqV","./crossSprite":"a28w1"}],"1r5FN":[function(require,module,exports) {
+=======
 },{"pixi.js":"dsYej","./answerBox":"1r5FN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1r5FN":[function(require,module,exports) {
+>>>>>>> enemy
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Answer", ()=>Answer
@@ -37175,15 +37225,14 @@ class Answer {
         this.answer = data[qBox.questionId].answers[i];
         //show answer box sprite
         this.aBoxSprite = new _pixiJs.Sprite(game.loader.resources["aBoxSprite"].texture);
-        this.aBoxSprite.scale.set(0.1, 0.3);
         this.aBoxSprite.anchor.set(0.5);
-        this.aBoxSprite.x = qBox.qBoxSprite.x + 100 * i + 240;
-        this.aBoxSprite.y = qBox.qBoxSprite.y + 380;
+        this.aBoxSprite.x = qBox.qBoxSprite.x + 200 * i + 50;
+        this.aBoxSprite.y = qBox.qBoxSprite.y + 240;
         //give them text
         this.aText = new _pixiJs.Text(this.answer, {
             fontFamily: "Arial",
             fontSize: 24,
-            fill: 16777215,
+            fill: 0,
             align: "center"
         });
         this.aText.anchor.set(0.5);
@@ -37202,6 +37251,38 @@ class Answer {
     }
     errorHandler(event) {
         console.log(event);
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8MCqV":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Check", ()=>Check
+);
+var _pixiJs = require("pixi.js");
+class Check {
+    constructor(game, qBox){
+        this.game = game;
+        this.checkSprite = new _pixiJs.Sprite(game.loader.resources["checkSprite"].texture);
+        this.checkSprite.x = qBox.qBoxSprite.x + 300;
+        this.checkSprite.y = qBox.qBoxSprite.y + 20;
+        this.game.pixi.stage.addChild(this.checkSprite);
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"a28w1":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Cross", ()=>Cross
+);
+var _pixiJs = require("pixi.js");
+class Cross {
+    constructor(game, qBox){
+        this.game = game;
+        this.crossSprite = new _pixiJs.Sprite(game.loader.resources["crossSprite"].texture);
+        this.crossSprite.x = qBox.qBoxSprite.x + 300;
+        this.crossSprite.y = qBox.qBoxSprite.y + 20;
+        this.game.pixi.stage.addChild(this.crossSprite);
     }
 }
 
@@ -37248,6 +37329,32 @@ module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "aBoxSp
 },{"./helpers/bundle-url":"lgJ39"}],"3IoZl":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "aBoxSpriteDeactivated.e6cf7c61.png" + "?" + Date.now();
 
+<<<<<<< HEAD
+},{"./helpers/bundle-url":"lgJ39"}],"dUnIV":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Zombie", ()=>Zombie
+);
+var _pixiJs = require("pixi.js");
+class Zombie {
+    constructor(game){
+        this.game = game;
+        this.zombieSprite = new _pixiJs.Sprite(game.loader.resources["zombieSprite"].texture);
+        // this.zombieSprite.x = Math.random() * 600
+        // this.zombieSprite.y = Math.random() * 600
+        this.game.pixi.stage.addChild(this.zombieSprite);
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"i2G3Q":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "zombieSprite.7ed0c344.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"2oJww":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "crossSprite.efdb226f.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"bwOzm":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "checkSprite.602f5535.png" + "?" + Date.now();
+=======
 },{"./helpers/bundle-url":"lgJ39"}],"jyCU7":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -37305,6 +37412,7 @@ class Enemy extends _pixiJs.AnimatedSprite {
 
 },{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fwQMR":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "background.84053517.png" + "?" + Date.now();
+>>>>>>> enemy
 
 },{"./helpers/bundle-url":"lgJ39"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
 
