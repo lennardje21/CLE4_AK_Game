@@ -573,12 +573,12 @@ class Game {
         this.zombie = new _enemy.Enemy(this, enemyFrames);
         this.makeQbox();
         this.makeBird();
-        this.pixi.ticker.add(()=>this.update()
+        this.pixi.ticker.add((delta)=>this.update(delta)
         );
     }
     makeBird() {
         let bird = new _bird.Bird(this);
-        this.pixi.ticker.add(()=>this.update()
+        this.pixi.ticker.add((delta)=>this.update(delta)
         );
     }
     createKnightFrames() {
@@ -601,13 +601,13 @@ class Game {
         let qBox = null;
         qBox = new _questionBox.questionBox(this);
     }
-    update() {
-        this.zombie.move();
+    update(delta) {
+        this.zombie.move(delta);
     }
 }
 let game = new Game();
 
-},{"pixi.js":"dsYej","./questionBox":"l0HAd","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","./images/aBoxSpriteDeactivated.png":"3IoZl","./images/crossSprite.png":"2oJww","./images/checkSprite.png":"bwOzm","./images/background.png":"fwQMR","./assets":"jyCU7","./enemy":"e8Rej","./background":"6FKGH","./hero":"jMGFP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./bird":"3UkpQ","./images/birdSprite1.png":"k2pmk"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./questionBox":"l0HAd","./bird":"3UkpQ","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","./images/aBoxSpriteDeactivated.png":"3IoZl","./images/birdSprite1.png":"k2pmk","./images/crossSprite.png":"2oJww","./images/checkSprite.png":"bwOzm","./images/background.png":"fwQMR","./assets":"jyCU7","./enemy":"e8Rej","./background":"6FKGH","./hero":"jMGFP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37288,6 +37288,25 @@ class Cross {
     }
 }
 
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3UkpQ":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Bird", ()=>Bird
+);
+var _pixiJs = require("pixi.js");
+class Bird {
+    constructor(game){
+        this.game = game;
+        this.birdSprite = new _pixiJs.Sprite(game.loader.resources["birdSprite1"].texture);
+        this.birdSprite.scale.set(0.5, 0.5);
+        this.birdSprite.y = 480;
+        this.game.pixi.stage.addChild(this.birdSprite);
+    }
+    update(delta) {
+        this.birdSprite.x += delta * 1;
+    }
+}
+
 },{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3N9En":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "qBoxSprite.c6eec9fc.png" + "?" + Date.now();
 
@@ -37330,6 +37349,9 @@ module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "aBoxSp
 
 },{"./helpers/bundle-url":"lgJ39"}],"3IoZl":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "aBoxSpriteDeactivated.e6cf7c61.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"k2pmk":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "birdSprite1.9280b57d.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"2oJww":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "crossSprite.efdb226f.png" + "?" + Date.now();
@@ -37396,11 +37418,11 @@ class Enemy extends _pixiJs.AnimatedSprite {
         this.game.pixi.stage.addChild(this);
     }
     //laat de enemy bewegen
-    move() {
+    move(delta) {
         if (this.keepMoving === true) {
-            this.x += 1;
-            if (this.x === 800) this.keepMoving = false;
-            if (this.x >= 1400) this.x = -100;
+            this.x += 1 * delta;
+            if (this.x >= 800) this.keepMoving = false;
+            if (this.x >= 1400) this.x = -100 * delta;
         } else this.animationSpeed = 0;
     }
 }
@@ -37443,28 +37465,6 @@ class Hero extends _pixiJs.AnimatedSprite {
     }
 }
 
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3UkpQ":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Bird", ()=>Bird
-);
-var _pixiJs = require("pixi.js");
-class Bird {
-    constructor(game){
-        this.game = game;
-        this.birdSprite = new _pixiJs.Sprite(game.loader.resources["birdSprite1"].texture);
-        this.birdSprite.scale.set(0.5, 0.5);
-        this.birdSprite.y = 480;
-        this.game.pixi.stage.addChild(this.birdSprite);
-    }
-    update(delta) {
-        this.birdSprite.x += delta * 1;
-    }
-}
-
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k2pmk":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "birdSprite1.9280b57d.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
 
 //# sourceMappingURL=index.901f85c2.js.map
