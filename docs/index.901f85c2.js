@@ -557,8 +557,6 @@ class Game {
         this.loader.add("birdSprite1", _birdSprite1PngDefault.default);
         this.loader.add("checkSprite", _checkSpritePngDefault.default);
         this.loader.add("crossSprite", _crossSpritePngDefault.default);
-        this.loader.add("crossSprite", _crossSpritePngDefault.default);
-        this.loader.add("checkSprite", _checkSpritePngDefault.default);
         //haal de json op om de animated spritesheet te maken
         new _assets.Assets(this);
         this.loader.load(()=>this.loadCompleted()
@@ -575,10 +573,11 @@ class Game {
         this.zombie = new _enemy.Enemy(this, frames);
         this.makeQbox();
         this.makeBird();
+        this.pixi.ticker.add(()=>this.update()
+        );
     }
     makeBird() {
         let bird = new _bird.Bird(this);
-        //this.makeZombie();
         this.pixi.ticker.add(()=>this.update()
         );
     }

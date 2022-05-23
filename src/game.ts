@@ -32,8 +32,7 @@ export class Game {
     this.loader.add("birdSprite1", birdSprite1)
     this.loader.add("checkSprite", checkSprite);
     this.loader.add("crossSprite", crossSprite);
-    this.loader.add("crossSprite", crossSprite);
-    this.loader.add("checkSprite", checkSprite);
+    
     
 
 
@@ -55,12 +54,13 @@ export class Game {
     this.zombie = new Enemy(this, frames)
     this.makeQbox();
     this.makeBird()
-    
+
+    this.pixi.ticker.add(() => this.update() )
   }
 
   makeBird(){
     let bird = new Bird(this);
-    //this.makeZombie();
+    
 
     this.pixi.ticker.add(() => this.update() )
   }
