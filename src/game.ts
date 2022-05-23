@@ -6,7 +6,6 @@ import aBoxSprite from "./images/aBoxSprite.png";
 import aBoxSpriteDeactivated from "./images/aBoxSpriteDeactivated.png";
 import crossSprite from "./images/crossSprite.png";
 import checkSprite from "./images/checkSprite.png";
-import zombieSprite from "./images/zombieSprite.png";
 import background from "./images/background.png"
 import { Assets } from "./assets"
 import { Enemy } from "./enemy";
@@ -31,7 +30,6 @@ export class Game {
     this.loader.add("aBoxSpriteDeactivated", aBoxSpriteDeactivated);
     this.loader.add("crossSprite", crossSprite);
     this.loader.add("checkSprite", checkSprite);
-    this.loader.add("zombieSprite", zombieSprite);
 
     //haal de json op om de animated spritesheet te maken
     new Assets(this)
@@ -43,20 +41,14 @@ export class Game {
     this.pixi.stage.addChild(background)
 
     //in frames komen de images te staan die de enemy animate
-    let frames = this.createZombieFrames()
+    let enemyFrames = this.createZombieFrames()
     let knightFrames = this.createKnightFrames()
 
     this.knight = new Hero(this, knightFrames)
     //creeër een nieuwe zombie
-    this.zombie = new Enemy(this, frames)
+    this.zombie = new Enemy(this, enemyFrames)
     this.makeQbox();
     //this.makeZombie();
-
-    this.pixi.ticker.add(() => this.update() )
-  }
-
-  makeZombie() {
-    let zombie = new Zombie(this);
 
     this.pixi.ticker.add(() => this.update() )
   }
@@ -73,14 +65,14 @@ export class Game {
   }
 
   createZombieFrames(){
-    let frames: PIXI.Texture[] = []
+    let enemyFrames: PIXI.Texture[] = []
 
     for (let i = 1; i <= 8; i++) {
       const texture =
               PIXI.Texture.from(`zombie_${i}.png`)
-      frames.push(texture)
+              enemyFrames.push(texture)
     }
-    return frames
+    return enemyFrames
   }
 
   makeQbox() {

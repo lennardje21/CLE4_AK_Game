@@ -520,7 +520,6 @@ parcelHelpers.export(exports, "Game", ()=>Game
 );
 var _pixiJs = require("pixi.js");
 var _questionBox = require("./questionBox");
-var _zombie = require("./zombie");
 var _qBoxSpritePng = require("./images/qBoxSprite.png");
 var _qBoxSpritePngDefault = parcelHelpers.interopDefault(_qBoxSpritePng);
 var _aBoxSpritePng = require("./images/aBoxSprite.png");
@@ -531,8 +530,6 @@ var _crossSpritePng = require("./images/crossSprite.png");
 var _crossSpritePngDefault = parcelHelpers.interopDefault(_crossSpritePng);
 var _checkSpritePng = require("./images/checkSprite.png");
 var _checkSpritePngDefault = parcelHelpers.interopDefault(_checkSpritePng);
-var _zombieSpritePng = require("./images/zombieSprite.png");
-var _zombieSpritePngDefault = parcelHelpers.interopDefault(_zombieSpritePng);
 var _backgroundPng = require("./images/background.png");
 var _backgroundPngDefault = parcelHelpers.interopDefault(_backgroundPng);
 var _assets = require("./assets");
@@ -556,7 +553,6 @@ class Game {
         this.loader.add("aBoxSpriteDeactivated", _aBoxSpriteDeactivatedPngDefault.default);
         this.loader.add("crossSprite", _crossSpritePngDefault.default);
         this.loader.add("checkSprite", _checkSpritePngDefault.default);
-        this.loader.add("zombieSprite", _zombieSpritePngDefault.default);
         //haal de json op om de animated spritesheet te maken
         new _assets.Assets(this);
         this.loader.load(()=>this.loadCompleted()
@@ -566,18 +562,13 @@ class Game {
         const background = new _background.Background(this.loader.resources["background"].texture, this.screenWidth, this.screenHeight);
         this.pixi.stage.addChild(background);
         //in frames komen de images te staan die de enemy animate
-        let frames = this.createZombieFrames();
+        let enemyFrames = this.createZombieFrames();
         let knightFrames = this.createKnightFrames();
         this.knight = new _hero.Hero(this, knightFrames);
         //creeër een nieuwe zombie
-        this.zombie = new _enemy.Enemy(this, frames);
+        this.zombie = new _enemy.Enemy(this, enemyFrames);
         this.makeQbox();
         //this.makeZombie();
-        this.pixi.ticker.add(()=>this.update()
-        );
-    }
-    makeZombie() {
-        let zombie = new _zombie.Zombie(this);
         this.pixi.ticker.add(()=>this.update()
         );
     }
@@ -590,12 +581,12 @@ class Game {
         return knightFrames;
     }
     createZombieFrames() {
-        let frames = [];
+        let enemyFrames = [];
         for(let i = 1; i <= 8; i++){
             const texture = _pixiJs.Texture.from(`zombie_${i}.png`);
-            frames.push(texture);
+            enemyFrames.push(texture);
         }
-        return frames;
+        return enemyFrames;
     }
     makeQbox() {
         let qBox = null;
@@ -607,7 +598,7 @@ class Game {
 }
 let game = new Game();
 
-},{"pixi.js":"dsYej","./questionBox":"l0HAd","./zombie":"dUnIV","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","./images/aBoxSpriteDeactivated.png":"3IoZl","./images/crossSprite.png":"2oJww","./images/checkSprite.png":"bwOzm","./images/zombieSprite.png":"i2G3Q","./images/background.png":"fwQMR","./assets":"jyCU7","./enemy":"e8Rej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./background":"6FKGH","./hero":"jMGFP"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./questionBox":"l0HAd","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","./images/aBoxSpriteDeactivated.png":"3IoZl","./images/crossSprite.png":"2oJww","./images/checkSprite.png":"bwOzm","./images/background.png":"fwQMR","./assets":"jyCU7","./enemy":"e8Rej","./background":"6FKGH","./hero":"jMGFP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37288,22 +37279,6 @@ class Cross {
     }
 }
 
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dUnIV":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Zombie", ()=>Zombie
-);
-var _pixiJs = require("pixi.js");
-class Zombie {
-    constructor(game){
-        this.game = game;
-        this.zombieSprite = new _pixiJs.Sprite(game.loader.resources["zombieSprite"].texture);
-        // this.zombieSprite.x = Math.random() * 600
-        // this.zombieSprite.y = Math.random() * 600
-        this.game.pixi.stage.addChild(this.zombieSprite);
-    }
-}
-
 },{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3N9En":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "qBoxSprite.c6eec9fc.png" + "?" + Date.now();
 
@@ -37352,9 +37327,6 @@ module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "crossS
 
 },{"./helpers/bundle-url":"lgJ39"}],"bwOzm":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "checkSprite.602f5535.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}],"i2G3Q":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "zombieSprite.7ed0c344.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"fwQMR":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "background.84053517.png" + "?" + Date.now();
