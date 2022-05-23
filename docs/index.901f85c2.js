@@ -570,7 +570,7 @@ class Game {
         let knightFrames = this.createKnightFrames();
         this.knight = new _hero.Hero(this, knightFrames);
         //creeër een nieuwe zombie
-        this.zombie = new _enemy.Enemy(this, enemyFrames);
+        this.zombie = new _enemy.Enemy(this, this.knight, enemyFrames);
         this.makeQbox();
         this.makeBird();
         this.pixi.ticker.add((delta)=>this.update(delta)
@@ -37403,10 +37403,11 @@ parcelHelpers.export(exports, "Enemy", ()=>Enemy
 var _pixiJs = require("pixi.js");
 class Enemy extends _pixiJs.AnimatedSprite {
     //geef aan hoe en snel de enemy is ook de positie waar de zombie is word hier aangegeven
-    constructor(game, textures){
+    constructor(game, hero, textures){
         console.log("I'm a zombie");
         super(textures);
         this.game = game;
+        this.hero = hero;
         this.keepMoving = true;
         this.anchor.set(0.5);
         this.x = -100;
@@ -37420,10 +37421,15 @@ class Enemy extends _pixiJs.AnimatedSprite {
     //laat de enemy bewegen
     move(delta) {
         if (this.keepMoving === true) {
-            this.x += 1 * delta;
-            if (this.x >= 800) this.keepMoving = false;
+            if (this.onCollision(this.hero)) this.keepMoving = false;
             if (this.x >= 1400) this.x = -100 * delta;
+            this.x += 1 * delta;
         } else this.animationSpeed = 0;
+    }
+    onCollision(collider) {
+        let colliderBounds = this.getBounds();
+        let otherCollider = collider.getBounds();
+        return colliderBounds.x + colliderBounds.width > otherCollider.x && colliderBounds.x < otherCollider.x + otherCollider.width && colliderBounds.y + colliderBounds.height > otherCollider.y && colliderBounds.y < otherCollider.y + otherCollider.height;
     }
 }
 
@@ -37451,7 +37457,7 @@ var _pixiJs = require("pixi.js");
 class Hero extends _pixiJs.AnimatedSprite {
     //geef aan hoe en snel de enemy is ook de positie waar de zombie is word hier aangegeven
     constructor(game, textures){
-        console.log("I'm a zombie");
+        console.log("I'm a hero");
         super(textures);
         this.game = game;
         this.anchor.set(0.5);

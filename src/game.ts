@@ -49,7 +49,7 @@ export class Game {
 
     this.knight = new Hero(this, knightFrames);
     //creeër een nieuwe zombie
-    this.zombie = new Enemy(this, enemyFrames);
+    this.zombie = new Enemy(this, this.knight, enemyFrames);
     this.makeQbox();
     this.makeBird();
 
