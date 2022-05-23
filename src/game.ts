@@ -1,6 +1,15 @@
 import * as PIXI from "pixi.js";
+
+//classes
 import { questionBox } from "./questionBox";
 import { Bird } from "./bird";
+import { Assets } from "./assets";
+import { Enemy } from "./enemy";
+import { Background } from "./background";
+import { Hero } from "./hero";
+import { Ticker } from "pixi.js";
+
+//sprites
 import qBoxSprite from "./images/qBoxSprite.png";
 import aBoxSprite from "./images/aBoxSprite.png";
 import aBoxSpriteDeactivated from "./images/aBoxSpriteDeactivated.png";
@@ -8,11 +17,6 @@ import birdSprite1 from "./images/birdSprite1.png";
 import crossSprite from "./images/crossSprite.png";
 import checkSprite from "./images/checkSprite.png";
 import background from "./images/background.png";
-import { Assets } from "./assets";
-import { Enemy } from "./enemy";
-import { Background } from "./background";
-import { Hero } from "./hero";
-import { Ticker } from "pixi.js";
 
 export class Game {
   pixi: PIXI.Application;
@@ -34,7 +38,7 @@ export class Game {
     this.loader.add("crossSprite", crossSprite);
     this.loader.add("checkSprite", checkSprite);
 
-    //haal de json op om de animated spritesheet te maken
+    //Get json from assets class to load animated sprites
     new Assets(this);
     this.loader.load(() => this.loadCompleted());
   }
@@ -43,23 +47,37 @@ export class Game {
     const background = new Background(this.loader.resources["background"].texture!, this.screenWidth, this.screenHeight);
     this.pixi.stage.addChild(background);
 
-    //in frames komen de images te staan die de enemy animate
+    //stores the animation frames for the zombie
     let enemyFrames = this.createZombieFrames();
+
+    //stores the animation frames for the knight
     let knightFrames = this.createKnightFrames();
 
-    this.knight = new Hero(this, knightFrames);
-    //creeër een nieuwe zombie
-    this.zombie = new Enemy(this, this.knight, enemyFrames);
+    this.makeknight(knightFrames);
+    this.makeEnemy(enemyFrames);
     this.makeQbox();
     this.makeBird();
 
     this.pixi.ticker.add((delta) => this.update(delta));
   }
 
+  makeQbox() {
+    let qBox = null;
+    qBox = new questionBox(this);
+  }
+
   makeBird() {
     let bird = new Bird(this);
 
     this.pixi.ticker.add((delta) => this.update(delta));
+  }
+
+  makeknight(knightFrames: PIXI.Texture[]) {
+    this.knight = new Hero(this, knightFrames);
+  }
+
+  makeEnemy(enemyFrames: PIXI.Texture[]) {
+    this.zombie = new Enemy(this, this.knight, enemyFrames);
   }
 
   createKnightFrames() {
@@ -82,13 +100,8 @@ export class Game {
     return enemyFrames;
   }
 
-  makeQbox() {
-    let qBox = null;
-    qBox = new questionBox(this);
-  }
-
   update(delta: number) {
-    this.zombie.move(delta);
+    this.zombie.update(delta);
   }
 }
 

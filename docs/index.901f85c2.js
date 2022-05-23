@@ -519,8 +519,14 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Game", ()=>Game
 );
 var _pixiJs = require("pixi.js");
+//classes
 var _questionBox = require("./questionBox");
 var _bird = require("./bird");
+var _assets = require("./assets");
+var _enemy = require("./enemy");
+var _background = require("./background");
+var _hero = require("./hero");
+//sprites
 var _qBoxSpritePng = require("./images/qBoxSprite.png");
 var _qBoxSpritePngDefault = parcelHelpers.interopDefault(_qBoxSpritePng);
 var _aBoxSpritePng = require("./images/aBoxSprite.png");
@@ -535,10 +541,6 @@ var _checkSpritePng = require("./images/checkSprite.png");
 var _checkSpritePngDefault = parcelHelpers.interopDefault(_checkSpritePng);
 var _backgroundPng = require("./images/background.png");
 var _backgroundPngDefault = parcelHelpers.interopDefault(_backgroundPng);
-var _assets = require("./assets");
-var _enemy = require("./enemy");
-var _background = require("./background");
-var _hero = require("./hero");
 class Game {
     screenWidth = 1280;
     screenHeight = 720;
@@ -557,7 +559,7 @@ class Game {
         this.loader.add("birdSprite1", _birdSprite1PngDefault.default);
         this.loader.add("crossSprite", _crossSpritePngDefault.default);
         this.loader.add("checkSprite", _checkSpritePngDefault.default);
-        //haal de json op om de animated spritesheet te maken
+        //Get json from assets class to load animated sprites
         new _assets.Assets(this);
         this.loader.load(()=>this.loadCompleted()
         );
@@ -565,21 +567,31 @@ class Game {
     loadCompleted() {
         const background = new _background.Background(this.loader.resources["background"].texture, this.screenWidth, this.screenHeight);
         this.pixi.stage.addChild(background);
-        //in frames komen de images te staan die de enemy animate
+        //stores the animation frames for the zombie
         let enemyFrames = this.createZombieFrames();
+        //stores the animation frames for the knight
         let knightFrames = this.createKnightFrames();
-        this.knight = new _hero.Hero(this, knightFrames);
-        //creeër een nieuwe zombie
-        this.zombie = new _enemy.Enemy(this, this.knight, enemyFrames);
+        this.makeknight(knightFrames);
+        this.makeEnemy(enemyFrames);
         this.makeQbox();
         this.makeBird();
         this.pixi.ticker.add((delta)=>this.update(delta)
         );
     }
+    makeQbox() {
+        let qBox = null;
+        qBox = new _questionBox.questionBox(this);
+    }
     makeBird() {
         let bird = new _bird.Bird(this);
         this.pixi.ticker.add((delta)=>this.update(delta)
         );
+    }
+    makeknight(knightFrames) {
+        this.knight = new _hero.Hero(this, knightFrames);
+    }
+    makeEnemy(enemyFrames) {
+        this.zombie = new _enemy.Enemy(this, this.knight, enemyFrames);
     }
     createKnightFrames() {
         let knightFrames = [];
@@ -597,12 +609,8 @@ class Game {
         }
         return enemyFrames;
     }
-    makeQbox() {
-        let qBox = null;
-        qBox = new _questionBox.questionBox(this);
-    }
     update(delta) {
-        this.zombie.move(delta);
+        this.zombie.update(delta);
     }
 }
 let game = new Game();
@@ -37402,29 +37410,35 @@ parcelHelpers.export(exports, "Enemy", ()=>Enemy
 );
 var _pixiJs = require("pixi.js");
 class Enemy extends _pixiJs.AnimatedSprite {
-    //geef aan hoe en snel de enemy is ook de positie waar de zombie is word hier aangegeven
     constructor(game, hero, textures){
         console.log("I'm a zombie");
         super(textures);
         this.game = game;
         this.hero = hero;
-        this.keepMoving = true;
         this.anchor.set(0.5);
         this.x = -100;
         this.y = 430;
-        this.animationSpeed = 0.1;
         this.loop = true;
+        this.animationSpeed = 0.1;
         this.play();
-        //voeg de enemy aan het beeld toe
+        //append enemy to game screen
         this.game.pixi.stage.addChild(this);
     }
-    //laat de enemy bewegen
+    //gets called every frame
+    update(delta) {
+        this.move(delta);
+    }
+    //moves gameobject
     move(delta) {
-        if (this.keepMoving === true) {
-            if (this.onCollision(this.hero)) this.keepMoving = false;
-            if (this.x >= 1400) this.x = -100 * delta;
+        if (!this.onCollision(this.hero)) {
+            this.loop = true;
             this.x += 1 * delta;
-        } else this.animationSpeed = 0;
+        }
+    }
+    stopAnimation() {
+        this.stop;
+    // this.animationSpeed = 0;
+    // this.loop = false;
     }
     onCollision(collider) {
         let colliderBounds = this.getBounds();
