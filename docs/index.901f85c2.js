@@ -527,12 +527,12 @@ var _aBoxSpritePng = require("./images/aBoxSprite.png");
 var _aBoxSpritePngDefault = parcelHelpers.interopDefault(_aBoxSpritePng);
 var _aBoxSpriteDeactivatedPng = require("./images/aBoxSpriteDeactivated.png");
 var _aBoxSpriteDeactivatedPngDefault = parcelHelpers.interopDefault(_aBoxSpriteDeactivatedPng);
+var _birdSprite1Png = require("./images/birdSprite1.png");
+var _birdSprite1PngDefault = parcelHelpers.interopDefault(_birdSprite1Png);
 var _crossSpritePng = require("./images/crossSprite.png");
 var _crossSpritePngDefault = parcelHelpers.interopDefault(_crossSpritePng);
 var _checkSpritePng = require("./images/checkSprite.png");
 var _checkSpritePngDefault = parcelHelpers.interopDefault(_checkSpritePng);
-var _zombieSpritePng = require("./images/zombieSprite.png");
-var _zombieSpritePngDefault = parcelHelpers.interopDefault(_zombieSpritePng);
 var _backgroundPng = require("./images/background.png");
 var _backgroundPngDefault = parcelHelpers.interopDefault(_backgroundPng);
 var _assets = require("./assets");
@@ -554,9 +554,11 @@ class Game {
         this.loader.add("aBoxSprite", _aBoxSpritePngDefault.default);
         this.loader.add("background", _backgroundPngDefault.default);
         this.loader.add("aBoxSpriteDeactivated", _aBoxSpriteDeactivatedPngDefault.default);
+        this.loader.add("birdSprite1", _birdSprite1PngDefault.default);
+        this.loader.add("checkSprite", _checkSpritePngDefault.default);
+        this.loader.add("crossSprite", _crossSpritePngDefault.default);
         this.loader.add("crossSprite", _crossSpritePngDefault.default);
         this.loader.add("checkSprite", _checkSpritePngDefault.default);
-        this.loader.add("zombieSprite", _zombieSpritePngDefault.default);
         //haal de json op om de animated spritesheet te maken
         new _assets.Assets(this);
         this.loader.load(()=>this.loadCompleted()
@@ -572,15 +574,18 @@ class Game {
         //creeër een nieuwe zombie
         this.zombie = new _enemy.Enemy(this, frames);
         this.makeQbox();
+        this.makeBird();
+    }
+    makeBird() {
+        let bird = new _bird.Bird(this);
         //this.makeZombie();
         this.pixi.ticker.add(()=>this.update()
         );
     }
-    makeZombie() {
-        let zombie = new _zombie.Zombie(this);
-        this.pixi.ticker.add(()=>this.update()
-        );
-    }
+    // makeZombie() {
+    //   let zombie = new Zombie(this);
+    //   this.pixi.ticker.add(() => this.update() )
+    // }
     createKnightFrames() {
         let knightFrames = [];
         for(let i = 1; i <= 8; i++){
@@ -607,7 +612,7 @@ class Game {
 }
 let game = new Game();
 
-},{"pixi.js":"dsYej","./questionBox":"l0HAd","./zombie":"dUnIV","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","./images/aBoxSpriteDeactivated.png":"3IoZl","./images/crossSprite.png":"2oJww","./images/checkSprite.png":"bwOzm","./images/zombieSprite.png":"i2G3Q","./images/background.png":"fwQMR","./assets":"jyCU7","./enemy":"e8Rej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./background":"6FKGH","./hero":"jMGFP"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./questionBox":"l0HAd","./bird":"3UkpQ","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","./images/checkSprite.png":"bwOzm","./images/crossSprite.png":"2oJww","./images/aBoxSpriteDeactivated.png":"3IoZl","./images/birdSprite1.png":"k2pmk","./images/background.png":"fwQMR","./assets":"jyCU7","./enemy":"e8Rej","./background":"6FKGH","./hero":"jMGFP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37288,22 +37293,6 @@ class Cross {
     }
 }
 
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dUnIV":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Zombie", ()=>Zombie
-);
-var _pixiJs = require("pixi.js");
-class Zombie {
-    constructor(game){
-        this.game = game;
-        this.zombieSprite = new _pixiJs.Sprite(game.loader.resources["zombieSprite"].texture);
-        // this.zombieSprite.x = Math.random() * 600
-        // this.zombieSprite.y = Math.random() * 600
-        this.game.pixi.stage.addChild(this.zombieSprite);
-    }
-}
-
 },{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3UkpQ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -37363,17 +37352,17 @@ exports.getOrigin = getOrigin;
 },{}],"174qL":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "aBoxSprite.e0b77fd8.png" + "?" + Date.now();
 
-},{"./helpers/bundle-url":"lgJ39"}],"3IoZl":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "aBoxSpriteDeactivated.e6cf7c61.png" + "?" + Date.now();
+},{"./helpers/bundle-url":"lgJ39"}],"bwOzm":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "checkSprite.602f5535.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"2oJww":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "crossSprite.efdb226f.png" + "?" + Date.now();
 
-},{"./helpers/bundle-url":"lgJ39"}],"bwOzm":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "checkSprite.602f5535.png" + "?" + Date.now();
+},{"./helpers/bundle-url":"lgJ39"}],"3IoZl":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "aBoxSpriteDeactivated.e6cf7c61.png" + "?" + Date.now();
 
-},{"./helpers/bundle-url":"lgJ39"}],"i2G3Q":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "zombieSprite.7ed0c344.png" + "?" + Date.now();
+},{"./helpers/bundle-url":"lgJ39"}],"k2pmk":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "birdSprite1.9280b57d.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"fwQMR":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "background.84053517.png" + "?" + Date.now();
