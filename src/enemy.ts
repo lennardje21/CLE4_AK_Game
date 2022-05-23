@@ -1,42 +1,53 @@
-import * as PIXI from "pixi.js"
-import {Game} from "./game"
+import * as PIXI from "pixi.js";
+import { Texture } from "pixi.js";
+import { Game } from "./game";
+import { Hero } from "./hero";
 
 export class Enemy extends PIXI.AnimatedSprite {
+  private game: Game;
+  hero: Hero;
 
-    private game: Game
-    keepMoving : boolean
-    //geef aan hoe en snel de enemy is ook de positie waar de zombie is word hier aangegeven
-    constructor(game: Game, textures) {
-        console.log("I'm a zombie")
-        super(textures)
-        this.game = game
+  constructor(game: Game, hero: Hero, textures: Texture[]) {
+    console.log("I'm a zombie");
+    super(textures);
+    this.game = game;
+    this.hero = hero;
 
-        this.keepMoving = true
-        this.anchor.set(0.5)
-        this.x = -100
-        this.y = 430
-        this.animationSpeed = 0.1
-        this.loop = true
-        this.play()
+    this.anchor.set(0.5);
+    this.x = -100;
+    this.y = 430;
+    this.loop = true;
+    this.animationSpeed = 0.1;
+    this.play();
 
-        //voeg de enemy aan het beeld toe
-        this.game.pixi.stage.addChild(this)
+    //append enemy to game screen
+    this.game.pixi.stage.addChild(this);
+  }
+
+  //gets called every frame
+  update(delta: number) {
+    this.move(delta);
+  }
+
+  //moves gameobject
+  move(delta: number) {
+    if (!this.onCollision(this.hero)) {
+      this.loop = true;
+      this.x += 1 * delta;
+    } else {
+      // this.stopAnimation();
     }
+  }
 
-    //laat de enemy bewegen
-    move() {
-        if(this.keepMoving === true){
-            this.x += 1
-            if (this.x === 800){
-                this.keepMoving = false
-            }
-            if(this.x >= 1400) {
-                this.x = -100
-            }
-        }
-        else{
-            this.animationSpeed = 0
-        }
-        
-    }
+  stopAnimation() {
+    this.stop;
+    // this.animationSpeed = 0;
+    // this.loop = false;
+  }
+
+  onCollision(collider: any): boolean {
+    let colliderBounds = this.getBounds();
+    let otherCollider = collider.getBounds();
+    return colliderBounds.x + colliderBounds.width > otherCollider.x && colliderBounds.x < otherCollider.x + otherCollider.width && colliderBounds.y + colliderBounds.height > otherCollider.y && colliderBounds.y < otherCollider.y + otherCollider.height;
+  }
 }

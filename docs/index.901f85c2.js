@@ -519,6 +519,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Game", ()=>Game
 );
 var _pixiJs = require("pixi.js");
+//classes
 var _questionBox = require("./questionBox");
 var _bird = require("./bird");
 var _assets = require("./assets");
@@ -543,6 +544,8 @@ class Game {
     loadCompleted() {
         const background = new _background.Background(this.loader.resources["background"].texture, this.screenWidth, this.screenHeight);
         this.pixi.stage.addChild(background);
+        //stores the animation frames for the zombie
+        let enemyFrames = this.createZombieFrames();
         //in frames komen de images te staan die de enemy animate
         let frames = this.createZombieFrames();
         let knightFrames = this.createKnightFrames();
@@ -553,7 +556,7 @@ class Game {
         // nieuwe bird
         this.bird = new _bird.Bird(this, birdFrames);
         this.makeQbox();
-        this.pixi.ticker.add(()=>this.update()
+        this.pixi.ticker.add((delta)=>this.update(delta)
         );
     }
     createKnightFrames() {
@@ -565,10 +568,10 @@ class Game {
         return knightFrames;
     }
     createZombieFrames() {
-        let frames = [];
+        let enemyFrames = [];
         for(let i = 1; i <= 8; i++){
             const texture = _pixiJs.Texture.from(`zombie_${i}.png`);
-            frames.push(texture);
+            enemyFrames.push(texture);
         }
         return frames;
     }
@@ -584,8 +587,8 @@ class Game {
         let qBox = null;
         qBox = new _questionBox.questionBox(this);
     }
-    update() {
-        this.zombie.move();
+    update(delta) {
+        this.zombie.update(delta);
     }
 }
 let game = new Game();
@@ -37440,28 +37443,40 @@ parcelHelpers.export(exports, "Enemy", ()=>Enemy
 );
 var _pixiJs = require("pixi.js");
 class Enemy extends _pixiJs.AnimatedSprite {
-    //geef aan hoe en snel de enemy is ook de positie waar de zombie is word hier aangegeven
-    constructor(game, textures){
+    constructor(game, hero, textures){
         console.log("I'm a zombie");
         super(textures);
         this.game = game;
-        this.keepMoving = true;
+        this.hero = hero;
         this.anchor.set(0.5);
         this.x = -100;
         this.y = 430;
-        this.animationSpeed = 0.1;
         this.loop = true;
+        this.animationSpeed = 0.1;
         this.play();
-        //voeg de enemy aan het beeld toe
+        //append enemy to game screen
         this.game.pixi.stage.addChild(this);
     }
-    //laat de enemy bewegen
-    move() {
-        if (this.keepMoving === true) {
-            this.x += 1;
-            if (this.x === 800) this.keepMoving = false;
-            if (this.x >= 1400) this.x = -100;
-        } else this.animationSpeed = 0;
+    //gets called every frame
+    update(delta) {
+        this.move(delta);
+    }
+    //moves gameobject
+    move(delta) {
+        if (!this.onCollision(this.hero)) {
+            this.loop = true;
+            this.x += 1 * delta;
+        }
+    }
+    stopAnimation() {
+        this.stop;
+    // this.animationSpeed = 0;
+    // this.loop = false;
+    }
+    onCollision(collider) {
+        let colliderBounds = this.getBounds();
+        let otherCollider = collider.getBounds();
+        return colliderBounds.x + colliderBounds.width > otherCollider.x && colliderBounds.x < otherCollider.x + otherCollider.width && colliderBounds.y + colliderBounds.height > otherCollider.y && colliderBounds.y < otherCollider.y + otherCollider.height;
     }
 }
 
@@ -37489,7 +37504,7 @@ var _pixiJs = require("pixi.js");
 class Hero extends _pixiJs.AnimatedSprite {
     //geef aan hoe en snel de enemy is ook de positie waar de zombie is word hier aangegeven
     constructor(game, textures){
-        console.log("I'm a zombie");
+        console.log("I'm a hero");
         super(textures);
         this.game = game;
         this.anchor.set(0.5);

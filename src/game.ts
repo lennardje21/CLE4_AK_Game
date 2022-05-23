@@ -1,4 +1,6 @@
 import * as PIXI from "pixi.js";
+
+//classes
 import { questionBox } from "./questionBox";
 import { Bird } from "./bird";
 
@@ -7,15 +9,15 @@ import { Enemy } from "./enemy";
 import { Background } from "./background";
 import { Hero } from "./hero";
 
+
 export class Game {
   pixi: PIXI.Application;
-  // loader: PIXI.Loader;
-  zombie: Enemy
-  knight: Hero
-  bird: Bird
+  loader: PIXI.Loader;
+  zombie: Enemy;
+  knight: Hero;
   screenWidth: number = 1280;
   screenHeight: number = 720;
-  loader: PIXI.Loader
+  
 
   constructor() {
     this.pixi = new PIXI.Application({ width: this.screenWidth, height: this.screenHeight, backgroundColor: 0x2980b9 });
@@ -31,8 +33,11 @@ export class Game {
   }
 
   loadCompleted() {
-    const background = new Background(this.loader.resources["background"].texture!, this.screenWidth, this.screenHeight)
-    this.pixi.stage.addChild(background)
+    const background = new Background(this.loader.resources["background"].texture!, this.screenWidth, this.screenHeight);
+    this.pixi.stage.addChild(background);
+
+    //stores the animation frames for the zombie
+    let enemyFrames = this.createZombieFrames();
 
     //in frames komen de images te staan die de enemy animate
     let frames = this.createZombieFrames()
@@ -50,29 +55,27 @@ export class Game {
     this.makeQbox();
     
 
-    this.pixi.ticker.add(() => this.update() )
+    this.pixi.ticker.add((delta) => this.update(delta));
   }
 
  
 
-  createKnightFrames(){
-    let knightFrames: PIXI.Texture[] = []
+  createKnightFrames() {
+    let knightFrames: PIXI.Texture[] = [];
 
     for (let i = 1; i <= 8; i++) {
-      const texture =
-              PIXI.Texture.from(`knight_${i}.png`)
-              knightFrames.push(texture)
+      const texture = PIXI.Texture.from(`knight_${i}.png`);
+      knightFrames.push(texture);
     }
-    return knightFrames
+    return knightFrames;
   }
 
-  createZombieFrames(){
-    let frames: PIXI.Texture[] = []
+  createZombieFrames() {
+    let enemyFrames: PIXI.Texture[] = [];
 
     for (let i = 1; i <= 8; i++) {
-      const texture =
-              PIXI.Texture.from(`zombie_${i}.png`)
-      frames.push(texture)
+      const texture = PIXI.Texture.from(`zombie_${i}.png`);
+      enemyFrames.push(texture);
     }
     return frames
   }
@@ -93,8 +96,8 @@ export class Game {
     qBox = new questionBox(this);
   }
 
-  update() {
-    this.zombie.move()
+  update(delta: number) {
+    this.zombie.update(delta);
   }
 }
 
