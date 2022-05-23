@@ -3,7 +3,6 @@ import { Answer } from "./answerBox";
 import { Game } from "./game";
 import { Check } from "./check";
 import { Cross } from "./crossSprite";
-import { destroyTextureCache } from "@pixi/utils";
 
 export class questionBox {
   question: string;
@@ -41,13 +40,15 @@ export class questionBox {
 
     //question box sprite
     this.qBoxSprite = new PIXI.Sprite(game.loader.resources["qBoxSprite"].texture!);
-
+    this.qBoxSprite.scale.set(2);
+    this.qBoxSprite.x = 100;
+    this.qBoxSprite.y = 10;
     this.game.pixi.stage.addChild(this.qBoxSprite);
 
     //question text
-    this.qText = new PIXI.Text(this.question, { fontFamily: "Arial", fontSize: 24, fill: 0xffffff, align: "center" });
-    this.qText.x = this.qBoxSprite.x + 150;
-    this.qText.y = this.qBoxSprite.y + 150;
+    this.qText = new PIXI.Text(this.question, { fontFamily: "Arial", fontSize: 24, fill: 0x000000, align: "center" });
+    this.qText.x = this.qBoxSprite.x + 20;
+    this.qText.y = this.qBoxSprite.y + 20;
     this.game.pixi.stage.addChild(this.qText);
 
     //generate answers
@@ -62,6 +63,7 @@ export class questionBox {
       //TODO: correct answer behaviour (generate new question, give hitpoints to enemy)
       console.log("correct answer");
 
+      //show that the answer is correct
       let check = new Check(this.game, this);
       //lock the answers so you cant answer correct multiple times
       this.answers.forEach((a: Answer, index: number) => {
@@ -72,8 +74,6 @@ export class questionBox {
         a.aBoxSprite.buttonMode = false;
       });
 
-      //show that the answer is correct
-
       //wait 5 seconds
       await this.sleep(5000);
 
@@ -81,7 +81,7 @@ export class questionBox {
       this.game.makeQbox();
     } else {
       //TODO: wrong answer behaviour (generate new question, give hitpoints to player)
-      console.log("correct answer");
+      console.log("wrong answer");
 
       //show that the answer is wrong
       let cross = new Cross(this.game, this);

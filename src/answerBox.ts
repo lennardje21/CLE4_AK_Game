@@ -40,13 +40,12 @@ export class Answer {
 
     //show answer box sprite
     this.aBoxSprite = new PIXI.Sprite(game.loader.resources["aBoxSprite"].texture!);
-    this.aBoxSprite.scale.set(0.1, 0.3);
     this.aBoxSprite.anchor.set(0.5);
-    this.aBoxSprite.x = qBox.qBoxSprite.x + 100 * i + 240;
-    this.aBoxSprite.y = qBox.qBoxSprite.y + 380;
+    this.aBoxSprite.x = qBox.qBoxSprite.x + 200 * i + 50;
+    this.aBoxSprite.y = qBox.qBoxSprite.y + 240;
 
     //give them text
-    this.aText = new PIXI.Text(this.answer, { fontFamily: "Arial", fontSize: 24, fill: 0xffffff, align: "center" });
+    this.aText = new PIXI.Text(this.answer, { fontFamily: "Arial", fontSize: 24, fill: 0x000000, align: "center" });
     this.aText.anchor.set(0.5);
     this.aText.x = this.aBoxSprite.x;
     this.aText.y = this.aBoxSprite.y;
