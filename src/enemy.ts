@@ -32,7 +32,6 @@ export class Enemy extends PIXI.AnimatedSprite {
   //moves gameobject
   move(delta: number) {
     if (!this.onCollision(this.hero)) {
-      this.loop = true;
       this.x += 1 * delta;
     } else {
       // this.stopAnimation();
