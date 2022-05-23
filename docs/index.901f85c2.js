@@ -520,12 +520,15 @@ parcelHelpers.export(exports, "Game", ()=>Game
 );
 var _pixiJs = require("pixi.js");
 var _questionBox = require("./questionBox");
+var _bird = require("./bird");
 var _qBoxSpritePng = require("./images/qBoxSprite.png");
 var _qBoxSpritePngDefault = parcelHelpers.interopDefault(_qBoxSpritePng);
 var _aBoxSpritePng = require("./images/aBoxSprite.png");
 var _aBoxSpritePngDefault = parcelHelpers.interopDefault(_aBoxSpritePng);
 var _aBoxSpriteDeactivatedPng = require("./images/aBoxSpriteDeactivated.png");
 var _aBoxSpriteDeactivatedPngDefault = parcelHelpers.interopDefault(_aBoxSpriteDeactivatedPng);
+var _birdSprite1Png = require("./images/birdSprite1.png");
+var _birdSprite1PngDefault = parcelHelpers.interopDefault(_birdSprite1Png);
 var _crossSpritePng = require("./images/crossSprite.png");
 var _crossSpritePngDefault = parcelHelpers.interopDefault(_crossSpritePng);
 var _checkSpritePng = require("./images/checkSprite.png");
@@ -551,6 +554,7 @@ class Game {
         this.loader.add("aBoxSprite", _aBoxSpritePngDefault.default);
         this.loader.add("background", _backgroundPngDefault.default);
         this.loader.add("aBoxSpriteDeactivated", _aBoxSpriteDeactivatedPngDefault.default);
+        this.loader.add("birdSprite1", _birdSprite1PngDefault.default);
         this.loader.add("crossSprite", _crossSpritePngDefault.default);
         this.loader.add("checkSprite", _checkSpritePngDefault.default);
         //haal de json op om de animated spritesheet te maken
@@ -568,6 +572,10 @@ class Game {
         //creeër een nieuwe zombie
         this.zombie = new _enemy.Enemy(this, enemyFrames);
         this.makeQbox();
+        this.makeBird();
+    }
+    makeBird() {
+        let bird = new _bird.Bird(this);
         //this.makeZombie();
         this.pixi.ticker.add(()=>this.update()
         );
@@ -598,7 +606,7 @@ class Game {
 }
 let game = new Game();
 
-},{"pixi.js":"dsYej","./questionBox":"l0HAd","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","./images/aBoxSpriteDeactivated.png":"3IoZl","./images/crossSprite.png":"2oJww","./images/checkSprite.png":"bwOzm","./images/background.png":"fwQMR","./assets":"jyCU7","./enemy":"e8Rej","./background":"6FKGH","./hero":"jMGFP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./questionBox":"l0HAd","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","./images/aBoxSpriteDeactivated.png":"3IoZl","./images/crossSprite.png":"2oJww","./images/checkSprite.png":"bwOzm","./images/background.png":"fwQMR","./assets":"jyCU7","./enemy":"e8Rej","./background":"6FKGH","./hero":"jMGFP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./bird":"3UkpQ","./images/birdSprite1.png":"k2pmk"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37434,6 +37442,28 @@ class Hero extends _pixiJs.AnimatedSprite {
     }
 }
 
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3UkpQ":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Bird", ()=>Bird
+);
+var _pixiJs = require("pixi.js");
+class Bird {
+    constructor(game){
+        this.game = game;
+        this.birdSprite = new _pixiJs.Sprite(game.loader.resources["birdSprite1"].texture);
+        this.birdSprite.scale.set(0.5, 0.5);
+        this.birdSprite.y = 480;
+        this.game.pixi.stage.addChild(this.birdSprite);
+    }
+    update(delta) {
+        this.birdSprite.x += delta * 1;
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k2pmk":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "birdSprite1.9280b57d.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
 
 //# sourceMappingURL=index.901f85c2.js.map

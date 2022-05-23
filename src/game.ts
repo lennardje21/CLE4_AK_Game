@@ -1,9 +1,10 @@
 import * as PIXI from "pixi.js";
 import { questionBox } from "./questionBox";
-import { Zombie } from "./zombie";
+import { Bird } from "./bird";
 import qBoxSprite from "./images/qBoxSprite.png";
 import aBoxSprite from "./images/aBoxSprite.png";
 import aBoxSpriteDeactivated from "./images/aBoxSpriteDeactivated.png";
+import birdSprite1 from "./images/birdSprite1.png"
 import crossSprite from "./images/crossSprite.png";
 import checkSprite from "./images/checkSprite.png";
 import background from "./images/background.png"
@@ -28,6 +29,7 @@ export class Game {
     this.loader.add("aBoxSprite", aBoxSprite);
     this.loader.add("background", background);
     this.loader.add("aBoxSpriteDeactivated", aBoxSpriteDeactivated);
+    this.loader.add("birdSprite1", birdSprite1)
     this.loader.add("crossSprite", crossSprite);
     this.loader.add("checkSprite", checkSprite);
 
@@ -48,6 +50,12 @@ export class Game {
     //creeër een nieuwe zombie
     this.zombie = new Enemy(this, enemyFrames)
     this.makeQbox();
+    this.makeBird()
+    
+  }
+
+  makeBird(){
+    let bird = new Bird(this);
     //this.makeZombie();
 
     this.pixi.ticker.add(() => this.update() )
