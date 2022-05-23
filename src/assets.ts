@@ -9,12 +9,13 @@ export class Assets extends PIXI.Loader{
     private assets: AssetFile[] = []
     
     constructor(game: Game) {
-        super()
+        super(textures)
 
         this.assets = [
             {name: "zombieJson", url: "zombie.json"},
             {name: "knightJson", url: "knight.json"},
-            {name: "silverKnightJson", url: "silverKnight.json"}
+            {name: "silverKnightJson", url: "silverKnight.json"},
+            {name: "birdJson", url: "bird.json"}
         ]
 
         this.assets.forEach(asset => {

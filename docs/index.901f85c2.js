@@ -37375,7 +37375,7 @@ var _pixiJs = require("pixi.js");
 class Assets extends _pixiJs.Loader {
     assets = [];
     constructor(game){
-        super();
+        super(textures);
         this.assets = [
             {
                 name: "zombieJson",
@@ -37388,6 +37388,10 @@ class Assets extends _pixiJs.Loader {
             {
                 name: "silverKnightJson",
                 url: "silverKnight.json"
+            },
+            {
+                name: "birdJson",
+                url: "bird.json"
             }
         ];
         this.assets.forEach((asset)=>{
