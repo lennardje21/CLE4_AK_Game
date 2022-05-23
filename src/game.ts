@@ -51,12 +51,13 @@ export class Game {
     this.zombie = new Enemy(this, enemyFrames)
     this.makeQbox();
     this.makeBird()
-    
+
+    this.pixi.ticker.add(() => this.update() )
   }
 
   makeBird(){
     let bird = new Bird(this);
-    //this.makeZombie();
+    
 
     this.pixi.ticker.add(() => this.update() )
   }

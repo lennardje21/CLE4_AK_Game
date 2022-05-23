@@ -573,10 +573,11 @@ class Game {
         this.zombie = new _enemy.Enemy(this, enemyFrames);
         this.makeQbox();
         this.makeBird();
+        this.pixi.ticker.add(()=>this.update()
+        );
     }
     makeBird() {
         let bird = new _bird.Bird(this);
-        //this.makeZombie();
         this.pixi.ticker.add(()=>this.update()
         );
     }
