@@ -526,21 +526,6 @@ var _assets = require("./assets");
 var _enemy = require("./enemy");
 var _background = require("./background");
 var _hero = require("./hero");
-//sprites
-var _qBoxSpritePng = require("./images/qBoxSprite.png");
-var _qBoxSpritePngDefault = parcelHelpers.interopDefault(_qBoxSpritePng);
-var _aBoxSpritePng = require("./images/aBoxSprite.png");
-var _aBoxSpritePngDefault = parcelHelpers.interopDefault(_aBoxSpritePng);
-var _aBoxSpriteDeactivatedPng = require("./images/aBoxSpriteDeactivated.png");
-var _aBoxSpriteDeactivatedPngDefault = parcelHelpers.interopDefault(_aBoxSpriteDeactivatedPng);
-var _birdSprite1Png = require("./images/birdSprite1.png");
-var _birdSprite1PngDefault = parcelHelpers.interopDefault(_birdSprite1Png);
-var _crossSpritePng = require("./images/crossSprite.png");
-var _crossSpritePngDefault = parcelHelpers.interopDefault(_crossSpritePng);
-var _checkSpritePng = require("./images/checkSprite.png");
-var _checkSpritePngDefault = parcelHelpers.interopDefault(_checkSpritePng);
-var _backgroundPng = require("./images/background.png");
-var _backgroundPngDefault = parcelHelpers.interopDefault(_backgroundPng);
 class Game {
     screenWidth = 1280;
     screenHeight = 720;
@@ -551,47 +536,28 @@ class Game {
             backgroundColor: 2719929
         });
         document.body.appendChild(this.pixi.view);
-        this.loader = new _pixiJs.Loader();
-        this.loader.add("qBoxSprite", _qBoxSpritePngDefault.default);
-        this.loader.add("aBoxSprite", _aBoxSpritePngDefault.default);
-        this.loader.add("background", _backgroundPngDefault.default);
-        this.loader.add("aBoxSpriteDeactivated", _aBoxSpriteDeactivatedPngDefault.default);
-        this.loader.add("birdSprite1", _birdSprite1PngDefault.default);
-        this.loader.add("crossSprite", _crossSpritePngDefault.default);
-        this.loader.add("checkSprite", _checkSpritePngDefault.default);
-        //Get json from assets class to load animated sprites
-        new _assets.Assets(this);
-        this.loader.load(()=>this.loadCompleted()
-        );
+        // this.loader = new PIXI.Loader();
+        let assets = new _assets.Assets(this);
+        this.loader = assets;
+    //haal de json op om de animated spritesheet te maken
     }
     loadCompleted() {
         const background = new _background.Background(this.loader.resources["background"].texture, this.screenWidth, this.screenHeight);
         this.pixi.stage.addChild(background);
         //stores the animation frames for the zombie
         let enemyFrames = this.createZombieFrames();
-        //stores the animation frames for the knight
+        //in frames komen de images te staan die de enemy animate
+        let frames = this.createZombieFrames();
         let knightFrames = this.createKnightFrames();
-        this.makeknight(knightFrames);
-        this.makeEnemy(enemyFrames);
-        this.makeQbox();
-        this.makeBird();
-        this.pixi.ticker.add((delta)=>this.update(delta)
-        );
-    }
-    makeQbox() {
-        let qBox = null;
-        qBox = new _questionBox.questionBox(this);
-    }
-    makeBird() {
-        let bird = new _bird.Bird(this);
-        this.pixi.ticker.add((delta)=>this.update(delta)
-        );
-    }
-    makeknight(knightFrames) {
+        let birdFrames = this.createBirdFrames();
         this.knight = new _hero.Hero(this, knightFrames);
-    }
-    makeEnemy(enemyFrames) {
-        this.zombie = new _enemy.Enemy(this, this.knight, enemyFrames);
+        //creeër een nieuwe zombie
+        this.zombie = new _enemy.Enemy(this, frames);
+        // nieuwe bird
+        this.bird = new _bird.Bird(this, birdFrames);
+        this.makeQbox();
+        this.pixi.ticker.add((delta)=>this.update(delta)
+        );
     }
     createKnightFrames() {
         let knightFrames = [];
@@ -607,7 +573,19 @@ class Game {
             const texture = _pixiJs.Texture.from(`zombie_${i}.png`);
             enemyFrames.push(texture);
         }
-        return enemyFrames;
+        return frames;
+    }
+    createBirdFrames() {
+        let frames = [];
+        for(let i = 1; i <= 4; i++){
+            const texture = _pixiJs.Texture.from(`birdSprite${i}.png`);
+            frames.push(texture);
+        }
+        return frames;
+    }
+    makeQbox() {
+        let qBox = null;
+        qBox = new _questionBox.questionBox(this);
     }
     update(delta) {
         this.zombie.update(delta);
@@ -615,7 +593,7 @@ class Game {
 }
 let game = new Game();
 
-},{"pixi.js":"dsYej","./questionBox":"l0HAd","./bird":"3UkpQ","./assets":"jyCU7","./enemy":"e8Rej","./background":"6FKGH","./hero":"jMGFP","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","./images/aBoxSpriteDeactivated.png":"3IoZl","./images/birdSprite1.png":"k2pmk","./images/crossSprite.png":"2oJww","./images/checkSprite.png":"bwOzm","./images/background.png":"fwQMR","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./questionBox":"l0HAd","./bird":"3UkpQ","./assets":"jyCU7","./enemy":"e8Rej","./background":"6FKGH","./hero":"jMGFP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37302,16 +37280,26 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Bird", ()=>Bird
 );
 var _pixiJs = require("pixi.js");
-class Bird {
-    constructor(game){
+class Bird extends _pixiJs.AnimatedSprite {
+    constructor(game, textures){
+        console.log('bird gespawned');
+        super(textures);
         this.game = game;
-        this.birdSprite = new _pixiJs.Sprite(game.loader.resources["birdSprite1"].texture);
-        this.birdSprite.scale.set(0.5, 0.5);
-        this.birdSprite.y = 480;
-        this.game.pixi.stage.addChild(this.birdSprite);
+        this.x = 100;
+        this.y = 300;
+        // this.birdSprite = new PIXI.Sprite(game.loader.resources["birdSprite1"].texture)
+        // this.birdSprite.scale.set(0.5, 0.5)
+        // this.birdSprite.y = 480
+        // this.game.pixi.stage.addChild(this.birdSprite)
+        this.animationSpeed = 0.1;
+        // this.loop = true
+        // this.gotoAndPlay(4)
+        this.game.pixi.stage.addChild(this);
+        this.play();
     }
     update(delta) {
-        this.birdSprite.x += delta * 1;
+        super.update(delta);
+        this.x += delta * 1;
     }
 }
 
@@ -37321,6 +37309,19 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Assets", ()=>Assets
 );
 var _pixiJs = require("pixi.js");
+var _qBoxSpritePng = require("./images/qBoxSprite.png");
+var _qBoxSpritePngDefault = parcelHelpers.interopDefault(_qBoxSpritePng);
+var _aBoxSpritePng = require("./images/aBoxSprite.png");
+var _aBoxSpritePngDefault = parcelHelpers.interopDefault(_aBoxSpritePng);
+var _aBoxSpriteDeactivatedPng = require("./images/aBoxSpriteDeactivated.png");
+var _aBoxSpriteDeactivatedPngDefault = parcelHelpers.interopDefault(_aBoxSpriteDeactivatedPng);
+// import birdSprite1 from "./images/birdSprite1.png"
+var _crossSpritePng = require("./images/crossSprite.png");
+var _crossSpritePngDefault = parcelHelpers.interopDefault(_crossSpritePng);
+var _checkSpritePng = require("./images/checkSprite.png");
+var _checkSpritePngDefault = parcelHelpers.interopDefault(_checkSpritePng);
+var _backgroundPng = require("./images/background.png");
+var _backgroundPngDefault = parcelHelpers.interopDefault(_backgroundPng);
 class Assets extends _pixiJs.Loader {
     assets = [];
     constructor(game){
@@ -37337,18 +37338,105 @@ class Assets extends _pixiJs.Loader {
             {
                 name: "silverKnightJson",
                 url: "silverKnight.json"
-            }
+            },
+            {
+                name: "birdJson",
+                url: "bird.json"
+            },
+            {
+                name: "qBoxSprite",
+                url: _qBoxSpritePngDefault.default
+            },
+            {
+                name: "background",
+                url: _backgroundPngDefault.default
+            },
+            {
+                name: "aBoxSprite",
+                url: _aBoxSpritePngDefault.default
+            },
+            {
+                name: "aBoxSpriteDeactivated",
+                url: _aBoxSpriteDeactivatedPngDefault.default
+            },
+            {
+                name: "checkSprite",
+                url: _checkSpritePngDefault.default
+            },
+            {
+                name: "crossSprite",
+                url: _crossSpritePngDefault.default
+            }, 
         ];
+        // this.loader.add("qBoxSprite", qBoxSprite);
+        // this.loader.add("aBoxSprite", aBoxSprite);
+        // this.loader.add("background", background);
+        // this.loader.add("aBoxSpriteDeactivated", aBoxSpriteDeactivated);
+        // this.loader.add("checkSprite", checkSprite);
+        // this.loader.add("crossSprite", crossSprite);
         this.assets.forEach((asset)=>{
             // Add to loader
             this.add(asset.name, asset.url);
+            console.log(asset.name);
         });
         this.load(()=>game.loadCompleted()
         );
     }
 }
 
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"e8Rej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","./images/aBoxSpriteDeactivated.png":"3IoZl","./images/crossSprite.png":"2oJww","./images/checkSprite.png":"bwOzm","./images/background.png":"fwQMR"}],"3N9En":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "qBoxSprite.c6eec9fc.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
+"use strict";
+var bundleURL = {};
+function getBundleURLCached(id) {
+    var value = bundleURL[id];
+    if (!value) {
+        value = getBundleURL();
+        bundleURL[id] = value;
+    }
+    return value;
+}
+function getBundleURL() {
+    try {
+        throw new Error();
+    } catch (err) {
+        var matches = ('' + err.stack).match(/(https?|file|ftp):\/\/[^)\n]+/g);
+        if (matches) // The first two stack frames will be this function and getBundleURLCached.
+        // Use the 3rd one, which will be a runtime in the original bundle.
+        return getBaseURL(matches[2]);
+    }
+    return '/';
+}
+function getBaseURL(url) {
+    return ('' + url).replace(/^((?:https?|file|ftp):\/\/.+)\/[^/]+$/, '$1') + '/';
+} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
+function getOrigin(url) {
+    var matches = ('' + url).match(/(https?|file|ftp):\/\/[^/]+/);
+    if (!matches) throw new Error('Origin not found');
+    return matches[0];
+}
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+exports.getOrigin = getOrigin;
+
+},{}],"174qL":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "aBoxSprite.e0b77fd8.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"3IoZl":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "aBoxSpriteDeactivated.e6cf7c61.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"2oJww":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "crossSprite.efdb226f.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"bwOzm":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "checkSprite.602f5535.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"fwQMR":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "background.84053517.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"e8Rej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Enemy", ()=>Enemy
@@ -37427,61 +37515,6 @@ class Hero extends _pixiJs.AnimatedSprite {
     }
 }
 
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3N9En":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "qBoxSprite.c6eec9fc.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
-"use strict";
-var bundleURL = {};
-function getBundleURLCached(id) {
-    var value = bundleURL[id];
-    if (!value) {
-        value = getBundleURL();
-        bundleURL[id] = value;
-    }
-    return value;
-}
-function getBundleURL() {
-    try {
-        throw new Error();
-    } catch (err) {
-        var matches = ('' + err.stack).match(/(https?|file|ftp):\/\/[^)\n]+/g);
-        if (matches) // The first two stack frames will be this function and getBundleURLCached.
-        // Use the 3rd one, which will be a runtime in the original bundle.
-        return getBaseURL(matches[2]);
-    }
-    return '/';
-}
-function getBaseURL(url) {
-    return ('' + url).replace(/^((?:https?|file|ftp):\/\/.+)\/[^/]+$/, '$1') + '/';
-} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
-function getOrigin(url) {
-    var matches = ('' + url).match(/(https?|file|ftp):\/\/[^/]+/);
-    if (!matches) throw new Error('Origin not found');
-    return matches[0];
-}
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-exports.getOrigin = getOrigin;
-
-},{}],"174qL":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "aBoxSprite.e0b77fd8.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}],"3IoZl":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "aBoxSpriteDeactivated.e6cf7c61.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}],"k2pmk":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "birdSprite1.9280b57d.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}],"2oJww":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "crossSprite.efdb226f.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}],"bwOzm":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "checkSprite.602f5535.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}],"fwQMR":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "background.84053517.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
 
 //# sourceMappingURL=index.901f85c2.js.map
