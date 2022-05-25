@@ -544,36 +544,34 @@ class Game {
     loadCompleted() {
         const background = new _background.Background(this.loader.resources["background"].texture, this.screenWidth, this.screenHeight);
         this.pixi.stage.addChild(background);
-        //stores the animation frames for the zombie
-        let enemyFrames = this.createZombieFrames();
         //in frames komen de images te staan die de enemy animate
-        let frames = this.createZombieFrames();
-        let knightFrames = this.createKnightFrames();
+        let enemyFrames = this.createEnemyFrames();
+        let heroFrames = this.createHeroFrames();
         let birdFrames = this.createBirdFrames();
-        this.knight = new _hero.Hero(this, knightFrames);
-        //creeër een nieuwe zombie
-        this.zombie = new _enemy.Enemy(this, frames);
+        this.hero = new _hero.Hero(this, heroFrames);
+        //creeër een nieuwe Enemy
+        this.Enemy = new _enemy.Enemy(this, this.hero, enemyFrames);
         // nieuwe bird
         this.bird = new _bird.Bird(this, birdFrames);
         this.makeQbox();
         this.pixi.ticker.add((delta)=>this.update(delta)
         );
     }
-    createKnightFrames() {
-        let knightFrames = [];
+    createHeroFrames() {
+        let heroFrames = [];
         for(let i = 1; i <= 8; i++){
             const texture = _pixiJs.Texture.from(`knight_${i}.png`);
-            knightFrames.push(texture);
+            heroFrames.push(texture);
         }
-        return knightFrames;
+        return heroFrames;
     }
-    createZombieFrames() {
+    createEnemyFrames() {
         let enemyFrames = [];
         for(let i = 1; i <= 8; i++){
             const texture = _pixiJs.Texture.from(`zombie_${i}.png`);
             enemyFrames.push(texture);
         }
-        return frames;
+        return enemyFrames;
     }
     createBirdFrames() {
         let frames = [];
@@ -588,7 +586,7 @@ class Game {
         qBox = new _questionBox.questionBox(this);
     }
     update(delta) {
-        this.zombie.update(delta);
+        this.Enemy.update(delta);
     }
 }
 let game = new Game();
@@ -37328,12 +37326,12 @@ class Assets extends _pixiJs.Loader {
         super();
         this.assets = [
             {
-                name: "zombieJson",
-                url: "zombie.json"
+                name: "enemyJson",
+                url: "enemy.json"
             },
             {
-                name: "knightJson",
-                url: "knight.json"
+                name: "heroJson",
+                url: "hero.json"
             },
             {
                 name: "silverKnightJson",
@@ -37459,6 +37457,7 @@ class Enemy extends _pixiJs.AnimatedSprite {
     }
     //gets called every frame
     update(delta) {
+        super.update(delta);
         this.move(delta);
     }
     //moves gameobject

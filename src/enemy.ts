@@ -26,6 +26,7 @@ export class Enemy extends PIXI.AnimatedSprite {
 
   //gets called every frame
   update(delta: number) {
+    super.update(delta);
     this.move(delta);
   }
 
