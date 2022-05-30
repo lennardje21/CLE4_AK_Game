@@ -17,6 +17,6 @@ export class HealthBar extends PIXI.Sprite {
 
   updateColor(health: number) {
     this.healthBarSprite.filters = [this.colorMatrix];
-    this.colorMatrix.hue(health, true);
+    this.colorMatrix.hue(health, false);
   }
 }

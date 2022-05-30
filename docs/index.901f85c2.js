@@ -37553,7 +37553,7 @@ class HealthBar extends _pixiJs.Sprite {
         this.healthBarSprite.filters = [
             this.colorMatrix
         ];
-        this.colorMatrix.hue(health, true);
+        this.colorMatrix.hue(health, false);
     }
 }
 
