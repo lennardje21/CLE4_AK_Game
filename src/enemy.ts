@@ -9,17 +9,21 @@ export class Enemy extends PIXI.AnimatedSprite {
   hero: Hero;
   health: number = 100;
   healthBar: HealthBar;
+  speed: number;
 
   constructor(game: Game, hero: Hero, textures: Texture[]) {
     console.log("I'm a zombie");
     super(textures);
+
+    //speed is random (range: 0.2 - 1.0)
+    this.speed = 0.2 + Math.random() * 0.8;
 
     this.game = game;
     this.hero = hero;
 
     this.anchor.set(0.5);
     this.x = -100;
-    this.y = 300;
+    this.y = 350 - Math.random() * 50;
     this.loop = true;
     this.animationSpeed = 0.1;
     this.play();
@@ -61,7 +65,7 @@ export class Enemy extends PIXI.AnimatedSprite {
   //moves gameobject
   move(delta: number) {
     if (!this.onCollision(this.hero)) {
-      this.x += 1 * delta;
+      this.x += this.speed * delta;
     } else {
       // this.stopAnimation();
     }

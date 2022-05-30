@@ -40,7 +40,6 @@ export class Game {
 
     this.spawnObjects(heroFrames, birdFrames);
     this.spawnZombie(enemyFrames);
-
     this.pixi.ticker.add((delta) => this.update(delta));
   }
 
