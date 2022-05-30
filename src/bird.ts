@@ -1,4 +1,4 @@
-import * as PIXI from "pixi.js"
+import * as PIXI from "pixi.js";
 import { Game } from "./game";
 import { Hero } from "./hero";
 
@@ -7,7 +7,6 @@ export class Bird extends PIXI.AnimatedSprite {
   hero: Hero;
 
   constructor(game: Game, hero: Hero, textures: PIXI.Texture[]) {
-    console.log("bird gespawned");
     super(textures);
     this.hero = hero;
 

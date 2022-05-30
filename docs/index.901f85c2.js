@@ -37295,7 +37295,6 @@ parcelHelpers.export(exports, "Bird", ()=>Bird
 var _pixiJs = require("pixi.js");
 class Bird extends _pixiJs.AnimatedSprite {
     constructor(game, hero, textures){
-        console.log("bird gespawned");
         super(textures);
         this.hero = hero;
         this.game = game;
@@ -37400,19 +37399,18 @@ class Assets extends _pixiJs.Loader {
             {
                 name: "healthBarSprite",
                 url: _healthBarSpritePngDefault.default
-            }
+            }, 
         ];
         this.assets.forEach((asset)=>{
             // Add to loader
             this.add(asset.name, asset.url);
-            console.log(asset.name);
         });
         this.load(()=>game.loadCompleted()
         );
     }
 }
 
-},{"pixi.js":"dsYej","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","./images/aBoxSpriteDeactivated.png":"3IoZl","./images/crossSprite.png":"2oJww","./images/checkSprite.png":"bwOzm","./images/background.png":"fwQMR","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/healthBarSprite.png":"1r2ZT"}],"3N9En":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","./images/aBoxSpriteDeactivated.png":"3IoZl","./images/crossSprite.png":"2oJww","./images/checkSprite.png":"bwOzm","./images/background.png":"fwQMR","./images/healthBarSprite.png":"1r2ZT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3N9En":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "qBoxSprite.c6eec9fc.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
@@ -37477,7 +37475,6 @@ var _healthBar = require("./healthBar");
 class Enemy extends _pixiJs.AnimatedSprite {
     health = 100;
     constructor(game, hero, textures){
-        console.log("I'm a zombie");
         super(textures);
         //speed is random (range: 0.2 - 1.0)
         this.speed = 0.2 + Math.random() * 0.8;
@@ -37509,6 +37506,7 @@ class Enemy extends _pixiJs.AnimatedSprite {
     getHit(dammage) {
         this.health -= dammage;
         this.healthBar.healthBarSprite.scale.set(this.health * 0.02, 7);
+        this.healthBar.updateColor(this.health);
         if (this.health <= 0) this.die();
     }
     die() {
@@ -37533,22 +37531,33 @@ class Enemy extends _pixiJs.AnimatedSprite {
     }
 }
 
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./healthBar":"iuZOK"}],"iuZOK":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./healthBar":"iuZOK","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iuZOK":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "HealthBar", ()=>HealthBar
 );
 var _pixiJs = require("pixi.js");
 class HealthBar extends _pixiJs.Sprite {
+    colorMatrix = new _pixiJs.filters.ColorMatrixFilter();
     constructor(game){
         super();
         this.healthBarSprite = new _pixiJs.Sprite(game.loader.resources["healthBarSprite"].texture);
         this.healthBarSprite.scale.set(2, 7);
         game.pixi.stage.addChild(this.healthBarSprite);
+        this.healthBarSprite.filters = [
+            this.colorMatrix
+        ];
+        this.colorMatrix.hue(100, true);
+    }
+    updateColor(health) {
+        this.healthBarSprite.filters = [
+            this.colorMatrix
+        ];
+        this.colorMatrix.hue(health, true);
     }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","pixi.js":"dsYej"}],"6FKGH":[function(require,module,exports) {
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6FKGH":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Background", ()=>Background
@@ -37557,7 +37566,6 @@ var _pixiJs = require("pixi.js");
 class Background extends _pixiJs.Sprite {
     constructor(texture, x, y){
         super(texture);
-        console.log("i'm the background");
         this.width = x;
         this.height = y;
     }
@@ -37576,7 +37584,6 @@ class Hero extends _pixiJs.AnimatedSprite {
     health = 100;
     //geef aan hoe en snel de enemy is ook de positie waar de zombie is word hier aangegeven
     constructor(game, textures){
-        console.log("I'm a hero");
         super(textures[0]);
         this.game = game;
         this.frames = textures;
@@ -37607,6 +37614,7 @@ class Hero extends _pixiJs.AnimatedSprite {
     takeDamage() {
         this.health -= 25;
         this.healthBar.healthBarSprite.scale.set(this.health * 0.02, 7);
+        this.healthBar.updateColor(this.health);
         if (this.health <= 0) this.die();
         this.textures = this.frames[2];
         this.animationSpeed = 0.05;
@@ -37626,6 +37634,6 @@ class Hero extends _pixiJs.AnimatedSprite {
     }
 }
 
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./healthBar":"iuZOK"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
+},{"pixi.js":"dsYej","./healthBar":"iuZOK","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
 
 //# sourceMappingURL=index.901f85c2.js.map

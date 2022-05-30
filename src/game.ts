@@ -39,7 +39,7 @@ export class Game {
     let heroFrames: PIXI.Texture[][] = this.createHeroFrames();
 
     let enemyFrames = this.createEnemyFrames();
-    
+
     let birdFrames = this.createBirdFrames();
 
     this.spawnObjects(heroFrames, birdFrames);
@@ -62,35 +62,34 @@ export class Game {
   }
 
   createHeroFrames(): PIXI.Texture[][] {
-    let characterAttackIdle: PIXI.Texture[] = []
-    let characterAttack:     PIXI.Texture[] = []
-    let characterTakeDamage: PIXI.Texture[] = []
+    let characterAttackIdle: PIXI.Texture[] = [];
+    let characterAttack: PIXI.Texture[] = [];
+    let characterTakeDamage: PIXI.Texture[] = [];
 
     for (let i = 0; i <= 3; i++) {
-      characterAttackIdle.push(PIXI.Texture.from(`HeavyBandit_CombatIdle_${i}.png`))
+      characterAttackIdle.push(PIXI.Texture.from(`HeavyBandit_CombatIdle_${i}.png`));
     }
 
     for (let i = 0; i <= 7; i++) {
-      characterAttack.push(PIXI.Texture.from(`HeavyBandit_Attack_${i}.png`))
+      characterAttack.push(PIXI.Texture.from(`HeavyBandit_Attack_${i}.png`));
     }
 
     for (let i = 0; i <= 1; i++) {
-      characterTakeDamage.push(PIXI.Texture.from(`HeavyBandit_Hurt_${i}.png`))
+      characterTakeDamage.push(PIXI.Texture.from(`HeavyBandit_Hurt_${i}.png`));
     }
 
     return [characterAttackIdle, characterAttack, characterTakeDamage];
   }
 
-  createEnemyFrames(){
-    let enemyFrames: PIXI.Texture[] = []
+  createEnemyFrames() {
+    let enemyFrames: PIXI.Texture[] = [];
 
     for (let i = 1; i <= 8; i++) {
-      const texture =
-              PIXI.Texture.from(`zombie_${i}.png`)
-              enemyFrames.push(texture)
+      const texture = PIXI.Texture.from(`zombie_${i}.png`);
+      enemyFrames.push(texture);
     }
-    return enemyFrames
-    }
+    return enemyFrames;
+  }
 
   createBirdFrames() {
     let frames: PIXI.Texture[] = [];

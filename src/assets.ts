@@ -1,4 +1,4 @@
-import * as PIXI from "pixi.js"
+import * as PIXI from "pixi.js";
 import { Game } from "./game";
 
 import qBoxSprite from "./images/qBoxSprite.png";
@@ -23,20 +23,19 @@ export class Assets extends PIXI.Loader {
       { name: "heroJson", url: "hero.json" },
       { name: "silverKnightJson", url: "silverKnight.json" },
       { name: "birdJson", url: "bird.json" },
-      { name: "heavyBanditJson", url: "heavyBandit.json"},
+      { name: "heavyBanditJson", url: "heavyBandit.json" },
       { name: "qBoxSprite", url: qBoxSprite },
       { name: "background", url: background },
       { name: "aBoxSprite", url: aBoxSprite },
       { name: "aBoxSpriteDeactivated", url: aBoxSpriteDeactivated },
       { name: "checkSprite", url: checkSprite },
       { name: "crossSprite", url: crossSprite },
-      { name: "healthBarSprite", url: healthBarSprite }
+      { name: "healthBarSprite", url: healthBarSprite },
     ];
 
     this.assets.forEach((asset) => {
       // Add to loader
       this.add(asset.name, asset.url);
-      console.log(asset.name);
     });
 
     this.load(() => game.loadCompleted());

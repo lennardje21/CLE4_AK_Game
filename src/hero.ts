@@ -13,7 +13,6 @@ export class Hero extends PIXI.AnimatedSprite {
 
   //geef aan hoe en snel de enemy is ook de positie waar de zombie is word hier aangegeven
   constructor(game: Game, textures: Texture[][]) {
-    console.log("I'm a hero");
     super(textures[0]);
 
     this.game = game;
@@ -51,6 +50,7 @@ export class Hero extends PIXI.AnimatedSprite {
   takeDamage() {
     this.health -= 25;
     this.healthBar.healthBarSprite.scale.set(this.health * 0.02, 7);
+    this.healthBar.updateColor(this.health);
     if (this.health <= 0) {
       this.die();
     }
