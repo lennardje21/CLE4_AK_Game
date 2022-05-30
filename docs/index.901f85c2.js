@@ -548,14 +548,17 @@ class Game {
         let enemyFrames = this.createEnemyFrames();
         let heroFrames = this.createHeroFrames();
         let birdFrames = this.createBirdFrames();
+        this.spawnObjects(heroFrames, enemyFrames, birdFrames);
+        this.pixi.ticker.add((delta)=>this.update(delta)
+        );
+    }
+    spawnObjects(heroFrames, enemyFrames, birdFrames) {
         this.hero = new _hero.Hero(this, heroFrames);
         //creeër een nieuwe Enemy
         this.Enemy = new _enemy.Enemy(this, this.hero, enemyFrames);
         // nieuwe bird
         this.bird = new _bird.Bird(this, this.hero, birdFrames);
         this.makeQbox();
-        this.pixi.ticker.add((delta)=>this.update(delta)
-        );
     }
     createHeroFrames() {
         let heroFrames = [];
