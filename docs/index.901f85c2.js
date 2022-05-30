@@ -552,7 +552,7 @@ class Game {
         //creeër een nieuwe Enemy
         this.Enemy = new _enemy.Enemy(this, this.hero, enemyFrames);
         // nieuwe bird
-        this.bird = new _bird.Bird(this, birdFrames);
+        this.bird = new _bird.Bird(this, this.hero, birdFrames);
         this.makeQbox();
         this.pixi.ticker.add((delta)=>this.update(delta)
         );
@@ -37279,9 +37279,10 @@ parcelHelpers.export(exports, "Bird", ()=>Bird
 );
 var _pixiJs = require("pixi.js");
 class Bird extends _pixiJs.AnimatedSprite {
-    constructor(game, textures){
-        console.log('bird gespawned');
+    constructor(game, hero, textures){
+        console.log("bird gespawned");
         super(textures);
+        this.hero = hero;
         this.game = game;
         this.x = 100;
         this.y = 300;
@@ -37295,9 +37296,19 @@ class Bird extends _pixiJs.AnimatedSprite {
         this.game.pixi.stage.addChild(this);
         this.play();
     }
+    //gets called every frame
     update(delta) {
         super.update(delta);
-        this.x += delta * 1;
+        this.move(delta);
+    }
+    //moves gameobject
+    move(delta) {
+        if (!this.onCollision(this.hero)) this.x += 1 * delta;
+    }
+    onCollision(collider) {
+        let colliderBounds = this.getBounds();
+        let otherCollider = collider.getBounds();
+        return colliderBounds.x + colliderBounds.width > otherCollider.x && colliderBounds.x < otherCollider.x + otherCollider.width && colliderBounds.y + colliderBounds.height > otherCollider.y && colliderBounds.y < otherCollider.y + otherCollider.height;
     }
 }
 
@@ -37382,7 +37393,7 @@ class Assets extends _pixiJs.Loader {
     }
 }
 
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","./images/aBoxSpriteDeactivated.png":"3IoZl","./images/crossSprite.png":"2oJww","./images/checkSprite.png":"bwOzm","./images/background.png":"fwQMR"}],"3N9En":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","./images/aBoxSpriteDeactivated.png":"3IoZl","./images/crossSprite.png":"2oJww","./images/checkSprite.png":"bwOzm","./images/background.png":"fwQMR","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3N9En":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "qBoxSprite.c6eec9fc.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {

@@ -41,7 +41,7 @@ export class Game {
     //creeër een nieuwe Enemy
     this.Enemy = new Enemy(this, this.hero, enemyFrames);
     // nieuwe bird
-    this.bird = new Bird(this, birdFrames);
+    this.bird = new Bird(this, this.hero, birdFrames);
 
     this.makeQbox();
 
