@@ -565,25 +565,36 @@ class Game {
         this.makeQbox();
     }
     createHeroFrames() {
-        let characterAttackIdle = [];
-        let characterAttack = [];
-        let characterTakeDamage = [];
-        for(let i = 0; i <= 3; i++)characterAttackIdle.push(_pixiJs.Texture.from(`HeavyBandit_CombatIdle_${i}.png`));
-        for(let i1 = 0; i1 <= 7; i1++)characterAttack.push(_pixiJs.Texture.from(`HeavyBandit_Attack_${i1}.png`));
-        for(let i2 = 0; i2 <= 1; i2++)characterTakeDamage.push(_pixiJs.Texture.from(`HeavyBandit_Hurt_${i2}.png`));
+        let heroAttackIdle = [];
+        let heroAttack = [];
+        let heroTakeDamage = [];
+        for(let i = 0; i <= 3; i++)heroAttackIdle.push(_pixiJs.Texture.from(`HeavyBandit_CombatIdle_${i}.png`));
+        for(let i1 = 0; i1 <= 7; i1++)heroAttack.push(_pixiJs.Texture.from(`HeavyBandit_Attack_${i1}.png`));
+        for(let i2 = 0; i2 <= 1; i2++)heroTakeDamage.push(_pixiJs.Texture.from(`HeavyBandit_Hurt_${i2}.png`));
         return [
-            characterAttackIdle,
-            characterAttack,
-            characterTakeDamage
+            heroAttackIdle,
+            heroAttack,
+            heroTakeDamage
         ];
     }
     createEnemyFrames() {
-        let enemyFrames = [];
-        for(let i = 1; i <= 8; i++){
-            const texture = _pixiJs.Texture.from(`zombie_${i}.png`);
-            enemyFrames.push(texture);
-        }
-        return enemyFrames;
+        let enemyIdle = [];
+        let enemyAttack = [];
+        let enemyTakeDamage = [];
+        let enemyWalk = [];
+        let enemyDie = [];
+        for(let i = 1; i <= 11; i++)enemyIdle.push(_pixiJs.Texture.from(`skeletonIdle_${i}.png`));
+        for(let i3 = 1; i3 <= 18; i3++)enemyAttack.push(_pixiJs.Texture.from(`skeletonAttack_${i3}.png`));
+        for(let i4 = 1; i4 <= 8; i4++)enemyTakeDamage.push(_pixiJs.Texture.from(`skeletonHit_${i4}.png`));
+        for(let i5 = 1; i5 <= 13; i5++)enemyWalk.push(_pixiJs.Texture.from(`skeletonWalk_${i5}.png`));
+        for(let i6 = 1; i6 <= 15; i6++)enemyDie.push(_pixiJs.Texture.from(`SkeletonDie_${i6}.png`));
+        return [
+            enemyIdle,
+            enemyAttack,
+            enemyTakeDamage,
+            enemyWalk,
+            enemyDie
+        ];
     }
     createBirdFrames() {
         let frames = [];
@@ -595,7 +606,7 @@ class Game {
     }
     makeQbox() {
         let qBox = null;
-        qBox = new _questionBox.questionBox(this, this.hero);
+        qBox = new _questionBox.questionBox(this, this.hero, this.enemy);
     }
     update(delta) {
         if (this.enemy) this.enemy.update(delta);
@@ -37111,9 +37122,10 @@ var _check = require("./check");
 var _crossSprite = require("./crossSprite");
 class questionBox {
     answers = [];
-    constructor(game, hero){
+    constructor(game, hero, enemy){
         this.game = game;
         this.hero = hero;
+        this.enemy = enemy;
         //fetch questions from json file
         fetch("question.json").then((response)=>{
             if (!response.ok) throw new Error(response.statusText);
@@ -37179,6 +37191,7 @@ class questionBox {
                 a.aBoxSprite.interactive = false;
                 a.aBoxSprite.buttonMode = false;
             });
+            this.enemy.attack();
             this.hero.takeDamage();
             //wait 1.5 seconds
             await this.sleep(1500);
@@ -37373,6 +37386,10 @@ class Assets extends _pixiJs.Loader {
                 url: "heavyBandit.json"
             },
             {
+                name: "skeletonJson",
+                url: "skeleton.json"
+            },
+            {
                 name: "qBoxSprite",
                 url: _qBoxSpritePngDefault.default
             },
@@ -37473,14 +37490,18 @@ parcelHelpers.export(exports, "Enemy", ()=>Enemy
 var _pixiJs = require("pixi.js");
 var _healthBar = require("./healthBar");
 class Enemy extends _pixiJs.AnimatedSprite {
+    frames = [];
     health = 100;
     constructor(game, hero, textures){
-        super(textures);
+        super(textures[3]);
         //speed is random (range: 0.2 - 1.0)
-        this.speed = 0.2 + Math.random() * 0.8;
+        this.speed = 1 //0.2 + Math.random() * 0.8;
+        ;
+        this.frames = textures;
         this.game = game;
         this.hero = hero;
         this.anchor.set(0.5);
+        this.scale.set(9, 9);
         this.x = -100;
         this.y = 350 - Math.random() * 50;
         this.loop = true;
@@ -37503,26 +37524,56 @@ class Enemy extends _pixiJs.AnimatedSprite {
     upadateHealthBarPosition() {
         this.healthBar.healthBarSprite.x = this.x - 100;
     }
-    getHit(dammage) {
-        this.health -= dammage;
+    attack() {
+        this.textures = this.frames[1];
+        this.loop = false;
+        this.animationSpeed = 0.15;
+        this.play();
+        this.onComplete = this.playIdle;
+    }
+    getHit(damage) {
+        this.health -= damage;
         this.healthBar.healthBarSprite.scale.set(this.health * 0.02, 7);
         this.healthBar.updateColor(this.health);
+        this.textures = this.frames[2];
+        this.loop = false;
+        this.play();
+        this.onComplete = function() {
+            if (this.onCollision(this.hero)) this.playIdle();
+            else {
+                this.textures = this.frames[3];
+                this.loop = true;
+                this.play();
+            }
+        };
         if (this.health <= 0) this.die();
     }
     die() {
         console.log("zombie is dead");
+        this.textures = this.frames[4];
+        this.loop = false;
+        this.play();
+        this.onComplete = function() {
+            console.log('play walking again');
+        };
+        //spawn a new enemy when the old one dies
         this.game.spawnZombie(this.game.createEnemyFrames());
-        this.destroy();
+        //destroy the old enemy
+        this.onComplete = this.destroy;
     }
     //moves gameobject
     move(delta) {
         if (!this.onCollision(this.hero)) this.x += this.speed * delta;
-        else this.stopAnimation();
+        else this.playIdle();
     }
-    stopAnimation() {
-        this.stop;
-        this.animationSpeed = 0;
-        this.loop = false;
+    playIdle() {
+        if (this.playing != true) {
+            console.log("playing idle animation");
+            this.textures = this.frames[0];
+            this.animationSpeed = 0.1;
+            this.loop = true;
+            this.play();
+        }
     }
     onCollision(collider) {
         let colliderBounds = this.getBounds();

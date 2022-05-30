@@ -24,6 +24,7 @@ export class Assets extends PIXI.Loader {
       { name: "silverKnightJson", url: "silverKnight.json" },
       { name: "birdJson", url: "bird.json" },
       { name: "heavyBanditJson", url: "heavyBandit.json" },
+      { name: "skeletonJson", url: "skeleton.json" },
       { name: "qBoxSprite", url: qBoxSprite },
       { name: "background", url: background },
       { name: "aBoxSprite", url: aBoxSprite },

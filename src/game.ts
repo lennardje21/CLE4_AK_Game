@@ -38,7 +38,7 @@ export class Game {
     //in frames komen de images te staan die de enemy animate
     let heroFrames: PIXI.Texture[][] = this.createHeroFrames();
 
-    let enemyFrames = this.createEnemyFrames();
+    let enemyFrames: PIXI.Texture[][] = this.createEnemyFrames();
 
     let birdFrames = this.createBirdFrames();
 
@@ -47,7 +47,7 @@ export class Game {
     this.pixi.ticker.add((delta) => this.update(delta));
   }
 
-  spawnZombie(enemyFrames: PIXI.Texture[]) {
+  spawnZombie(enemyFrames: PIXI.Texture[][]) {
     //creeër een nieuwe Enemy
     this.enemy = new Enemy(this, this.hero, enemyFrames);
   }
@@ -61,34 +61,49 @@ export class Game {
     this.makeQbox();
   }
 
-  createHeroFrames(): PIXI.Texture[][] {
-    let characterAttackIdle: PIXI.Texture[] = [];
-    let characterAttack: PIXI.Texture[] = [];
-    let characterTakeDamage: PIXI.Texture[] = [];
+  createHeroFrames(): Texture[][] {
+    let heroAttackIdle: Texture[] = [];
+    let heroAttack:     Texture[] = [];
+    let heroTakeDamage: Texture[] = [];
 
     for (let i = 0; i <= 3; i++) {
-      characterAttackIdle.push(PIXI.Texture.from(`HeavyBandit_CombatIdle_${i}.png`));
+      heroAttackIdle.push(PIXI.Texture.from(`HeavyBandit_CombatIdle_${i}.png`));
     }
 
     for (let i = 0; i <= 7; i++) {
-      characterAttack.push(PIXI.Texture.from(`HeavyBandit_Attack_${i}.png`));
+      heroAttack.push(PIXI.Texture.from(`HeavyBandit_Attack_${i}.png`));
     }
 
     for (let i = 0; i <= 1; i++) {
-      characterTakeDamage.push(PIXI.Texture.from(`HeavyBandit_Hurt_${i}.png`));
+      heroTakeDamage.push(PIXI.Texture.from(`HeavyBandit_Hurt_${i}.png`));
     }
 
-    return [characterAttackIdle, characterAttack, characterTakeDamage];
+    return [heroAttackIdle, heroAttack, heroTakeDamage];
   }
 
-  createEnemyFrames() {
-    let enemyFrames: PIXI.Texture[] = [];
+  createEnemyFrames(): Texture[][] {
+    let enemyIdle:        Texture[] = []
+    let enemyAttack:      Texture[] = []
+    let enemyTakeDamage:  Texture[] = []
+    let enemyWalk:        Texture[] = []
+    let enemyDie:         Texture[] = []
 
-    for (let i = 1; i <= 8; i++) {
-      const texture = PIXI.Texture.from(`zombie_${i}.png`);
-      enemyFrames.push(texture);
+    for (let i = 1; i <= 11; i++) {
+      enemyIdle.push(Texture.from(`skeletonIdle_${i}.png`))
     }
-    return enemyFrames;
+    for (let i = 1; i <= 18; i++) {
+      enemyAttack.push(Texture.from(`skeletonAttack_${i}.png`))
+    }
+    for (let i = 1; i <= 8; i++) {
+      enemyTakeDamage.push(Texture.from(`skeletonHit_${i}.png`))
+    }
+    for (let i = 1; i <= 13; i++) {
+      enemyWalk.push(Texture.from(`skeletonWalk_${i}.png`))
+    }
+    for (let i = 1; i <= 15; i++) {
+      enemyDie.push(Texture.from(`SkeletonDie_${i}.png`))
+    }
+    return [enemyIdle, enemyAttack, enemyTakeDamage, enemyWalk, enemyDie]
   }
 
   createBirdFrames() {
@@ -103,7 +118,7 @@ export class Game {
 
   makeQbox() {
     let qBox = null;
-    qBox = new questionBox(this, this.hero);
+    qBox = new questionBox(this, this.hero, this.enemy);
   }
 
   update(delta: number) {

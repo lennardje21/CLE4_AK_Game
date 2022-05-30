@@ -17,11 +17,14 @@ export class questionBox {
 
   game: Game;
 
+  enemy: Enemy
+
   hero: Hero;
 
-  constructor(game: Game, hero: Hero) {
+  constructor(game: Game, hero: Hero, enemy : Enemy) {
     this.game = game;
     this.hero = hero;
+    this.enemy = enemy
 
     //fetch questions from json file
     fetch("question.json")
@@ -102,6 +105,8 @@ export class questionBox {
         a.aBoxSprite.buttonMode = false;
       });
 
+      this.enemy.attack();
+      
       this.hero.takeDamage();
 
       //wait 1.5 seconds
