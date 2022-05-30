@@ -37179,6 +37179,7 @@ class questionBox {
                 a.aBoxSprite.interactive = false;
                 a.aBoxSprite.buttonMode = false;
             });
+            this.hero.takeDamage();
             //wait 5 seconds
             await this.sleep(5000);
             //generate a new question
@@ -37578,15 +37579,33 @@ class Hero extends _pixiJs.AnimatedSprite {
         this.anchor.set(0.5);
         this.scale.set(8, 8);
         this.x = 1000;
-        this.y = 350;
+        this.y = 300;
         this.animationSpeed = 0.1;
         this.loop = true;
         this.play();
+        this.interactive = true;
         //voeg de enemy aan het beeld toe
         this.game.pixi.stage.addChild(this);
     }
     attack() {
         this.game.enemy.getHit(this.hitPoints);
+        this.textures = this.frames[1];
+        this.loop = false;
+        this.play();
+        this.onComplete = this.idleAnimation;
+    }
+    takeDamage() {
+        this.textures = this.frames[2];
+        this.animationSpeed = 0.05;
+        this.loop = false;
+        this.play();
+        this.onComplete = this.idleAnimation;
+    }
+    idleAnimation() {
+        this.textures = this.frames[0];
+        this.animationSpeed = 0.1;
+        this.loop = true;
+        this.play();
     }
 }
 

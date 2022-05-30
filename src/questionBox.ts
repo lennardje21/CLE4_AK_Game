@@ -104,6 +104,8 @@ export class questionBox {
         a.aBoxSprite.buttonMode = false;
       });
 
+      this.hero.takeDamage()
+
       //wait 5 seconds
       await this.sleep(5000);
 
