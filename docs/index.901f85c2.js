@@ -546,8 +546,8 @@ class Game {
         const background = new _background.Background(this.loader.resources["background"].texture, this.screenWidth, this.screenHeight);
         this.pixi.stage.addChild(background);
         //in frames komen de images te staan die de enemy animate
-        let enemyFrames = this.createEnemyFrames();
         let heroFrames = this.createHeroFrames();
+        let enemyFrames = this.createEnemyFrames();
         let birdFrames = this.createBirdFrames();
         this.spawnObjects(heroFrames, birdFrames);
         this.spawnZombie(enemyFrames);
@@ -565,12 +565,17 @@ class Game {
         this.makeQbox();
     }
     createHeroFrames() {
-        let heroFrames = [];
-        for(let i = 1; i <= 8; i++){
-            const texture = _pixiJs.Texture.from(`knight_${i}.png`);
-            heroFrames.push(texture);
-        }
-        return heroFrames;
+        let characterAttackIdle = [];
+        let characterAttack = [];
+        let characterTakeDamage = [];
+        for(let i = 0; i <= 3; i++)characterAttackIdle.push(_pixiJs.Texture.from(`HeavyBandit_CombatIdle_${i}.png`));
+        for(let i1 = 0; i1 <= 7; i1++)characterAttack.push(_pixiJs.Texture.from(`HeavyBandit_Attack_${i1}.png`));
+        for(let i2 = 0; i2 <= 1; i2++)characterTakeDamage.push(_pixiJs.Texture.from(`HeavyBandit_Hurt_${i2}.png`));
+        return [
+            characterAttackIdle,
+            characterAttack,
+            characterTakeDamage
+        ];
     }
     createEnemyFrames() {
         let enemyFrames = [];
@@ -37174,6 +37179,7 @@ class questionBox {
                 a.aBoxSprite.interactive = false;
                 a.aBoxSprite.buttonMode = false;
             });
+            this.hero.takeDamage();
             //wait 5 seconds
             await this.sleep(5000);
             //generate a new question
@@ -37364,6 +37370,10 @@ class Assets extends _pixiJs.Loader {
                 url: "bird.json"
             },
             {
+                name: "heavyBanditJson",
+                url: "heavyBandit.json"
+            },
+            {
                 name: "qBoxSprite",
                 url: _qBoxSpritePngDefault.default
             },
@@ -37390,14 +37400,8 @@ class Assets extends _pixiJs.Loader {
             {
                 name: "healthBarSprite",
                 url: _healthBarSpritePngDefault.default
-            }, 
+            }
         ];
-        // this.loader.add("qBoxSprite", qBoxSprite);
-        // this.loader.add("aBoxSprite", aBoxSprite);
-        // this.loader.add("background", background);
-        // this.loader.add("aBoxSpriteDeactivated", aBoxSpriteDeactivated);
-        // this.loader.add("checkSprite", checkSprite);
-        // this.loader.add("crossSprite", crossSprite);
         this.assets.forEach((asset)=>{
             // Add to loader
             this.add(asset.name, asset.url);
@@ -37515,11 +37519,12 @@ class Enemy extends _pixiJs.AnimatedSprite {
     //moves gameobject
     move(delta) {
         if (!this.onCollision(this.hero)) this.x += this.speed * delta;
+        else this.stopAnimation();
     }
     stopAnimation() {
         this.stop;
-    // this.animationSpeed = 0;
-    // this.loop = false;
+        this.animationSpeed = 0;
+        this.loop = false;
     }
     onCollision(collider) {
         let colliderBounds = this.getBounds();
@@ -37565,23 +37570,44 @@ parcelHelpers.export(exports, "Hero", ()=>Hero
 );
 var _pixiJs = require("pixi.js");
 class Hero extends _pixiJs.AnimatedSprite {
+    frames = [];
     hitPoints = 25;
     //geef aan hoe en snel de enemy is ook de positie waar de zombie is word hier aangegeven
     constructor(game, textures){
         console.log("I'm a hero");
-        super(textures);
+        super(textures[0]);
         this.game = game;
+        this.frames = textures;
         this.anchor.set(0.5);
-        this.x = 1100;
+        this.scale.set(8, 8);
+        this.x = 1000;
         this.y = 300;
         this.animationSpeed = 0.1;
         this.loop = true;
         this.play();
+        this.interactive = true;
         //voeg de enemy aan het beeld toe
         this.game.pixi.stage.addChild(this);
     }
     attack() {
         this.game.enemy.getHit(this.hitPoints);
+        this.textures = this.frames[1];
+        this.loop = false;
+        this.play();
+        this.onComplete = this.idleAnimation;
+    }
+    takeDamage() {
+        this.textures = this.frames[2];
+        this.animationSpeed = 0.05;
+        this.loop = false;
+        this.play();
+        this.onComplete = this.idleAnimation;
+    }
+    idleAnimation() {
+        this.textures = this.frames[0];
+        this.animationSpeed = 0.1;
+        this.loop = true;
+        this.play();
     }
 }
 

@@ -1,4 +1,4 @@
-import * as PIXI from "pixi.js";
+import * as PIXI from "pixi.js"
 import { Answer } from "./answerBox";
 import { Game } from "./game";
 import { Check } from "./check";
@@ -67,6 +67,8 @@ export class questionBox {
     if (answer === correctAnswer) {
       //TODO: correct answer behaviour (generate new question, give hitpoints to enemy)
       console.log("correct answer");
+      
+      
 
       //show that the answer is correct
       let check = new Check(this.game, this);
@@ -101,6 +103,8 @@ export class questionBox {
         a.aBoxSprite.interactive = false;
         a.aBoxSprite.buttonMode = false;
       });
+
+      this.hero.takeDamage()
 
       //wait 5 seconds
       await this.sleep(5000);
