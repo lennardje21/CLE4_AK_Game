@@ -549,15 +549,17 @@ class Game {
         let heroFrames = this.createHeroFrames();
         let enemyFrames = this.createEnemyFrames();
         let birdFrames = this.createBirdFrames();
-        this.spawnObjects(heroFrames, enemyFrames, birdFrames);
+        this.spawnObjects(heroFrames, birdFrames);
+        this.spawnZombie(enemyFrames);
         this.pixi.ticker.add((delta)=>this.update(delta)
         );
     }
-    spawnObjects(heroFrames, enemyFrames, birdFrames) {
-        //create our character
-        this.hero = new _hero.Hero(this, heroFrames);
-        //create a new enemy
+    spawnZombie(enemyFrames) {
+        //creeër een nieuwe Enemy
         this.enemy = new _enemy.Enemy(this, this.hero, enemyFrames);
+    }
+    spawnObjects(heroFrames, birdFrames) {
+        this.hero = new _hero.Hero(this, heroFrames);
         // nieuwe bird
         this.bird = new _bird.Bird(this, this.hero, birdFrames);
         this.makeQbox();
@@ -593,10 +595,10 @@ class Game {
     }
     makeQbox() {
         let qBox = null;
-        qBox = new _questionBox.questionBox(this);
+        qBox = new _questionBox.questionBox(this, this.hero);
     }
     update(delta) {
-        this.enemy.update(delta);
+        if (this.enemy) this.enemy.update(delta);
     }
 }
 let game = new Game();
@@ -37109,8 +37111,9 @@ var _check = require("./check");
 var _crossSprite = require("./crossSprite");
 class questionBox {
     answers = [];
-    constructor(game){
+    constructor(game, hero){
         this.game = game;
+        this.hero = hero;
         //fetch questions from json file
         fetch("question.json").then((response)=>{
             if (!response.ok) throw new Error(response.statusText);
@@ -37159,6 +37162,7 @@ class questionBox {
                 a.aBoxSprite.interactive = false;
                 a.aBoxSprite.buttonMode = false;
             });
+            this.hero.attack();
             //wait 5 seconds
             await this.sleep(5000);
             //generate a new question
@@ -37341,6 +37345,8 @@ var _checkSpritePng = require("./images/checkSprite.png");
 var _checkSpritePngDefault = parcelHelpers.interopDefault(_checkSpritePng);
 var _backgroundPng = require("./images/background.png");
 var _backgroundPngDefault = parcelHelpers.interopDefault(_backgroundPng);
+var _healthBarSpritePng = require("./images/healthBarSprite.png");
+var _healthBarSpritePngDefault = parcelHelpers.interopDefault(_healthBarSpritePng);
 class Assets extends _pixiJs.Loader {
     assets = [];
     constructor(game){
@@ -37389,6 +37395,10 @@ class Assets extends _pixiJs.Loader {
             {
                 name: "crossSprite",
                 url: _crossSpritePngDefault.default
+            },
+            {
+                name: "healthBarSprite",
+                url: _healthBarSpritePngDefault.default
             }
         ];
         this.assets.forEach((asset)=>{
@@ -37401,7 +37411,7 @@ class Assets extends _pixiJs.Loader {
     }
 }
 
-},{"pixi.js":"dsYej","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","./images/aBoxSpriteDeactivated.png":"3IoZl","./images/crossSprite.png":"2oJww","./images/checkSprite.png":"bwOzm","./images/background.png":"fwQMR","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3N9En":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./images/qBoxSprite.png":"3N9En","./images/aBoxSprite.png":"174qL","./images/aBoxSpriteDeactivated.png":"3IoZl","./images/crossSprite.png":"2oJww","./images/checkSprite.png":"bwOzm","./images/background.png":"fwQMR","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/healthBarSprite.png":"1r2ZT"}],"3N9En":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "qBoxSprite.c6eec9fc.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
@@ -37453,13 +37463,18 @@ module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "checkS
 },{"./helpers/bundle-url":"lgJ39"}],"fwQMR":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "background.84053517.png" + "?" + Date.now();
 
+},{"./helpers/bundle-url":"lgJ39"}],"1r2ZT":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "healthBarSprite.61bf7b05.png" + "?" + Date.now();
+
 },{"./helpers/bundle-url":"lgJ39"}],"e8Rej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Enemy", ()=>Enemy
 );
 var _pixiJs = require("pixi.js");
+var _healthBar = require("./healthBar");
 class Enemy extends _pixiJs.AnimatedSprite {
+    health = 100;
     constructor(game, hero, textures){
         console.log("I'm a zombie");
         super(textures);
@@ -37473,11 +37488,30 @@ class Enemy extends _pixiJs.AnimatedSprite {
         this.play();
         //append enemy to game screen
         this.game.pixi.stage.addChild(this);
+        //healthbar
+        this.healthBar = new _healthBar.HealthBar(game);
+        this.healthBar.healthBarSprite.y = this.y - 200;
     }
     //gets called every frame
     update(delta) {
-        super.update(delta);
-        this.move(delta);
+        if (this) {
+            super.update(delta);
+            this.move(delta);
+            this.upadateHealthBarPosition();
+        }
+    }
+    upadateHealthBarPosition() {
+        this.healthBar.healthBarSprite.x = this.x - 100;
+    }
+    getHit(dammage) {
+        this.health -= dammage;
+        this.healthBar.healthBarSprite.scale.set(this.health * 0.02, 7);
+        if (this.health <= 0) this.die();
+    }
+    die() {
+        console.log("zombie is dead");
+        this.game.spawnZombie(this.game.createEnemyFrames());
+        this.destroy();
     }
     //moves gameobject
     move(delta) {
@@ -37493,6 +37527,21 @@ class Enemy extends _pixiJs.AnimatedSprite {
         let colliderBounds = this.getBounds();
         let otherCollider = collider.getBounds();
         return colliderBounds.x + colliderBounds.width > otherCollider.x && colliderBounds.x < otherCollider.x + otherCollider.width && colliderBounds.y + colliderBounds.height > otherCollider.y && colliderBounds.y < otherCollider.y + otherCollider.height;
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./healthBar":"iuZOK"}],"iuZOK":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "HealthBar", ()=>HealthBar
+);
+var _pixiJs = require("pixi.js");
+class HealthBar extends _pixiJs.Sprite {
+    constructor(game){
+        super();
+        this.healthBarSprite = new _pixiJs.Sprite(game.loader.resources["healthBarSprite"].texture);
+        this.healthBarSprite.scale.set(2, 7);
+        game.pixi.stage.addChild(this.healthBarSprite);
     }
 }
 
@@ -37519,6 +37568,7 @@ parcelHelpers.export(exports, "Hero", ()=>Hero
 var _pixiJs = require("pixi.js");
 class Hero extends _pixiJs.AnimatedSprite {
     frames = [];
+    hitPoints = 25;
     //geef aan hoe en snel de enemy is ook de positie waar de zombie is word hier aangegeven
     constructor(game, textures){
         console.log("I'm a hero");
@@ -37535,11 +37585,8 @@ class Hero extends _pixiJs.AnimatedSprite {
         //voeg de enemy aan het beeld toe
         this.game.pixi.stage.addChild(this);
     }
-    takeDamage() {
-        this.textures = this.frames[2];
-    }
     attack() {
-        this.textures = this.frames[1];
+        this.game.enemy.getHit(this.hitPoints);
     }
 }
 

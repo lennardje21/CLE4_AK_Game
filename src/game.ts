@@ -42,16 +42,20 @@ export class Game {
     
     let birdFrames = this.createBirdFrames();
 
-    this.spawnObjects(heroFrames, enemyFrames, birdFrames);
+    this.spawnObjects(heroFrames, birdFrames);
+    this.spawnZombie(enemyFrames);
 
     this.pixi.ticker.add((delta) => this.update(delta));
   }
 
-  spawnObjects(heroFrames: PIXI.Texture[][], enemyFrames: PIXI.Texture[], birdFrames: PIXI.Texture[]) {
-    //create our character
-    this.hero = new Hero(this, heroFrames);
-    //create a new enemy
+  spawnZombie(enemyFrames: PIXI.Texture[]) {
+    //creeër een nieuwe Enemy
     this.enemy = new Enemy(this, this.hero, enemyFrames);
+  }
+
+  spawnObjects(heroFrames: PIXI.Texture[][], birdFrames: PIXI.Texture[]) {
+    this.hero = new Hero(this, heroFrames);
+
     // nieuwe bird
     this.bird = new Bird(this, this.hero, birdFrames);
 
@@ -101,11 +105,13 @@ export class Game {
 
   makeQbox() {
     let qBox = null;
-    qBox = new questionBox(this);
+    qBox = new questionBox(this, this.hero);
   }
 
   update(delta: number) {
-    this.enemy.update(delta);
+    if (this.enemy) {
+      this.enemy.update(delta);
+    }
   }
 }
 

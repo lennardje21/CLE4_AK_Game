@@ -8,6 +8,7 @@ import aBoxSpriteDeactivated from "./images/aBoxSpriteDeactivated.png";
 import crossSprite from "./images/crossSprite.png";
 import checkSprite from "./images/checkSprite.png";
 import background from "./images/background.png";
+import healthBarSprite from "./images/healthBarSprite.png";
 
 type AssetFile = { name: string; url: string };
 
@@ -28,7 +29,8 @@ export class Assets extends PIXI.Loader {
       { name: "aBoxSprite", url: aBoxSprite },
       { name: "aBoxSpriteDeactivated", url: aBoxSpriteDeactivated },
       { name: "checkSprite", url: checkSprite },
-      { name: "crossSprite", url: crossSprite }
+      { name: "crossSprite", url: crossSprite },
+      { name: "healthBarSprite", url: healthBarSprite }
     ];
 
     this.assets.forEach((asset) => {
