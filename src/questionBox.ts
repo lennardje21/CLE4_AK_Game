@@ -3,6 +3,8 @@ import { Answer } from "./answerBox";
 import { Game } from "./game";
 import { Check } from "./check";
 import { Cross } from "./crossSprite";
+import { Enemy } from "./enemy";
+import { Hero } from "./hero";
 
 export class questionBox {
   question: string;
@@ -15,8 +17,11 @@ export class questionBox {
 
   game: Game;
 
-  constructor(game: Game) {
+  hero: Hero;
+
+  constructor(game: Game, hero: Hero) {
     this.game = game;
+    this.hero = hero;
 
     //fetch questions from json file
     fetch("question.json")
@@ -73,6 +78,8 @@ export class questionBox {
         a.aBoxSprite.interactive = false;
         a.aBoxSprite.buttonMode = false;
       });
+
+      this.hero.attack();
 
       //wait 5 seconds
       await this.sleep(5000);

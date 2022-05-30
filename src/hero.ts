@@ -1,9 +1,12 @@
 import * as PIXI from "pixi.js";
 import { Texture } from "pixi.js";
+import { Enemy } from "./enemy";
 import { Game } from "./game";
 
 export class Hero extends PIXI.AnimatedSprite {
   private game: Game;
+  hitPoints = 25;
+
   //geef aan hoe en snel de enemy is ook de positie waar de zombie is word hier aangegeven
   constructor(game: Game, textures: Texture[]) {
     console.log("I'm a hero");
@@ -19,5 +22,9 @@ export class Hero extends PIXI.AnimatedSprite {
 
     //voeg de enemy aan het beeld toe
     this.game.pixi.stage.addChild(this);
+  }
+
+  attack() {
+    this.game.enemy.getHit(this.hitPoints);
   }
 }

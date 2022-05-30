@@ -12,7 +12,7 @@ import { Hero } from "./hero";
 export class Game {
   pixi: PIXI.Application;
   loader: PIXI.Loader;
-  Enemy: Enemy;
+  enemy: Enemy;
   hero: Hero;
   bird: Bird;
   screenWidth: number = 1280;
@@ -38,21 +38,27 @@ export class Game {
     let heroFrames = this.createHeroFrames();
     let birdFrames = this.createBirdFrames();
 
-    this.spawnObjects(heroFrames, enemyFrames, birdFrames);
+    this.spawnObjects(heroFrames, birdFrames);
+    this.spawnZombie(enemyFrames);
 
     this.pixi.ticker.add((delta) => this.update(delta));
   }
 
-  spawnObjects(heroFrames: PIXI.Texture[], enemyFrames: PIXI.Texture[], birdFrames: PIXI.Texture[]) {
-    this.hero = new Hero(this, heroFrames);
+  spawnZombie(enemyFrames: PIXI.Texture[]) {
     //creeër een nieuwe Enemy
-    this.Enemy = new Enemy(this, this.hero, enemyFrames);
+    this.enemy = new Enemy(this, this.hero, enemyFrames);
+  }
+
+  spawnObjects(heroFrames: PIXI.Texture[], birdFrames: PIXI.Texture[]) {
+    this.hero = new Hero(this, heroFrames);
+
     // nieuwe bird
     this.bird = new Bird(this, this.hero, birdFrames);
 
     this.makeQbox();
   }
-  createHeroFrames() {
+
+  createHeroFrames(): PIXI.Texture[] {
     let heroFrames: PIXI.Texture[] = [];
 
     for (let i = 1; i <= 8; i++) {
@@ -84,11 +90,13 @@ export class Game {
 
   makeQbox() {
     let qBox = null;
-    qBox = new questionBox(this);
+    qBox = new questionBox(this, this.hero);
   }
 
   update(delta: number) {
-    this.Enemy.update(delta);
+    if (this.enemy) {
+      this.enemy.update(delta);
+    }
   }
 }
 
