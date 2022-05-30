@@ -37107,7 +37107,6 @@ var _pixiJs = require("pixi.js");
 var _answerBox = require("./answerBox");
 var _check = require("./check");
 var _crossSprite = require("./crossSprite");
-var _hero = require("./hero");
 class questionBox {
     answers = [];
     constructor(game){
@@ -37151,7 +37150,6 @@ class questionBox {
         if (answer === correctAnswer) {
             //TODO: correct answer behaviour (generate new question, give hitpoints to enemy)
             console.log("correct answer");
-            _hero.Hero.attack();
             //show that the answer is correct
             let check = new _check.Check(this.game, this);
             //lock the answers so you cant answer correct multiple times
@@ -37197,7 +37195,7 @@ class questionBox {
     }
 }
 
-},{"pixi.js":"dsYej","./answerBox":"1r5FN","./check":"8MCqV","./crossSprite":"a28w1","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./hero":"jMGFP"}],"1r5FN":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./answerBox":"1r5FN","./check":"8MCqV","./crossSprite":"a28w1","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1r5FN":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Answer", ()=>Answer
@@ -37281,38 +37279,6 @@ class Cross {
         this.crossSprite.x = qBox.qBoxSprite.x + 300;
         this.crossSprite.y = qBox.qBoxSprite.y + 20;
         this.game.pixi.stage.addChild(this.crossSprite);
-    }
-}
-
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jMGFP":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Hero", ()=>Hero
-);
-var _pixiJs = require("pixi.js");
-class Hero extends _pixiJs.AnimatedSprite {
-    frames = [];
-    //geef aan hoe en snel de enemy is ook de positie waar de zombie is word hier aangegeven
-    constructor(game, textures){
-        console.log("I'm a hero");
-        super(textures[0]);
-        this.game = game;
-        this.frames = textures;
-        this.anchor.set(0.5);
-        this.scale.set(8, 8);
-        this.x = 1000;
-        this.y = 350;
-        this.animationSpeed = 0.1;
-        this.loop = true;
-        this.play();
-        //voeg de enemy aan het beeld toe
-        this.game.pixi.stage.addChild(this);
-    }
-    takeDamage() {
-        this.textures = this.frames[2];
-    }
-    attack() {
-        this.textures = this.frames[1];
     }
 }
 
@@ -37542,6 +37508,38 @@ class Background extends _pixiJs.Sprite {
         console.log("i'm the background");
         this.width = x;
         this.height = y;
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jMGFP":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Hero", ()=>Hero
+);
+var _pixiJs = require("pixi.js");
+class Hero extends _pixiJs.AnimatedSprite {
+    frames = [];
+    //geef aan hoe en snel de enemy is ook de positie waar de zombie is word hier aangegeven
+    constructor(game, textures){
+        console.log("I'm a hero");
+        super(textures[0]);
+        this.game = game;
+        this.frames = textures;
+        this.anchor.set(0.5);
+        this.scale.set(8, 8);
+        this.x = 1000;
+        this.y = 350;
+        this.animationSpeed = 0.1;
+        this.loop = true;
+        this.play();
+        //voeg de enemy aan het beeld toe
+        this.game.pixi.stage.addChild(this);
+    }
+    takeDamage() {
+        this.textures = this.frames[2];
+    }
+    attack() {
+        this.textures = this.frames[1];
     }
 }
 
