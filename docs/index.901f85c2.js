@@ -37164,7 +37164,7 @@ class questionBox {
             });
             this.hero.attack();
             //wait 5 seconds
-            await this.sleep(5000);
+            await this.sleep(1500);
             //generate a new question
             this.game.makeQbox();
         } else {
@@ -37180,8 +37180,8 @@ class questionBox {
                 a.aBoxSprite.buttonMode = false;
             });
             this.hero.takeDamage();
-            //wait 5 seconds
-            await this.sleep(5000);
+            //wait 1.5 seconds
+            await this.sleep(1500);
             //generate a new question
             this.game.makeQbox();
         }
@@ -37569,9 +37569,11 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Hero", ()=>Hero
 );
 var _pixiJs = require("pixi.js");
+var _healthBar = require("./healthBar");
 class Hero extends _pixiJs.AnimatedSprite {
     frames = [];
     hitPoints = 25;
+    health = 100;
     //geef aan hoe en snel de enemy is ook de positie waar de zombie is word hier aangegeven
     constructor(game, textures){
         console.log("I'm a hero");
@@ -37588,20 +37590,33 @@ class Hero extends _pixiJs.AnimatedSprite {
         this.interactive = true;
         //voeg de enemy aan het beeld toe
         this.game.pixi.stage.addChild(this);
+        //healthbar
+        this.healthBar = new _healthBar.HealthBar(game);
+        this.healthBar.healthBarSprite.y = this.y - 150;
+        this.healthBar.healthBarSprite.x = this.x - 100;
     }
     attack() {
-        this.game.enemy.getHit(this.hitPoints);
         this.textures = this.frames[1];
         this.loop = false;
         this.play();
+        this.onFrameChange = function(currentFrame) {
+            if (currentFrame == 5) this.game.enemy.getHit(this.hitPoints);
+        };
         this.onComplete = this.idleAnimation;
     }
     takeDamage() {
+        this.health -= 25;
+        this.healthBar.healthBarSprite.scale.set(this.health * 0.02, 7);
+        if (this.health <= 0) this.die();
         this.textures = this.frames[2];
         this.animationSpeed = 0.05;
         this.loop = false;
         this.play();
         this.onComplete = this.idleAnimation;
+    }
+    die() {
+        console.log("hero died");
+        this.destroy();
     }
     idleAnimation() {
         this.textures = this.frames[0];
@@ -37611,6 +37626,6 @@ class Hero extends _pixiJs.AnimatedSprite {
     }
 }
 
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./healthBar":"iuZOK"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
 
 //# sourceMappingURL=index.901f85c2.js.map
