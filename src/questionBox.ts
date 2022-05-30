@@ -54,7 +54,15 @@ export class questionBox {
     this.game.pixi.stage.addChild(this.qBoxSprite);
 
     //question text
-    this.qText = new PIXI.Text(this.question, { fontFamily: "Arial", fontSize: 24, fill: 0x000000, align: "center" });
+    const style = new PIXI.TextStyle({
+      fontFamily: "ArcadeFont",
+      fontSize: 50,
+      fill: 0x000000,
+      align: "center",
+    });
+
+    this.qText = new PIXI.Text(this.question, style);
+    this.qText.resolution = 10;
     this.qText.x = this.qBoxSprite.x + 20;
     this.qText.y = this.qBoxSprite.y + 20;
     this.game.pixi.stage.addChild(this.qText);
