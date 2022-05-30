@@ -19,6 +19,7 @@ export class Game {
   screenHeight: number = 720;
 
   constructor() {
+    PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
     this.pixi = new PIXI.Application({ width: this.screenWidth, height: this.screenHeight, backgroundColor: 0x2980b9 });
     document.body.appendChild(this.pixi.view);
     // this.loader = new PIXI.Loader();

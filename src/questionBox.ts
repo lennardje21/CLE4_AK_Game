@@ -40,9 +40,9 @@ export class questionBox {
 
     //question box sprite
     this.qBoxSprite = new PIXI.Sprite(game.loader.resources["qBoxSprite"].texture!);
-    this.qBoxSprite.scale.set(2);
-    this.qBoxSprite.x = 100;
-    this.qBoxSprite.y = 10;
+    this.qBoxSprite.scale.set(2, 2);
+    this.qBoxSprite.x = 400;
+    this.qBoxSprite.y = 520;
     this.game.pixi.stage.addChild(this.qBoxSprite);
 
     //question text

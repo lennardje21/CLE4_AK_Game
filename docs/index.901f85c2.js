@@ -530,6 +530,7 @@ class Game {
     screenWidth = 1280;
     screenHeight = 720;
     constructor(){
+        _pixiJs.settings.SCALE_MODE = _pixiJs.SCALE_MODES.NEAREST;
         this.pixi = new _pixiJs.Application({
             width: this.screenWidth,
             height: this.screenHeight,
@@ -37119,9 +37120,9 @@ class questionBox {
         this.question = data[this.questionId].question;
         //question box sprite
         this.qBoxSprite = new _pixiJs.Sprite(game.loader.resources["qBoxSprite"].texture);
-        this.qBoxSprite.scale.set(2);
-        this.qBoxSprite.x = 100;
-        this.qBoxSprite.y = 10;
+        this.qBoxSprite.scale.set(2, 2);
+        this.qBoxSprite.x = 400;
+        this.qBoxSprite.y = 520;
         this.game.pixi.stage.addChild(this.qBoxSprite);
         //question text
         this.qText = new _pixiJs.Text(this.question, {
@@ -37215,8 +37216,8 @@ class Answer {
         //show answer box sprite
         this.aBoxSprite = new _pixiJs.Sprite(game.loader.resources["aBoxSprite"].texture);
         this.aBoxSprite.anchor.set(0.5);
-        this.aBoxSprite.x = qBox.qBoxSprite.x + 200 * i + 50;
-        this.aBoxSprite.y = qBox.qBoxSprite.y + 240;
+        this.aBoxSprite.x = qBox.qBoxSprite.x + 180 * i + 70;
+        this.aBoxSprite.y = qBox.qBoxSprite.y + 150;
         //give them text
         this.aText = new _pixiJs.Text(this.answer, {
             fontFamily: "Arial",
@@ -37462,7 +37463,7 @@ class Enemy extends _pixiJs.AnimatedSprite {
         this.hero = hero;
         this.anchor.set(0.5);
         this.x = -100;
-        this.y = 430;
+        this.y = 300;
         this.loop = true;
         this.animationSpeed = 0.1;
         this.play();
@@ -37519,7 +37520,7 @@ class Hero extends _pixiJs.AnimatedSprite {
         this.game = game;
         this.anchor.set(0.5);
         this.x = 1100;
-        this.y = 400;
+        this.y = 300;
         this.animationSpeed = 0.1;
         this.loop = true;
         this.play();

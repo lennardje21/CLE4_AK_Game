@@ -15,7 +15,7 @@ export class Enemy extends PIXI.AnimatedSprite {
 
     this.anchor.set(0.5);
     this.x = -100;
-    this.y = 430;
+    this.y = 300;
     this.loop = true;
     this.animationSpeed = 0.1;
     this.play();

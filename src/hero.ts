@@ -12,7 +12,7 @@ export class Hero extends PIXI.AnimatedSprite {
 
     this.anchor.set(0.5);
     this.x = 1100;
-    this.y = 400;
+    this.y = 300;
     this.animationSpeed = 0.1;
     this.loop = true;
     this.play();
