@@ -1,8 +1,9 @@
-import * as PIXI from "pixi.js";
+import * as PIXI from "pixi.js"
 import { Answer } from "./answerBox";
 import { Game } from "./game";
 import { Check } from "./check";
 import { Cross } from "./crossSprite";
+import { Hero } from "./hero";
 
 export class questionBox {
   question: string;
@@ -62,6 +63,8 @@ export class questionBox {
     if (answer === correctAnswer) {
       //TODO: correct answer behaviour (generate new question, give hitpoints to enemy)
       console.log("correct answer");
+      
+      
 
       //show that the answer is correct
       let check = new Check(this.game, this);

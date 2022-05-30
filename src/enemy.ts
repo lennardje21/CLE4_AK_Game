@@ -1,7 +1,7 @@
-import * as PIXI from "pixi.js";
-import { Texture } from "pixi.js";
-import { Game } from "./game";
-import { Hero } from "./hero";
+import * as PIXI from "pixi.js"
+import { Texture } from "pixi.js"
+import { Game } from "./game"
+import { Hero } from "./hero"
 
 export class Enemy extends PIXI.AnimatedSprite {
   private game: Game;
@@ -35,14 +35,14 @@ export class Enemy extends PIXI.AnimatedSprite {
     if (!this.onCollision(this.hero)) {
       this.x += 1 * delta;
     } else {
-      // this.stopAnimation();
+      this.stopAnimation();
     }
-  }
+  } 
 
   stopAnimation() {
     this.stop;
-    // this.animationSpeed = 0;
-    // this.loop = false;
+    this.animationSpeed = 0;
+    this.loop = false;
   }
 
   onCollision(collider: any): boolean {

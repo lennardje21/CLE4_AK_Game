@@ -8,11 +8,12 @@ import { Assets } from "./assets";
 import { Enemy } from "./enemy";
 import { Background } from "./background";
 import { Hero } from "./hero";
+import { Texture } from "pixi.js";
 
 export class Game {
   pixi: PIXI.Application;
   loader: PIXI.Loader;
-  Enemy: Enemy;
+  enemy: Enemy;
   hero: Hero;
   bird: Bird;
   screenWidth: number = 1280;
@@ -20,6 +21,7 @@ export class Game {
 
   constructor() {
     PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
+
     this.pixi = new PIXI.Application({ width: this.screenWidth, height: this.screenHeight, backgroundColor: 0x2980b9 });
     document.body.appendChild(this.pixi.view);
     // this.loader = new PIXI.Loader();
@@ -34,8 +36,10 @@ export class Game {
     this.pixi.stage.addChild(background);
 
     //in frames komen de images te staan die de enemy animate
+    let heroFrames: PIXI.Texture[][] = this.createHeroFrames();
+
     let enemyFrames = this.createEnemyFrames();
-    let heroFrames = this.createHeroFrames();
+    
     let birdFrames = this.createBirdFrames();
 
     this.spawnObjects(heroFrames, enemyFrames, birdFrames);
@@ -43,34 +47,47 @@ export class Game {
     this.pixi.ticker.add((delta) => this.update(delta));
   }
 
-  spawnObjects(heroFrames: PIXI.Texture[], enemyFrames: PIXI.Texture[], birdFrames: PIXI.Texture[]) {
+  spawnObjects(heroFrames: PIXI.Texture[][], enemyFrames: PIXI.Texture[], birdFrames: PIXI.Texture[]) {
+    //create our character
     this.hero = new Hero(this, heroFrames);
-    //creeër een nieuwe Enemy
-    this.Enemy = new Enemy(this, this.hero, enemyFrames);
+    //create a new enemy
+    this.enemy = new Enemy(this, this.hero, enemyFrames);
     // nieuwe bird
     this.bird = new Bird(this, this.hero, birdFrames);
 
     this.makeQbox();
   }
-  createHeroFrames() {
-    let heroFrames: PIXI.Texture[] = [];
 
-    for (let i = 1; i <= 8; i++) {
-      const texture = PIXI.Texture.from(`knight_${i}.png`);
-      heroFrames.push(texture);
+  createHeroFrames(): PIXI.Texture[][] {
+    let characterAttackIdle: PIXI.Texture[] = []
+    let characterAttack:     PIXI.Texture[] = []
+    let characterTakeDamage: PIXI.Texture[] = []
+
+    for (let i = 0; i <= 3; i++) {
+      characterAttackIdle.push(PIXI.Texture.from(`HeavyBandit_CombatIdle_${i}.png`))
     }
-    return heroFrames;
+
+    for (let i = 0; i <= 7; i++) {
+      characterAttack.push(PIXI.Texture.from(`HeavyBandit_Attack_${i}.png`))
+    }
+
+    for (let i = 0; i <= 1; i++) {
+      characterTakeDamage.push(PIXI.Texture.from(`HeavyBandit_Hurt_${i}.png`))
+    }
+
+    return [characterAttackIdle, characterAttack, characterTakeDamage];
   }
 
-  createEnemyFrames() {
-    let enemyFrames: PIXI.Texture[] = [];
+  createEnemyFrames(){
+    let enemyFrames: PIXI.Texture[] = []
 
     for (let i = 1; i <= 8; i++) {
-      const texture = PIXI.Texture.from(`zombie_${i}.png`);
-      enemyFrames.push(texture);
+      const texture =
+              PIXI.Texture.from(`zombie_${i}.png`)
+              enemyFrames.push(texture)
     }
-    return enemyFrames;
-  }
+    return enemyFrames
+    }
 
   createBirdFrames() {
     let frames: PIXI.Texture[] = [];
@@ -88,7 +105,7 @@ export class Game {
   }
 
   update(delta: number) {
-    this.Enemy.update(delta);
+    this.enemy.update(delta);
   }
 }
 

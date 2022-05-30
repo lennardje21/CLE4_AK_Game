@@ -1,0 +1,129 @@
+{"frames": {
+
+"HeavyBandit_Attack_0.png":
+{
+	"frame": {"x":0,"y":0,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48}
+},
+"HeavyBandit_Attack_1.png":
+{
+	"frame": {"x":48,"y":0,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48}
+},
+"HeavyBandit_Attack_2.png":
+{
+	"frame": {"x":96,"y":0,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48}
+},
+"HeavyBandit_Attack_3.png":
+{
+	"frame": {"x":144,"y":0,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48}
+},
+"HeavyBandit_Attack_4.png":
+{
+	"frame": {"x":192,"y":0,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48}
+},
+"HeavyBandit_Attack_5.png":
+{
+	"frame": {"x":240,"y":0,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48}
+},
+"HeavyBandit_Attack_6.png":
+{
+	"frame": {"x":288,"y":0,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48}
+},
+"HeavyBandit_Attack_7.png":
+{
+	"frame": {"x":336,"y":0,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48}
+},
+"HeavyBandit_CombatIdle_0.png":
+{
+	"frame": {"x":384,"y":0,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48}
+},
+"HeavyBandit_CombatIdle_1.png":
+{
+	"frame": {"x":432,"y":0,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48}
+},
+"HeavyBandit_CombatIdle_2.png":
+{
+	"frame": {"x":480,"y":0,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48}
+},
+"HeavyBandit_CombatIdle_3.png":
+{
+	"frame": {"x":528,"y":0,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48}
+},
+"HeavyBandit_Hurt_0.png":
+{
+	"frame": {"x":576,"y":0,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48}
+},
+"HeavyBandit_Hurt_1.png":
+{
+	"frame": {"x":624,"y":0,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48}
+}},
+"animations": {
+	"HeavyBandit_Attack": ["HeavyBandit_Attack_0.png","HeavyBandit_Attack_1.png","HeavyBandit_Attack_2.png","HeavyBandit_Attack_3.png","HeavyBandit_Attack_4.png","HeavyBandit_Attack_5.png","HeavyBandit_Attack_6.png","HeavyBandit_Attack_7.png"],
+	"HeavyBandit_CombatIdle": ["HeavyBandit_CombatIdle_0.png","HeavyBandit_CombatIdle_1.png","HeavyBandit_CombatIdle_2.png","HeavyBandit_CombatIdle_3.png"],
+	"HeavyBandit_Hurt": ["HeavyBandit_Hurt_0.png","HeavyBandit_Hurt_1.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "heavyBandit.png",
+	"format": "RGBA8888",
+	"size": {"w":672,"h":48},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:75fc14c09c49157f07e8e83607669303:9d204a8762464c5ee473a1d901c407fd:8ac50c39fc4a3bb76ccbf523006bfa80$"
+}
+}
