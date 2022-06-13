@@ -56,7 +56,7 @@ export class questionBox {
     //question text
     const style = new PIXI.TextStyle({
       fontFamily: "ArcadeFont",
-      fontSize: 50,
+      fontSize: 35,
       fill: 0x000000,
       align: "center",
     });

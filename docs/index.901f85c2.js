@@ -37148,7 +37148,7 @@ class questionBox {
         //question text
         const style = new _pixiJs.TextStyle({
             fontFamily: "ArcadeFont",
-            fontSize: 50,
+            fontSize: 35,
             fill: 0,
             align: "center"
         });
