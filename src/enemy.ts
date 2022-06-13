@@ -101,11 +101,12 @@ export class Enemy extends PIXI.AnimatedSprite {
       this.x += this.speed * delta;
     } else {
       this.playIdle()
+      console.log('go play idle pls')
     }
   }
 
   playIdle() {
-    if(this.playing != true) {
+    if (this.playing != true) {
       console.log("playing idle animation")
       this.textures = this.frames[0]
       this.animationSpeed = 0.1

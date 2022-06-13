@@ -37566,7 +37566,10 @@ class Enemy extends _pixiJs.AnimatedSprite {
     //moves gameobject
     move(delta) {
         if (!this.onCollision(this.hero)) this.x += this.speed * delta;
-        else this.playIdle();
+        else {
+            this.playIdle();
+            console.log('go play idle pls');
+        }
     }
     playIdle() {
         if (this.playing != true) {
