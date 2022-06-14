@@ -37137,7 +37137,7 @@ class questionBox {
     }
     generateQuestion(data, game) {
         //get random question
-        this.questionId = this.getRandomInt(1, 3);
+        this.questionId = this.getRandomInt(1, 4);
         this.question = data[this.questionId].question;
         //question box sprite
         this.qBoxSprite = new _pixiJs.Sprite(game.loader.resources["qBoxSprite"].texture);
@@ -37148,7 +37148,7 @@ class questionBox {
         //question text
         const style = new _pixiJs.TextStyle({
             fontFamily: "ArcadeFont",
-            fontSize: 35,
+            fontSize: 25,
             fill: 0,
             align: "center"
         });

@@ -13,5 +13,10 @@
     "question": "Hoeveel provincies heeft Nederland\nA:10 B:11 C:12",
     "answers": ["A", "B", "C"],
     "correctA": "C"
+  },
+  "4": {
+    "question": "Wat is de hoofdstad van Nederland\nA:Den haag B:Rotterdam C:Amsterdam",
+    "answers": ["A", "B", "C"],
+    "correctA": "C"
   }
 }

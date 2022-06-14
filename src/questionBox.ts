@@ -43,7 +43,7 @@ export class questionBox {
 
   generateQuestion(data: any, game: Game) {
     //get random question
-    this.questionId = this.getRandomInt(1, 3);
+    this.questionId = this.getRandomInt(1, 4);
     this.question = data[this.questionId].question;
 
     //question box sprite
@@ -56,7 +56,7 @@ export class questionBox {
     //question text
     const style = new PIXI.TextStyle({
       fontFamily: "ArcadeFont",
-      fontSize: 35,
+      fontSize: 25,
       fill: 0x000000,
       align: "center",
     });
