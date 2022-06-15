@@ -532,8 +532,6 @@ var _noordHolland = require("./noordHolland");
 var _utrecht = require("./utrecht");
 var _nederland = require("./nederland");
 class Map {
-    // bubbles: Bubble[]=[]
-    // bubble : Bubble
     constructor(){
         this.pixi = new _pixiJs.Application({
             width: 1000,
@@ -552,15 +550,6 @@ class Map {
         this.pixi.stage.addChild(zuid);
         this.pixi.stage.addChild(noord);
         this.pixi.stage.addChild(ut);
-    //  this.pixi.stage.addChild(bubble)
-    // fish.scale.set(1)
-    // fish.y = 100
-    //For loop voor meerdere bubbles. Dit maakt tot 40 bubbles.
-    // for(let i = 0; i < 40; i++){
-    //     let amount = new Bubble (this.loader.resources["bubbleTexture"].texture!)
-    //     this.pixi.stage.addChild(amount)
-    //     this.bubbles.push(amount)
-    // }
     }
 }
 
@@ -37243,18 +37232,13 @@ module.exports = require('./helpers/bundle-url').getBundleURL('FLaer') + "nederl
 },{"./helpers/bundle-url":"lgJ39"}],"id06r":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-// import { Application, CanvasResource } from 'pixi.js'
-// import { Game } from './game'
-// import { testGame } from './testGame'
 parcelHelpers.export(exports, "zuidHolland", ()=>zuidHolland
 );
-// import { destroyTextureCache } from '@pixi/utils'
 var _pixiJs = require("pixi.js");
 class zuidHolland extends _pixiJs.Sprite {
     constructor(texture){
         super(texture);
         this.anchor.set(0.25);
-        this.scale.set(1);
         this.x = 310;
         this.y = 400;
         this.interactive = true;
@@ -37275,7 +37259,6 @@ var _pixiJs = require("pixi.js");
 class noordHolland extends _pixiJs.Sprite {
     constructor(texture){
         super(texture);
-        // this.anchor.set(0)
         this.scale.set(1);
         this.x = 340;
         this.y = 150;
@@ -37291,14 +37274,12 @@ class noordHolland extends _pixiJs.Sprite {
 },{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"79Urv":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-// import { testGame } from './testGame'
 parcelHelpers.export(exports, "utrecht", ()=>utrecht
 );
-var _pixiJs = require("pixi.js");
+var _pixiJs = require("pixi.js"); // import { testGame } from './testGame'
 class utrecht extends _pixiJs.Sprite {
     constructor(texture){
         super(texture);
-        this.scale.set(1);
         this.x = 385;
         this.y = 367;
         this.interactive = true;
