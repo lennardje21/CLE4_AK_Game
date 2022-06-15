@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js'
+import { Game } from './game'
 // import { testGame } from './testGame'
 
 export class utrecht extends PIXI.Sprite{
@@ -17,6 +18,6 @@ export class utrecht extends PIXI.Sprite{
     }
     onclick() {
         // this.destroy()
-        new testGame()
+        new Game()
     }
 }
