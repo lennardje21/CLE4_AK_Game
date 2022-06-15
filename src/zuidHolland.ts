@@ -1,8 +1,8 @@
-import { destroyTextureCache } from '@pixi/utils'
+// import { destroyTextureCache } from '@pixi/utils'
 import * as PIXI from 'pixi.js'
-import { Application, CanvasResource } from 'pixi.js'
-import { Game } from './game'
-import { testGame } from './testGame'
+// import { Application, CanvasResource } from 'pixi.js'
+// import { Game } from './game'
+// import { testGame } from './testGame'
 
 
 

@@ -16,7 +16,6 @@ export class noordHolland extends PIXI.Sprite{
 
     }
     onclick() {
-        // this.destroy()
         window.location.href = 'North-Holland.html'
     }
 }
