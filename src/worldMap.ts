@@ -8,6 +8,7 @@ import { Assets } from "./assets";
 import { zuidHolland } from "./zuidHolland";
 import { noordHolland } from "./noordHolland";
 import { utrecht } from "./utrecht";
+import { nederland } from "./nederland";
 
 export class Map {
     pixi : PIXI.Application
@@ -29,6 +30,8 @@ export class Map {
                 let zuid = new zuidHolland(this.loader.resources["zuid-holland"].texture!)
                 let noord = new noordHolland(this.loader.resources["noord-holland"].texture!)
                 let ut = new utrecht(this.loader.resources["utrecht"].texture!)
+                let nl = new nederland(this.loader.resources["nederland"].texture!)
+                this.pixi.stage.addChild(nl)
                 this.pixi.stage.addChild(zuid)
                 this.pixi.stage.addChild(noord)
                 this.pixi.stage.addChild(ut)

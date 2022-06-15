@@ -37372,6 +37372,8 @@ var _zuidHollandPng = require("./images/zuid_holland.png");
 var _zuidHollandPngDefault = parcelHelpers.interopDefault(_zuidHollandPng);
 var _noordHollandPng = require("./images/noord_holland.png");
 var _noordHollandPngDefault = parcelHelpers.interopDefault(_noordHollandPng);
+var _nederlandPng = require("./images/nederland.png");
+var _nederlandPngDefault = parcelHelpers.interopDefault(_nederlandPng);
 class Assets extends _pixiJs.Loader {
     assets = [];
     constructor(game){
@@ -37440,6 +37442,10 @@ class Assets extends _pixiJs.Loader {
             {
                 name: "noord-holland",
                 url: _noordHollandPngDefault.default
+            },
+            {
+                name: "nederland",
+                url: _nederlandPngDefault.default
             }
         ];
         this.assets.forEach((asset)=>{
@@ -37451,7 +37457,7 @@ class Assets extends _pixiJs.Loader {
     }
 }
 
-},{"pixi.js":"dsYej","./images/qBoxSprite.png":"l7QnL","./images/aBoxSprite.png":"1lWDL","./images/aBoxSpriteDeactivated.png":"4nzdI","./images/crossSprite.png":"k6xXy","./images/checkSprite.png":"bTjYc","./images/background.png":"cvr9V","./images/healthBarSprite.png":"9azpm","./images/utrecht.png":"45xJE","./images/zuid_holland.png":"jrNTm","./images/noord_holland.png":"5M15W","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l7QnL":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./images/qBoxSprite.png":"l7QnL","./images/aBoxSprite.png":"1lWDL","./images/aBoxSpriteDeactivated.png":"4nzdI","./images/crossSprite.png":"k6xXy","./images/checkSprite.png":"bTjYc","./images/background.png":"cvr9V","./images/healthBarSprite.png":"9azpm","./images/utrecht.png":"45xJE","./images/zuid_holland.png":"jrNTm","./images/noord_holland.png":"5M15W","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/nederland.png":"5ZdlH"}],"l7QnL":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('aEpy6') + "qBoxSprite.c6eec9fc.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
@@ -37514,6 +37520,9 @@ module.exports = require('./helpers/bundle-url').getBundleURL('aEpy6') + "zuid_h
 
 },{"./helpers/bundle-url":"lgJ39"}],"5M15W":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('aEpy6') + "noord_holland.fd8c3ab5.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"5ZdlH":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('aEpy6') + "nederland.e4035bbe.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"e8Rej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");

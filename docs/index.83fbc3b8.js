@@ -530,6 +530,7 @@ var _assets = require("./assets");
 var _zuidHolland = require("./zuidHolland");
 var _noordHolland = require("./noordHolland");
 var _utrecht = require("./utrecht");
+var _nederland = require("./nederland");
 class Map {
     // bubbles: Bubble[]=[]
     // bubble : Bubble
@@ -546,6 +547,8 @@ class Map {
         let zuid = new _zuidHolland.zuidHolland(this.loader.resources["zuid-holland"].texture);
         let noord = new _noordHolland.noordHolland(this.loader.resources["noord-holland"].texture);
         let ut = new _utrecht.utrecht(this.loader.resources["utrecht"].texture);
+        let nl = new _nederland.nederland(this.loader.resources["nederland"].texture);
+        this.pixi.stage.addChild(nl);
         this.pixi.stage.addChild(zuid);
         this.pixi.stage.addChild(noord);
         this.pixi.stage.addChild(ut);
@@ -563,7 +566,7 @@ class Map {
     }
 }
 
-},{"pixi.js":"dsYej","./assets":"jyCU7","./zuidHolland":"id06r","./noordHolland":"77Bbq","./utrecht":"79Urv","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./assets":"jyCU7","./zuidHolland":"id06r","./noordHolland":"77Bbq","./utrecht":"79Urv","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./nederland":"2gOWl"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37087,6 +37090,8 @@ var _zuidHollandPng = require("./images/zuid_holland.png");
 var _zuidHollandPngDefault = parcelHelpers.interopDefault(_zuidHollandPng);
 var _noordHollandPng = require("./images/noord_holland.png");
 var _noordHollandPngDefault = parcelHelpers.interopDefault(_noordHollandPng);
+var _nederlandPng = require("./images/nederland.png");
+var _nederlandPngDefault = parcelHelpers.interopDefault(_nederlandPng);
 class Assets extends _pixiJs.Loader {
     assets = [];
     constructor(game){
@@ -37155,6 +37160,10 @@ class Assets extends _pixiJs.Loader {
             {
                 name: "noord-holland",
                 url: _noordHollandPngDefault.default
+            },
+            {
+                name: "nederland",
+                url: _nederlandPngDefault.default
             }
         ];
         this.assets.forEach((asset)=>{
@@ -37166,7 +37175,7 @@ class Assets extends _pixiJs.Loader {
     }
 }
 
-},{"pixi.js":"dsYej","./images/qBoxSprite.png":"kCINV","./images/aBoxSprite.png":"gNbyL","./images/aBoxSpriteDeactivated.png":"5NEcy","./images/crossSprite.png":"2zgrT","./images/checkSprite.png":"8xpXS","./images/background.png":"6zfLI","./images/healthBarSprite.png":"amCwx","./images/utrecht.png":"hE6s5","./images/zuid_holland.png":"8oeNA","./images/noord_holland.png":"1IOVf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kCINV":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./images/qBoxSprite.png":"kCINV","./images/aBoxSprite.png":"gNbyL","./images/aBoxSpriteDeactivated.png":"5NEcy","./images/crossSprite.png":"2zgrT","./images/checkSprite.png":"8xpXS","./images/background.png":"6zfLI","./images/healthBarSprite.png":"amCwx","./images/utrecht.png":"hE6s5","./images/zuid_holland.png":"8oeNA","./images/noord_holland.png":"1IOVf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/nederland.png":"aYioO"}],"kCINV":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('FLaer') + "qBoxSprite.c6eec9fc.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
@@ -37229,6 +37238,9 @@ module.exports = require('./helpers/bundle-url').getBundleURL('FLaer') + "zuid_h
 
 },{"./helpers/bundle-url":"lgJ39"}],"1IOVf":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('FLaer') + "noord_holland.fd8c3ab5.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"aYioO":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('FLaer') + "nederland.e4035bbe.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"id06r":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -37297,6 +37309,22 @@ class utrecht extends _pixiJs.Sprite {
     }
     onclick() {
         window.location.href = 'game.html';
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2gOWl":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "nederland", ()=>nederland
+);
+var _pixiJs = require("pixi.js");
+class nederland extends _pixiJs.Sprite {
+    constructor(texture){
+        super(texture);
+        this.anchor.set(0.5);
+        this.x = 450;
+        this.y = 425;
+        this.alpha = 0.7;
     }
 }
 
