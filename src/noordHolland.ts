@@ -7,8 +7,8 @@ export class noordHolland extends PIXI.Sprite{
         // this.anchor.set(0)
         this.scale.set(1)
 
-        this.x = 330
-        this.y = 52
+        this.x = 340
+        this.y = 150
 
         this.interactive = true
         this.buttonMode = true

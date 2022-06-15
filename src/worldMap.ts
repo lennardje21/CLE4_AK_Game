@@ -17,7 +17,7 @@ export class Map {
     // bubble : Bubble
 
     constructor(){
-        this.pixi = new PIXI.Application({ width: 800, height: 600 })
+        this.pixi = new PIXI.Application({ width: 1000, height: 800 })
         document.body.appendChild(this.pixi.view)
 
         let assets = new Assets(this);
@@ -40,8 +40,6 @@ export class Map {
                 //  this.pixi.stage.addChild(bubble)
                 // fish.scale.set(1)
                 // fish.y = 100
-                zuid.x = 300
-                zuid.y = 300
 
 
                 //For loop voor meerdere bubbles. Dit maakt tot 40 bubbles.

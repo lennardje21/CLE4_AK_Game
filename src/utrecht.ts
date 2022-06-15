@@ -8,8 +8,8 @@ export class utrecht extends PIXI.Sprite{
 
         this.scale.set(1)
 
-        this.x = 375
-        this.y = 267
+        this.x = 385
+        this.y = 367
 
         this.interactive = true
         this.buttonMode = true

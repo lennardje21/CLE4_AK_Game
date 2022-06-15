@@ -536,8 +536,8 @@ class Map {
     // bubble : Bubble
     constructor(){
         this.pixi = new _pixiJs.Application({
-            width: 800,
-            height: 600
+            width: 1000,
+            height: 800
         });
         document.body.appendChild(this.pixi.view);
         let assets = new _assets.Assets(this);
@@ -552,11 +552,9 @@ class Map {
         this.pixi.stage.addChild(zuid);
         this.pixi.stage.addChild(noord);
         this.pixi.stage.addChild(ut);
-        //  this.pixi.stage.addChild(bubble)
-        // fish.scale.set(1)
-        // fish.y = 100
-        zuid.x = 300;
-        zuid.y = 300;
+    //  this.pixi.stage.addChild(bubble)
+    // fish.scale.set(1)
+    // fish.y = 100
     //For loop voor meerdere bubbles. Dit maakt tot 40 bubbles.
     // for(let i = 0; i < 40; i++){
     //     let amount = new Bubble (this.loader.resources["bubbleTexture"].texture!)
@@ -37257,8 +37255,8 @@ class zuidHolland extends _pixiJs.Sprite {
         super(texture);
         this.anchor.set(0.25);
         this.scale.set(1);
-        this.x = 300;
-        this.y = 100;
+        this.x = 310;
+        this.y = 400;
         this.interactive = true;
         this.buttonMode = true;
         this.on('pointerdown', this.onclick);
@@ -37279,8 +37277,8 @@ class noordHolland extends _pixiJs.Sprite {
         super(texture);
         // this.anchor.set(0)
         this.scale.set(1);
-        this.x = 330;
-        this.y = 52;
+        this.x = 340;
+        this.y = 150;
         this.interactive = true;
         this.buttonMode = true;
         this.on('pointerdown', this.onclick);
@@ -37301,8 +37299,8 @@ class utrecht extends _pixiJs.Sprite {
     constructor(texture){
         super(texture);
         this.scale.set(1);
-        this.x = 375;
-        this.y = 267;
+        this.x = 385;
+        this.y = 367;
         this.interactive = true;
         this.buttonMode = true;
         this.on('pointerdown', this.onclick);

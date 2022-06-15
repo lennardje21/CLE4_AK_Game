@@ -11,8 +11,8 @@ export class zuidHolland extends PIXI.Sprite{
         super(texture)
         this.anchor.set(0.25)
         this.scale.set(1)
-        this.x = 300
-        this.y = 100
+        this.x = 310
+        this.y = 400
 
         this.interactive = true
         this.buttonMode = true
