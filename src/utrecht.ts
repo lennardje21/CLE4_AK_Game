@@ -17,7 +17,6 @@ export class utrecht extends PIXI.Sprite{
 
     }
     onclick() {
-        // this.destroy()
-        new Game()
+        window.location.href = 'game.html'
     }
 }

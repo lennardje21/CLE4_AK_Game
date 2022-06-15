@@ -20,7 +20,7 @@ export class zuidHolland extends PIXI.Sprite{
     }
 
     onclick() {
-        window.location.href = 'North-Holland.html' 
+        window.location.href = 'game.html' 
     }
 
 }
