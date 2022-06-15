@@ -9,6 +9,9 @@ import crossSprite from "./images/crossSprite.png";
 import checkSprite from "./images/checkSprite.png";
 import background from "./images/background.png";
 import healthBarSprite from "./images/healthBarSprite.png";
+import Utrecht from "./images/utrecht.png";
+import ZHolland from "./images/zuid_holland.png";
+import NHolland from "./images/noord_holland.png";
 
 type AssetFile = { name: string; url: string };
 
@@ -32,6 +35,9 @@ export class Assets extends PIXI.Loader {
       { name: "checkSprite", url: checkSprite },
       { name: "crossSprite", url: crossSprite },
       { name: "healthBarSprite", url: healthBarSprite },
+      { name: "utrecht", url: Utrecht },
+      { name: "zuid-holland", url: ZHolland },
+      { name: "noord-holland", url: NHolland }
     ];
 
     this.assets.forEach((asset) => {
