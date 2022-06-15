@@ -63,6 +63,7 @@ export class Hero extends PIXI.AnimatedSprite {
 
   die() {
     console.log("hero died");
+    window.location.href = "index.html"
     this.destroy();
   }
 

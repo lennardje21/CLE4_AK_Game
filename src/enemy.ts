@@ -99,6 +99,7 @@ export class Enemy extends PIXI.AnimatedSprite {
   move(delta: number) {
     if (!this.onCollision(this.hero)) {
       this.x += this.speed * delta;
+      console.log("still running in the background")
     } else {
       this.playIdle()
     }

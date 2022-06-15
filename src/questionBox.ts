@@ -43,7 +43,7 @@ export class questionBox {
 
   generateQuestion(data: any, game: Game) {
     //get random question
-    this.questionId = this.getRandomInt(1, 4);
+    this.questionId = this.getRandomInt(1, 3);
     this.question = data[this.questionId].question;
 
     //question box sprite

@@ -37141,7 +37141,7 @@ class questionBox {
     }
     generateQuestion(data, game) {
         //get random question
-        this.questionId = this.getRandomInt(1, 4);
+        this.questionId = this.getRandomInt(1, 3);
         this.question = data[this.questionId].question;
         //question box sprite
         this.qBoxSprite = new _pixiJs.Sprite(game.loader.resources["qBoxSprite"].texture);
@@ -37596,8 +37596,10 @@ class Enemy extends _pixiJs.AnimatedSprite {
     }
     //moves gameobject
     move(delta) {
-        if (!this.onCollision(this.hero)) this.x += this.speed * delta;
-        else this.playIdle();
+        if (!this.onCollision(this.hero)) {
+            this.x += this.speed * delta;
+            console.log("still running in the background");
+        } else this.playIdle();
     }
     playIdle() {
         if (this.playing != true) {
@@ -37708,6 +37710,7 @@ class Hero extends _pixiJs.AnimatedSprite {
     }
     die() {
         console.log("hero died");
+        window.location.href = "index.html";
         this.destroy();
     }
     idleAnimation() {

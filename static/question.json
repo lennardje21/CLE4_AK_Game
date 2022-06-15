@@ -5,17 +5,17 @@
     "correctA": "C"
   },
   "2": {
-    "question": "Het regenwater dat in de tuin terecht komt, zakt naar \nA:Grondwater B:Riool C: Pijpleiding",
+    "question": "Het regenwater dat in de tuin terecht komt, zakt naar \nA: Grondwater B: Riool C: Pijpleiding",
     "answers": ["A", "B", "C"],
     "correctA": "A"
   },
   "3": {
-    "question": "Hoeveel provincies heeft Nederland\nA:10 B:11 C:12",
+    "question": "Hoeveel provincies heeft Nederland\nA: 10 B: 11 C: 12",
     "answers": ["A", "B", "C"],
     "correctA": "C"
   },
   "4": {
-    "question": "Wat is de hoofdstad van Nederland\nA:Den haag B:Rotterdam C:Amsterdam",
+    "question": "Wat is de hoofdstad van Nederland\nA: Den haag B: Rotterdam C: Amsterdam",
     "answers": ["A", "B", "C"],
     "correctA": "C"
   }
