@@ -12,6 +12,7 @@ import healthBarSprite from "./images/healthBarSprite.png";
 import Utrecht from "./images/utrecht.png";
 import ZHolland from "./images/zuid_holland.png";
 import NHolland from "./images/noord_holland.png";
+import Nland from "./images/nederland.png";
 
 type AssetFile = { name: string; url: string };
 
@@ -37,7 +38,8 @@ export class Assets extends PIXI.Loader {
       { name: "healthBarSprite", url: healthBarSprite },
       { name: "utrecht", url: Utrecht },
       { name: "zuid-holland", url: ZHolland },
-      { name: "noord-holland", url: NHolland }
+      { name: "noord-holland", url: NHolland },
+      { name: "nederland", url: Nland }
     ];
 
     this.assets.forEach((asset) => {

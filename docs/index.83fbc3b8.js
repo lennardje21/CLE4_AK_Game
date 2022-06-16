@@ -530,13 +530,12 @@ var _assets = require("./assets");
 var _zuidHolland = require("./zuidHolland");
 var _noordHolland = require("./noordHolland");
 var _utrecht = require("./utrecht");
+var _nederland = require("./nederland");
 class Map {
-    // bubbles: Bubble[]=[]
-    // bubble : Bubble
     constructor(){
         this.pixi = new _pixiJs.Application({
-            width: 800,
-            height: 600
+            width: 1000,
+            height: 800
         });
         document.body.appendChild(this.pixi.view);
         let assets = new _assets.Assets(this);
@@ -546,24 +545,15 @@ class Map {
         let zuid = new _zuidHolland.zuidHolland(this.loader.resources["zuid-holland"].texture);
         let noord = new _noordHolland.noordHolland(this.loader.resources["noord-holland"].texture);
         let ut = new _utrecht.utrecht(this.loader.resources["utrecht"].texture);
+        let nl = new _nederland.nederland(this.loader.resources["nederland"].texture);
+        this.pixi.stage.addChild(nl);
         this.pixi.stage.addChild(zuid);
         this.pixi.stage.addChild(noord);
         this.pixi.stage.addChild(ut);
-        //  this.pixi.stage.addChild(bubble)
-        // fish.scale.set(1)
-        // fish.y = 100
-        zuid.x = 300;
-        zuid.y = 300;
-    //For loop voor meerdere bubbles. Dit maakt tot 40 bubbles.
-    // for(let i = 0; i < 40; i++){
-    //     let amount = new Bubble (this.loader.resources["bubbleTexture"].texture!)
-    //     this.pixi.stage.addChild(amount)
-    //     this.bubbles.push(amount)
-    // }
     }
 }
 
-},{"pixi.js":"dsYej","./assets":"jyCU7","./zuidHolland":"id06r","./noordHolland":"77Bbq","./utrecht":"79Urv","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./assets":"jyCU7","./zuidHolland":"id06r","./noordHolland":"77Bbq","./utrecht":"79Urv","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./nederland":"2gOWl"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37087,6 +37077,8 @@ var _zuidHollandPng = require("./images/zuid_holland.png");
 var _zuidHollandPngDefault = parcelHelpers.interopDefault(_zuidHollandPng);
 var _noordHollandPng = require("./images/noord_holland.png");
 var _noordHollandPngDefault = parcelHelpers.interopDefault(_noordHollandPng);
+var _nederlandPng = require("./images/nederland.png");
+var _nederlandPngDefault = parcelHelpers.interopDefault(_nederlandPng);
 class Assets extends _pixiJs.Loader {
     assets = [];
     constructor(game){
@@ -37155,6 +37147,10 @@ class Assets extends _pixiJs.Loader {
             {
                 name: "noord-holland",
                 url: _noordHollandPngDefault.default
+            },
+            {
+                name: "nederland",
+                url: _nederlandPngDefault.default
             }
         ];
         this.assets.forEach((asset)=>{
@@ -37166,7 +37162,7 @@ class Assets extends _pixiJs.Loader {
     }
 }
 
-},{"pixi.js":"dsYej","./images/qBoxSprite.png":"kCINV","./images/aBoxSprite.png":"gNbyL","./images/aBoxSpriteDeactivated.png":"5NEcy","./images/crossSprite.png":"2zgrT","./images/checkSprite.png":"8xpXS","./images/background.png":"6zfLI","./images/healthBarSprite.png":"amCwx","./images/utrecht.png":"hE6s5","./images/zuid_holland.png":"8oeNA","./images/noord_holland.png":"1IOVf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kCINV":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./images/qBoxSprite.png":"kCINV","./images/aBoxSprite.png":"gNbyL","./images/aBoxSpriteDeactivated.png":"5NEcy","./images/crossSprite.png":"2zgrT","./images/checkSprite.png":"8xpXS","./images/background.png":"6zfLI","./images/healthBarSprite.png":"amCwx","./images/utrecht.png":"hE6s5","./images/zuid_holland.png":"8oeNA","./images/noord_holland.png":"1IOVf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/nederland.png":"aYioO"}],"kCINV":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('FLaer') + "qBoxSprite.c6eec9fc.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
@@ -37230,23 +37226,21 @@ module.exports = require('./helpers/bundle-url').getBundleURL('FLaer') + "zuid_h
 },{"./helpers/bundle-url":"lgJ39"}],"1IOVf":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('FLaer') + "noord_holland.fd8c3ab5.png" + "?" + Date.now();
 
+},{"./helpers/bundle-url":"lgJ39"}],"aYioO":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('FLaer') + "nederland.e4035bbe.png" + "?" + Date.now();
+
 },{"./helpers/bundle-url":"lgJ39"}],"id06r":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-// import { Application, CanvasResource } from 'pixi.js'
-// import { Game } from './game'
-// import { testGame } from './testGame'
 parcelHelpers.export(exports, "zuidHolland", ()=>zuidHolland
 );
-// import { destroyTextureCache } from '@pixi/utils'
 var _pixiJs = require("pixi.js");
 class zuidHolland extends _pixiJs.Sprite {
     constructor(texture){
         super(texture);
         this.anchor.set(0.25);
-        this.scale.set(1);
-        this.x = 300;
-        this.y = 100;
+        this.x = 310;
+        this.y = 400;
         this.interactive = true;
         this.buttonMode = true;
         this.on('pointerdown', this.onclick);
@@ -37265,10 +37259,9 @@ var _pixiJs = require("pixi.js");
 class noordHolland extends _pixiJs.Sprite {
     constructor(texture){
         super(texture);
-        // this.anchor.set(0)
         this.scale.set(1);
-        this.x = 330;
-        this.y = 52;
+        this.x = 340;
+        this.y = 150;
         this.interactive = true;
         this.buttonMode = true;
         this.on('pointerdown', this.onclick);
@@ -37281,22 +37274,36 @@ class noordHolland extends _pixiJs.Sprite {
 },{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"79Urv":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-// import { testGame } from './testGame'
 parcelHelpers.export(exports, "utrecht", ()=>utrecht
 );
-var _pixiJs = require("pixi.js");
+var _pixiJs = require("pixi.js"); // import { testGame } from './testGame'
 class utrecht extends _pixiJs.Sprite {
     constructor(texture){
         super(texture);
-        this.scale.set(1);
-        this.x = 375;
-        this.y = 267;
+        this.x = 385;
+        this.y = 367;
         this.interactive = true;
         this.buttonMode = true;
         this.on('pointerdown', this.onclick);
     }
     onclick() {
         window.location.href = 'game.html';
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2gOWl":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "nederland", ()=>nederland
+);
+var _pixiJs = require("pixi.js");
+class nederland extends _pixiJs.Sprite {
+    constructor(texture){
+        super(texture);
+        this.anchor.set(0.5);
+        this.x = 450;
+        this.y = 425;
+        this.alpha = 0.7;
     }
 }
 
