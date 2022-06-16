@@ -532,6 +532,7 @@ var _enemy = require("./enemy");
 var _background = require("./background");
 var _hero = require("./hero");
 class Game {
+    questionExist = false;
     screenWidth = 1280;
     screenHeight = 720;
     constructor(){
@@ -611,6 +612,7 @@ class Game {
     }
     makeQbox() {
         let qBox = null;
+        console.log(qBox);
         qBox = new _questionBox.questionBox(this, this.hero, this.enemy);
     }
     update(delta) {
@@ -37123,7 +37125,6 @@ parcelHelpers.export(exports, "questionBox", ()=>questionBox
 var _pixiJs = require("pixi.js");
 var _answerBox = require("./answerBox");
 var _check = require("./check");
-var _crossSprite = require("./crossSprite");
 class questionBox {
     answers = [];
     constructor(game, hero, enemy){
@@ -37183,13 +37184,16 @@ class questionBox {
             this.hero.attack();
             //wait 5 seconds
             await this.sleep(1500);
+            this.qText.destroy();
+            this.qBoxSprite.destroy();
             //generate a new question
             this.game.makeQbox();
         } else {
             //TODO: wrong answer behaviour (generate new question, give hitpoints to player)
             console.log("wrong answer");
             //show that the answer is wrong
-            let cross = new _crossSprite.Cross(this.game, this);
+            // let cross = new Cross(this.game, this);
+            //make the enemy attack the hero and the hero lose health
             //lock the answers so you cant answer correct multiple times
             this.answers.forEach((a, index)=>{
                 //change to black and white texture
@@ -37197,10 +37201,12 @@ class questionBox {
                 a.aBoxSprite.interactive = false;
                 a.aBoxSprite.buttonMode = false;
             });
-            this.enemy.attack();
+            this.game.enemy.attack();
             this.hero.takeDamage();
             //wait 1.5 seconds
             await this.sleep(1500);
+            this.qText.destroy();
+            this.qBoxSprite.destroy();
             //generate a new question
             this.game.makeQbox();
         }
@@ -37219,7 +37225,7 @@ class questionBox {
     }
 }
 
-},{"pixi.js":"dsYej","./answerBox":"1r5FN","./check":"8MCqV","./crossSprite":"a28w1","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1r5FN":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./answerBox":"1r5FN","./check":"8MCqV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1r5FN":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Answer", ()=>Answer
@@ -37287,22 +37293,6 @@ class Check {
         this.checkSprite.x = qBox.qBoxSprite.x + 300;
         this.checkSprite.y = qBox.qBoxSprite.y + 20;
         this.game.pixi.stage.addChild(this.checkSprite);
-    }
-}
-
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"a28w1":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Cross", ()=>Cross
-);
-var _pixiJs = require("pixi.js");
-class Cross {
-    constructor(game, qBox){
-        this.game = game;
-        this.crossSprite = new _pixiJs.Sprite(game.loader.resources["crossSprite"].texture);
-        this.crossSprite.x = qBox.qBoxSprite.x + 300;
-        this.crossSprite.y = qBox.qBoxSprite.y + 20;
-        this.game.pixi.stage.addChild(this.crossSprite);
     }
 }
 
@@ -37546,6 +37536,13 @@ class Enemy extends _pixiJs.AnimatedSprite {
         this.healthBar = new _healthBar.HealthBar(game);
         this.healthBar.healthBarSprite.y = this.y - 200;
     }
+    attack() {
+        this.textures = this.frames[1];
+        this.loop = false;
+        this.animationSpeed = 0.15;
+        this.play();
+        this.onComplete = this.playIdle;
+    }
     //gets called every frame
     update(delta) {
         if (this) {
@@ -37556,13 +37553,6 @@ class Enemy extends _pixiJs.AnimatedSprite {
     }
     upadateHealthBarPosition() {
         this.healthBar.healthBarSprite.x = this.x - 100;
-    }
-    attack() {
-        this.textures = this.frames[1];
-        this.loop = false;
-        this.animationSpeed = 0.15;
-        this.play();
-        this.onComplete = this.playIdle;
     }
     getHit(damage) {
         this.health -= damage;
@@ -37596,14 +37586,11 @@ class Enemy extends _pixiJs.AnimatedSprite {
     }
     //moves gameobject
     move(delta) {
-        if (!this.onCollision(this.hero)) {
-            this.x += this.speed * delta;
-            console.log("still running in the background");
-        } else this.playIdle();
+        if (!this.onCollision(this.hero)) this.x += this.speed * delta;
+        else this.playIdle();
     }
     playIdle() {
         if (this.playing != true) {
-            console.log("playing idle animation");
             this.textures = this.frames[0];
             this.animationSpeed = 0.1;
             this.loop = true;
@@ -37668,7 +37655,7 @@ class Hero extends _pixiJs.AnimatedSprite {
     frames = [];
     hitPoints = 25;
     health = 100;
-    //geef aan hoe en snel de enemy is ook de positie waar de zombie is word hier aangegeven
+    //give the attributes of the hero
     constructor(game, textures){
         super(textures[0]);
         this.game = game;
@@ -37681,12 +37668,13 @@ class Hero extends _pixiJs.AnimatedSprite {
         this.loop = true;
         this.play();
         this.interactive = true;
-        //voeg de enemy aan het beeld toe
+        //add the hero character to the canvas
         this.game.pixi.stage.addChild(this);
         //healthbar
         this.healthBar = new _healthBar.HealthBar(game);
         this.healthBar.healthBarSprite.y = this.y - 150;
         this.healthBar.healthBarSprite.x = this.x - 100;
+        this.idleAnimation();
     }
     attack() {
         this.textures = this.frames[1];

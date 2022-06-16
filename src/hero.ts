@@ -7,11 +7,12 @@ import { HealthBar } from "./healthBar";
 export class Hero extends PIXI.AnimatedSprite {
   private game: Game;
   private frames: PIXI.Texture[][] = [];
+
   hitPoints = 25;
   health = 100;
   healthBar: HealthBar;
 
-  //geef aan hoe en snel de enemy is ook de positie waar de zombie is word hier aangegeven
+  //give the attributes of the hero
   constructor(game: Game, textures: Texture[][]) {
     super(textures[0]);
 
@@ -27,12 +28,13 @@ export class Hero extends PIXI.AnimatedSprite {
     this.play();
 
     this.interactive = true;
-    //voeg de enemy aan het beeld toe
+    //add the hero character to the canvas
     this.game.pixi.stage.addChild(this);
     //healthbar
     this.healthBar = new HealthBar(game);
     this.healthBar.healthBarSprite.y = this.y - 150;
     this.healthBar.healthBarSprite.x = this.x - 100;
+    this.idleAnimation();
   }
 
   attack() {

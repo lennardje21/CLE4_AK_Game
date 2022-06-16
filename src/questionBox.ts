@@ -9,6 +9,7 @@ import { Hero } from "./hero";
 export class questionBox {
   question: string;
   questionId: number;
+
   qText: PIXI.Text;
 
   qBoxSprite: PIXI.Sprite;
@@ -17,14 +18,14 @@ export class questionBox {
 
   game: Game;
 
-  enemy: Enemy
+  enemy: Enemy;
 
   hero: Hero;
 
   constructor(game: Game, hero: Hero, enemy : Enemy) {
     this.game = game;
     this.hero = hero;
-    this.enemy = enemy
+    this.enemy = enemy;
 
     //fetch questions from json file
     fetch("question.json")
@@ -60,7 +61,6 @@ export class questionBox {
       fill: 0x000000,
       align: "center",
     });
-
     this.qText = new PIXI.Text(this.question, style);
     this.qText.resolution = 10;
     this.qText.x = this.qBoxSprite.x + 20;
@@ -81,6 +81,7 @@ export class questionBox {
 
       //show that the answer is correct
       let check = new Check(this.game, this);
+
       //lock the answers so you cant answer correct multiple times
       this.answers.forEach((a: Answer, index: number) => {
         //change to black and white texture
@@ -94,6 +95,8 @@ export class questionBox {
 
       //wait 5 seconds
       await this.sleep(1500);
+      this.qText.destroy();
+      this.qBoxSprite.destroy();
 
       //generate a new question
       this.game.makeQbox();
@@ -102,7 +105,9 @@ export class questionBox {
       console.log("wrong answer");
 
       //show that the answer is wrong
-      let cross = new Cross(this.game, this);
+      // let cross = new Cross(this.game, this);
+
+      //make the enemy attack the hero and the hero lose health
 
       //lock the answers so you cant answer correct multiple times
       this.answers.forEach((a: Answer, index: number) => {
@@ -113,12 +118,13 @@ export class questionBox {
         a.aBoxSprite.buttonMode = false;
       });
 
-      this.enemy.attack();
-      
+      this.game.enemy.attack();
       this.hero.takeDamage();
 
       //wait 1.5 seconds
       await this.sleep(1500);
+      this.qText.destroy();
+      this.qBoxSprite.destroy();
 
       //generate a new question
       this.game.makeQbox();

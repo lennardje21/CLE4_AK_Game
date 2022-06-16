@@ -38,6 +38,14 @@ export class Enemy extends PIXI.AnimatedSprite {
     this.healthBar.healthBarSprite.y = this.y - 200;
   }
 
+  attack() {
+    this.textures = this.frames[1]
+    this.loop = false
+    this.animationSpeed = 0.15
+    this.play()
+    this.onComplete = this.playIdle
+  }
+
   //gets called every frame
   update(delta: number) {
     if (this) {
@@ -49,14 +57,6 @@ export class Enemy extends PIXI.AnimatedSprite {
 
   upadateHealthBarPosition() {
     this.healthBar.healthBarSprite.x = this.x - 100;
-  }
-
-  attack() {
-    this.textures = this.frames[1]
-    this.loop = false
-    this.animationSpeed = 0.15
-    this.play()
-    this.onComplete = this.playIdle
   }
 
   getHit(damage: number) {
@@ -99,7 +99,6 @@ export class Enemy extends PIXI.AnimatedSprite {
   move(delta: number) {
     if (!this.onCollision(this.hero)) {
       this.x += this.speed * delta;
-      console.log("still running in the background")
     } else {
       this.playIdle()
     }
@@ -107,7 +106,6 @@ export class Enemy extends PIXI.AnimatedSprite {
 
   playIdle() {
     if(this.playing != true) {
-      console.log("playing idle animation")
       this.textures = this.frames[0]
       this.animationSpeed = 0.1
       this.loop = true

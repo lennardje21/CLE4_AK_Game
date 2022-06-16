@@ -16,6 +16,8 @@ export class Game {
   enemy: Enemy;
   hero: Hero;
   bird: Bird;
+  questionExist: boolean = false;
+
   screenWidth: number = 1280;
   screenHeight: number = 720;
 
@@ -117,6 +119,7 @@ export class Game {
 
   makeQbox() {
     let qBox = null;
+    console.log(qBox)
     qBox = new questionBox(this, this.hero, this.enemy);
   }
 
