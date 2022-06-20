@@ -41,8 +41,8 @@ export class Answer {
     //show answer box sprite
     this.aBoxSprite = new PIXI.Sprite(game.loader.resources["aBoxSprite"].texture!);
     this.aBoxSprite.anchor.set(0.5);
-    this.aBoxSprite.x = qBox.qBoxSprite.x + 180 * i + 70;
-    this.aBoxSprite.y = qBox.qBoxSprite.y + 150;
+    this.aBoxSprite.x = qBox.qBoxSprite.x + 180 * i + 208;
+    this.aBoxSprite.y = qBox.qBoxSprite.y + 145;
 
     //give them text
     this.aText = new PIXI.Text(this.answer, { fontFamily: "Arial", fontSize: 24, fill: 0x000000, align: "center" });

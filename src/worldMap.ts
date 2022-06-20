@@ -7,6 +7,7 @@ import { zuidHolland } from "./zuidHolland";
 import { noordHolland } from "./noordHolland";
 import { utrecht } from "./utrecht";
 import { nederland } from "./nederland";
+import { Game } from "./game";
 
 export class Map {
     pixi : PIXI.Application

@@ -44,13 +44,16 @@ export class questionBox {
 
   generateQuestion(data: any, game: Game) {
     //get random question
-    this.questionId = this.getRandomInt(1, 3);
+    this.questionId = this.getRandomInt(1, 4);
     this.question = data[this.questionId].question;
 
     //question box sprite
     this.qBoxSprite = new PIXI.Sprite(game.loader.resources["qBoxSprite"].texture!);
-    this.qBoxSprite.scale.set(2, 2);
-    this.qBoxSprite.x = 400;
+    // this.qBoxSprite.scale.set(3, 2);
+    // this.qBoxSprite.anchor.set(0.5)
+    this.qBoxSprite.width = 750
+    this.qBoxSprite.height = 200
+    this.qBoxSprite.x = 265;
     this.qBoxSprite.y = 520;
     this.game.pixi.stage.addChild(this.qBoxSprite);
 
@@ -61,10 +64,12 @@ export class questionBox {
       fill: 0x000000,
       align: "center",
     });
+
     this.qText = new PIXI.Text(this.question, style);
     this.qText.resolution = 10;
-    this.qText.x = this.qBoxSprite.x + 20;
-    this.qText.y = this.qBoxSprite.y + 20;
+    this.qText.anchor.set(0.5)
+    this.qText.x = this.qBoxSprite.x + 375;
+    this.qText.y = this.qBoxSprite.y + 50;
     this.game.pixi.stage.addChild(this.qText);
 
     //generate answers
@@ -99,7 +104,9 @@ export class questionBox {
       this.qBoxSprite.destroy();
 
       //generate a new question
-      this.game.makeQbox();
+      if (this.hero.health > 0) {
+        this.game.makeQbox();
+      }
     } else {
       //TODO: wrong answer behaviour (generate new question, give hitpoints to player)
       console.log("wrong answer");
@@ -127,7 +134,9 @@ export class questionBox {
       this.qBoxSprite.destroy();
 
       //generate a new question
-      this.game.makeQbox();
+      if (this.hero.health > 0) {
+        this.game.makeQbox();
+      }
     }
   }
 

@@ -2,6 +2,7 @@ import * as PIXI from "pixi.js";
 import { Texture } from "pixi.js";
 import { Enemy } from "./enemy";
 import { Game } from "./game";
+import { GameOver } from "./gameEnd/gameOver";
 import { HealthBar } from "./healthBar";
 
 export class Hero extends PIXI.AnimatedSprite {
@@ -65,8 +66,7 @@ export class Hero extends PIXI.AnimatedSprite {
 
   die() {
     console.log("hero died");
-    window.location.href = "index.html"
-    this.destroy();
+    this.game.gameOver()
   }
 
   idleAnimation() {

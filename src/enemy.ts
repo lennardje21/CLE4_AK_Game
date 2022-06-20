@@ -93,6 +93,7 @@ export class Enemy extends PIXI.AnimatedSprite {
     this.game.spawnZombie(this.game.createEnemyFrames());
     //destroy the old enemy
     this.onComplete = this.destroy
+    this.hero.idleAnimation();
   }
 
   //moves gameobject

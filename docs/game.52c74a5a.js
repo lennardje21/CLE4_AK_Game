@@ -531,10 +531,11 @@ var _assets = require("./assets");
 var _enemy = require("./enemy");
 var _background = require("./background");
 var _hero = require("./hero");
+var _gameOver = require("./gameEnd/gameOver");
 class Game {
     questionExist = false;
     screenWidth = 1280;
-    screenHeight = 720;
+    screenHeight = 700;
     constructor(){
         _pixiJs.settings.SCALE_MODE = _pixiJs.SCALE_MODES.NEAREST;
         this.pixi = new _pixiJs.Application({
@@ -567,7 +568,7 @@ class Game {
     spawnObjects(heroFrames, birdFrames) {
         this.hero = new _hero.Hero(this, heroFrames);
         // nieuwe bird
-        this.bird = new _bird.Bird(this, this.hero, birdFrames);
+        this.bird = new _bird.Bird(this, birdFrames);
         this.makeQbox();
     }
     createHeroFrames() {
@@ -610,6 +611,10 @@ class Game {
         }
         return frames;
     }
+    gameOver() {
+        let gameOver = new _gameOver.GameOver(this.loader.resources["gameOver"].texture, this.screenWidth, this.screenHeight);
+        this.pixi.stage.addChild(gameOver);
+    }
     makeQbox() {
         let qBox = null;
         console.log(qBox);
@@ -620,7 +625,7 @@ class Game {
     }
 }
 
-},{"pixi.js":"dsYej","./questionBox":"l0HAd","./bird":"3UkpQ","./assets":"jyCU7","./enemy":"e8Rej","./background":"6FKGH","./hero":"jMGFP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./questionBox":"l0HAd","./bird":"3UkpQ","./assets":"jyCU7","./enemy":"e8Rej","./background":"6FKGH","./hero":"jMGFP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./gameEnd/gameOver":"jNnBw"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37142,12 +37147,15 @@ class questionBox {
     }
     generateQuestion(data, game) {
         //get random question
-        this.questionId = this.getRandomInt(1, 3);
+        this.questionId = this.getRandomInt(1, 4);
         this.question = data[this.questionId].question;
         //question box sprite
         this.qBoxSprite = new _pixiJs.Sprite(game.loader.resources["qBoxSprite"].texture);
-        this.qBoxSprite.scale.set(2, 2);
-        this.qBoxSprite.x = 400;
+        // this.qBoxSprite.scale.set(3, 2);
+        // this.qBoxSprite.anchor.set(0.5)
+        this.qBoxSprite.width = 750;
+        this.qBoxSprite.height = 200;
+        this.qBoxSprite.x = 265;
         this.qBoxSprite.y = 520;
         this.game.pixi.stage.addChild(this.qBoxSprite);
         //question text
@@ -37159,8 +37167,9 @@ class questionBox {
         });
         this.qText = new _pixiJs.Text(this.question, style);
         this.qText.resolution = 10;
-        this.qText.x = this.qBoxSprite.x + 20;
-        this.qText.y = this.qBoxSprite.y + 20;
+        this.qText.anchor.set(0.5);
+        this.qText.x = this.qBoxSprite.x + 375;
+        this.qText.y = this.qBoxSprite.y + 50;
         this.game.pixi.stage.addChild(this.qText);
         //generate answers
         for(let i = 0; i < 3; i++){
@@ -37187,7 +37196,7 @@ class questionBox {
             this.qText.destroy();
             this.qBoxSprite.destroy();
             //generate a new question
-            this.game.makeQbox();
+            if (this.hero.health > 0) this.game.makeQbox();
         } else {
             //TODO: wrong answer behaviour (generate new question, give hitpoints to player)
             console.log("wrong answer");
@@ -37208,7 +37217,7 @@ class questionBox {
             this.qText.destroy();
             this.qBoxSprite.destroy();
             //generate a new question
-            this.game.makeQbox();
+            if (this.hero.health > 0) this.game.makeQbox();
         }
     }
     sleep(ms) {
@@ -37252,8 +37261,8 @@ class Answer {
         //show answer box sprite
         this.aBoxSprite = new _pixiJs.Sprite(game.loader.resources["aBoxSprite"].texture);
         this.aBoxSprite.anchor.set(0.5);
-        this.aBoxSprite.x = qBox.qBoxSprite.x + 180 * i + 70;
-        this.aBoxSprite.y = qBox.qBoxSprite.y + 150;
+        this.aBoxSprite.x = qBox.qBoxSprite.x + 180 * i + 208;
+        this.aBoxSprite.y = qBox.qBoxSprite.y + 145;
         //give them text
         this.aText = new _pixiJs.Text(this.answer, {
             fontFamily: "Arial",
@@ -37303,12 +37312,11 @@ parcelHelpers.export(exports, "Bird", ()=>Bird
 );
 var _pixiJs = require("pixi.js");
 class Bird extends _pixiJs.AnimatedSprite {
-    constructor(game, hero, textures){
+    constructor(game, textures){
         super(textures);
-        this.hero = hero;
         this.game = game;
-        this.x = 100;
-        this.y = 300;
+        this.x = -50;
+        this.y = 50;
         // this.birdSprite = new PIXI.Sprite(game.loader.resources["birdSprite1"].texture)
         // this.birdSprite.scale.set(0.5, 0.5)
         // this.birdSprite.y = 480
@@ -37326,12 +37334,9 @@ class Bird extends _pixiJs.AnimatedSprite {
     }
     //moves gameobject
     move(delta) {
-        if (!this.onCollision(this.hero)) this.x += 1 * delta;
-    }
-    onCollision(collider) {
-        let colliderBounds = this.getBounds();
-        let otherCollider = collider.getBounds();
-        return colliderBounds.x + colliderBounds.width > otherCollider.x && colliderBounds.x < otherCollider.x + otherCollider.width && colliderBounds.y + colliderBounds.height > otherCollider.y && colliderBounds.y < otherCollider.y + otherCollider.height;
+        this.x += 1 * delta;
+        this.y += Math.sin(this.x * 0.03);
+        if (this.x >= 1300) this.x = -50;
     }
 }
 
@@ -37364,6 +37369,8 @@ var _noordHollandPng = require("./images/noord_holland.png");
 var _noordHollandPngDefault = parcelHelpers.interopDefault(_noordHollandPng);
 var _nederlandPng = require("./images/nederland.png");
 var _nederlandPngDefault = parcelHelpers.interopDefault(_nederlandPng);
+var _gameOverPng = require("./images/gameOver.png");
+var _gameOverPngDefault = parcelHelpers.interopDefault(_gameOverPng);
 class Assets extends _pixiJs.Loader {
     assets = [];
     constructor(game){
@@ -37436,6 +37443,10 @@ class Assets extends _pixiJs.Loader {
             {
                 name: "nederland",
                 url: _nederlandPngDefault.default
+            },
+            {
+                name: "gameOver",
+                url: _gameOverPngDefault.default
             }
         ];
         this.assets.forEach((asset)=>{
@@ -37447,7 +37458,7 @@ class Assets extends _pixiJs.Loader {
     }
 }
 
-},{"pixi.js":"dsYej","./images/qBoxSprite.png":"l7QnL","./images/aBoxSprite.png":"1lWDL","./images/aBoxSpriteDeactivated.png":"4nzdI","./images/crossSprite.png":"k6xXy","./images/checkSprite.png":"bTjYc","./images/background.png":"cvr9V","./images/healthBarSprite.png":"9azpm","./images/utrecht.png":"45xJE","./images/zuid_holland.png":"jrNTm","./images/noord_holland.png":"5M15W","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/nederland.png":"5ZdlH"}],"l7QnL":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./images/qBoxSprite.png":"l7QnL","./images/aBoxSprite.png":"1lWDL","./images/aBoxSpriteDeactivated.png":"4nzdI","./images/crossSprite.png":"k6xXy","./images/checkSprite.png":"bTjYc","./images/background.png":"cvr9V","./images/healthBarSprite.png":"9azpm","./images/utrecht.png":"45xJE","./images/zuid_holland.png":"jrNTm","./images/noord_holland.png":"5M15W","./images/nederland.png":"5ZdlH","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/gameOver.png":"iiCNl"}],"l7QnL":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('aEpy6') + "qBoxSprite.c6eec9fc.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
@@ -37513,6 +37524,9 @@ module.exports = require('./helpers/bundle-url').getBundleURL('aEpy6') + "noord_
 
 },{"./helpers/bundle-url":"lgJ39"}],"5ZdlH":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('aEpy6') + "nederland.e4035bbe.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"iiCNl":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('aEpy6') + "gameOver.9ed4fb37.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"e8Rej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -37592,6 +37606,7 @@ class Enemy extends _pixiJs.AnimatedSprite {
         this.game.spawnZombie(this.game.createEnemyFrames());
         //destroy the old enemy
         this.onComplete = this.destroy;
+        this.hero.idleAnimation();
     }
     //moves gameobject
     move(delta) {
@@ -37707,8 +37722,7 @@ class Hero extends _pixiJs.AnimatedSprite {
     }
     die() {
         console.log("hero died");
-        window.location.href = "index.html";
-        this.destroy();
+        this.game.gameOver();
     }
     idleAnimation() {
         this.textures = this.frames[0];
@@ -37718,6 +37732,27 @@ class Hero extends _pixiJs.AnimatedSprite {
     }
 }
 
-},{"pixi.js":"dsYej","./healthBar":"iuZOK","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["fdOTE","4IlMk"], "4IlMk", "parcelRequirea0e5")
+},{"pixi.js":"dsYej","./healthBar":"iuZOK","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jNnBw":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "GameOver", ()=>GameOver
+);
+var _pixiJs = require("pixi.js");
+class GameOver extends _pixiJs.Sprite {
+    constructor(gameOverTexture, x, y){
+        super(gameOverTexture);
+        this.anchor.set(0.5);
+        this.width = x;
+        this.height = y;
+        this.x = x / 2;
+        this.y = y / 2;
+        setTimeout(this.backToMap, 3000);
+    }
+    backToMap() {
+        window.location.href = "index.html";
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["fdOTE","4IlMk"], "4IlMk", "parcelRequirea0e5")
 
 //# sourceMappingURL=game.52c74a5a.js.map

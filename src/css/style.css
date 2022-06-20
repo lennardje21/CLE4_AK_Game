@@ -5,11 +5,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 0.5rem;
+  padding-top: 0.3rem;
 }
 
 canvas {
-  border: solid white 10px;
+  border: solid white 5px;
   border-radius: 5px;
   box-shadow: 10px 10px 10rem rgba(0, 0, 0, 0.4);
 }

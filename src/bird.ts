@@ -4,15 +4,13 @@ import { Hero } from "./hero";
 
 export class Bird extends PIXI.AnimatedSprite {
   game: Game;
-  hero: Hero;
 
-  constructor(game: Game, hero: Hero, textures: PIXI.Texture[]) {
+  constructor(game: Game, textures: PIXI.Texture[]) {
     super(textures);
-    this.hero = hero;
 
     this.game = game;
-    this.x = 100;
-    this.y = 300;
+    this.x = -50;
+    this.y = 50;
 
     // this.birdSprite = new PIXI.Sprite(game.loader.resources["birdSprite1"].texture)
     // this.birdSprite.scale.set(0.5, 0.5)
@@ -34,15 +32,11 @@ export class Bird extends PIXI.AnimatedSprite {
 
   //moves gameobject
   move(delta: number) {
-    if (!this.onCollision(this.hero)) {
-      this.x += 1 * delta;
-    } else {
-      // this.stopAnimation();
+    this.x += 1 * delta;
+    this.y += Math.sin(this.x * 0.03)
+    if(this.x >= 1300) {
+      this.x = -50
     }
   }
-  onCollision(collider: any): boolean {
-    let colliderBounds = this.getBounds();
-    let otherCollider = collider.getBounds();
-    return colliderBounds.x + colliderBounds.width > otherCollider.x && colliderBounds.x < otherCollider.x + otherCollider.width && colliderBounds.y + colliderBounds.height > otherCollider.y && colliderBounds.y < otherCollider.y + otherCollider.height;
-  }
+
 }
