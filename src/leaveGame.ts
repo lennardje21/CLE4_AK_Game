@@ -5,7 +5,7 @@ export class LeaveGame extends PIXI.Sprite {
         super(texture)
 
         this.anchor.set(0.5)
-        this.x = 50
+        this.x = 30
         this.y = 50
         this.interactive = true
         this.buttonMode = true

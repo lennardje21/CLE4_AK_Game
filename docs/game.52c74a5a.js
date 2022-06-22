@@ -37773,7 +37773,7 @@ class LeaveGame extends _pixiJs.Sprite {
     constructor(texture){
         super(texture);
         this.anchor.set(0.5);
-        this.x = 50;
+        this.x = 30;
         this.y = 50;
         this.interactive = true;
         this.buttonMode = true;
