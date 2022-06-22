@@ -535,7 +535,8 @@ class Map {
     constructor(){
         this.pixi = new _pixiJs.Application({
             width: 1000,
-            height: 800
+            height: 800,
+            backgroundColor: 2719929
         });
         document.body.appendChild(this.pixi.view);
         let assets = new _assets.Assets(this);
