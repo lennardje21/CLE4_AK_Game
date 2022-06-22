@@ -37343,6 +37343,8 @@ var _gameOverPng = require("./images/gameOver.png");
 var _gameOverPngDefault = parcelHelpers.interopDefault(_gameOverPng);
 var _victoryPng = require("./images/victory.png");
 var _victoryPngDefault = parcelHelpers.interopDefault(_victoryPng);
+var _startScreenPng = require("./images/startScreen.png");
+var _startScreenPngDefault = parcelHelpers.interopDefault(_startScreenPng);
 class Assets extends _pixiJs.Loader {
     assets = [];
     constructor(game){
@@ -37411,6 +37413,10 @@ class Assets extends _pixiJs.Loader {
             {
                 name: "victory",
                 url: _victoryPngDefault.default
+            },
+            {
+                name: "startScreen",
+                url: _startScreenPngDefault.default
             }
         ];
         this.assets.forEach((asset)=>{
@@ -37422,7 +37428,7 @@ class Assets extends _pixiJs.Loader {
     }
 }
 
-},{"pixi.js":"dsYej","./images/qBoxSprite.png":"l7QnL","./images/aBoxSprite.png":"1lWDL","./images/aBoxSpriteDeactivated.png":"4nzdI","./images/crossSprite.png":"k6xXy","./images/checkSprite.png":"bTjYc","./images/background.png":"cvr9V","./images/healthBarSprite.png":"9azpm","./images/utrecht.png":"45xJE","./images/zuid_holland.png":"jrNTm","./images/noord_holland.png":"5M15W","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/nederland.png":"5ZdlH","./images/gameOver.png":"iiCNl","./images/victory.png":"IO05B"}],"l7QnL":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./images/qBoxSprite.png":"l7QnL","./images/aBoxSprite.png":"1lWDL","./images/aBoxSpriteDeactivated.png":"4nzdI","./images/crossSprite.png":"k6xXy","./images/checkSprite.png":"bTjYc","./images/background.png":"cvr9V","./images/healthBarSprite.png":"9azpm","./images/utrecht.png":"45xJE","./images/zuid_holland.png":"jrNTm","./images/noord_holland.png":"5M15W","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/nederland.png":"5ZdlH","./images/gameOver.png":"iiCNl","./images/victory.png":"IO05B","./images/startScreen.png":"a3qtt"}],"l7QnL":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('aEpy6') + "qBoxSprite.c6eec9fc.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
@@ -37494,6 +37500,9 @@ module.exports = require('./helpers/bundle-url').getBundleURL('aEpy6') + "gameOv
 
 },{"./helpers/bundle-url":"lgJ39"}],"IO05B":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('aEpy6') + "victory.258509e5.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"a3qtt":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('aEpy6') + "startScreen.d46fe197.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"e8Rej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
