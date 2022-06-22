@@ -15,6 +15,7 @@ import NHolland from "./images/noord_holland.png";
 import Nland from "./images/nederland.png";
 import GameOver from "./images/gameOver.png"
 import victory from "./images/victory.png"
+import start from "./images/startScreen.png"
 
 type AssetFile = { name: string; url: string };
 
@@ -40,7 +41,8 @@ export class Assets extends PIXI.Loader {
       { name: "noord-holland", url: NHolland },
       { name: "nederland", url: Nland },
       { name: "gameOver", url: GameOver },
-      { name: "victory", url: victory}
+      { name: "victory", url: victory},
+      { name: "start", url: start}
     ];
 
     this.assets.forEach((asset) => {
