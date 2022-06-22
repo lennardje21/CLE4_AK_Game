@@ -13,8 +13,9 @@ export class Map {
     pixi : PIXI.Application
     loader : PIXI.Loader
 
+
     constructor(){
-        this.pixi = new PIXI.Application({ width: 1000, height: 800 })
+        this.pixi = new PIXI.Application({ width: 1000, height: 800, backgroundColor:0x2980b9 })
         document.body.appendChild(this.pixi.view)
         let assets = new Assets(this);
         this.loader = assets
