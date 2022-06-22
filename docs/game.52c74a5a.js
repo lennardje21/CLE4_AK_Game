@@ -532,6 +532,7 @@ var _background = require("./background");
 var _hero = require("./hero");
 var _gameOver = require("./gameEnd/gameOver");
 var _victory = require("./gameEnd/victory");
+var _leaveGame = require("./leaveGame");
 class Game {
     questionExist = false;
     screenWidth = 1280;
@@ -552,6 +553,8 @@ class Game {
     loadCompleted() {
         const background = new _background.Background(this.loader.resources["background"].texture, this.screenWidth, this.screenHeight);
         this.pixi.stage.addChild(background);
+        const exitGame = new _leaveGame.LeaveGame(this.loader.resources["leaveGame"].texture);
+        this.pixi.stage.addChild(exitGame);
         //in frames komen de images te staan die de enemy animate
         let heroFrames = this.createHeroFrames();
         let enemyFrames = this.createEnemyFrames();
@@ -630,7 +633,7 @@ class Game {
     }
 }
 
-},{"pixi.js":"dsYej","./questionBox":"l0HAd","./assets":"jyCU7","./enemy":"e8Rej","./background":"6FKGH","./hero":"jMGFP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./gameEnd/gameOver":"jNnBw","./gameEnd/victory":"hO6y8"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./questionBox":"l0HAd","./assets":"jyCU7","./enemy":"e8Rej","./background":"6FKGH","./hero":"jMGFP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./gameEnd/gameOver":"jNnBw","./gameEnd/victory":"hO6y8","./leaveGame":"eRCpX"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37345,6 +37348,8 @@ var _victoryPng = require("./images/victory.png");
 var _victoryPngDefault = parcelHelpers.interopDefault(_victoryPng);
 var _startScreenPng = require("./images/startScreen.png");
 var _startScreenPngDefault = parcelHelpers.interopDefault(_startScreenPng);
+var _leaveGamePng = require("./images/leaveGame.png");
+var _leaveGamePngDefault = parcelHelpers.interopDefault(_leaveGamePng);
 class Assets extends _pixiJs.Loader {
     assets = [];
     constructor(game){
@@ -37417,6 +37422,10 @@ class Assets extends _pixiJs.Loader {
             {
                 name: "start",
                 url: _startScreenPngDefault.default
+            },
+            {
+                name: "leaveGame",
+                url: _leaveGamePngDefault.default
             }
         ];
         this.assets.forEach((asset)=>{
@@ -37428,7 +37437,7 @@ class Assets extends _pixiJs.Loader {
     }
 }
 
-},{"pixi.js":"dsYej","./images/qBoxSprite.png":"l7QnL","./images/aBoxSprite.png":"1lWDL","./images/aBoxSpriteDeactivated.png":"4nzdI","./images/crossSprite.png":"k6xXy","./images/checkSprite.png":"bTjYc","./images/background.png":"cvr9V","./images/healthBarSprite.png":"9azpm","./images/utrecht.png":"45xJE","./images/zuid_holland.png":"jrNTm","./images/noord_holland.png":"5M15W","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/nederland.png":"5ZdlH","./images/gameOver.png":"iiCNl","./images/victory.png":"IO05B","./images/startScreen.png":"a3qtt"}],"l7QnL":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./images/qBoxSprite.png":"l7QnL","./images/aBoxSprite.png":"1lWDL","./images/aBoxSpriteDeactivated.png":"4nzdI","./images/crossSprite.png":"k6xXy","./images/checkSprite.png":"bTjYc","./images/background.png":"cvr9V","./images/healthBarSprite.png":"9azpm","./images/utrecht.png":"45xJE","./images/zuid_holland.png":"jrNTm","./images/noord_holland.png":"5M15W","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/nederland.png":"5ZdlH","./images/gameOver.png":"iiCNl","./images/victory.png":"IO05B","./images/startScreen.png":"a3qtt","./images/leaveGame.png":"jIveX"}],"l7QnL":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('aEpy6') + "qBoxSprite.c6eec9fc.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
@@ -37503,6 +37512,9 @@ module.exports = require('./helpers/bundle-url').getBundleURL('aEpy6') + "victor
 
 },{"./helpers/bundle-url":"lgJ39"}],"a3qtt":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('aEpy6') + "startScreen.d46fe197.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"jIveX":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('aEpy6') + "leaveGame.1168b6da.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"e8Rej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -37747,6 +37759,27 @@ class Victory extends _pixiJs.Sprite {
         setTimeout(this.backToMap, 3000);
     }
     backToMap() {
+        window.location.href = "index.html";
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eRCpX":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "LeaveGame", ()=>LeaveGame
+);
+var _pixiJs = require("pixi.js");
+class LeaveGame extends _pixiJs.Sprite {
+    constructor(texture){
+        super(texture);
+        this.anchor.set(0.5);
+        this.x = 50;
+        this.y = 50;
+        this.interactive = true;
+        this.buttonMode = true;
+        this.on("pointerdown", this.buttonClicked);
+    }
+    buttonClicked() {
         window.location.href = "index.html";
     }
 }

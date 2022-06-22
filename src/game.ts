@@ -11,6 +11,7 @@ import { Hero } from "./hero";
 import { Texture } from "pixi.js";
 import { GameOver } from "./gameEnd/gameOver";
 import { Victory } from "./gameEnd/victory";
+import { LeaveGame } from "./leaveGame";
 
 export class Game {
   pixi: PIXI.Application;
@@ -37,6 +38,9 @@ export class Game {
   loadCompleted() {
     const background = new Background(this.loader.resources["background"].texture!, this.screenWidth, this.screenHeight);
     this.pixi.stage.addChild(background);
+
+    const exitGame = new LeaveGame(this.loader.resources["leaveGame"].texture!)
+    this.pixi.stage.addChild(exitGame)
 
     //in frames komen de images te staan die de enemy animate
     let heroFrames: PIXI.Texture[][] = this.createHeroFrames();
