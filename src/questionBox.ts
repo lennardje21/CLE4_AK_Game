@@ -104,7 +104,7 @@ export class questionBox {
       this.qBoxSprite.destroy();
 
       //generate a new question
-      if (this.hero.health > 0) {
+      if (this.hero.health > 0 && this.game.enemy.health > 0) {
         this.game.makeQbox();
       }
     } else {
@@ -134,7 +134,7 @@ export class questionBox {
       this.qBoxSprite.destroy();
 
       //generate a new question
-      if (this.hero.health > 0) {
+      if (this.hero.health > 0 && this.game.enemy.health > 0) {
         this.game.makeQbox();
       }
     }

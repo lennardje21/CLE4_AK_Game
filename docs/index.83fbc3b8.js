@@ -37081,23 +37081,13 @@ var _nederlandPng = require("./images/nederland.png");
 var _nederlandPngDefault = parcelHelpers.interopDefault(_nederlandPng);
 var _gameOverPng = require("./images/gameOver.png");
 var _gameOverPngDefault = parcelHelpers.interopDefault(_gameOverPng);
+var _victoryPng = require("./images/victory.png");
+var _victoryPngDefault = parcelHelpers.interopDefault(_victoryPng);
 class Assets extends _pixiJs.Loader {
     assets = [];
     constructor(game){
         super();
         this.assets = [
-            {
-                name: "enemyJson",
-                url: "enemy.json"
-            },
-            {
-                name: "heroJson",
-                url: "hero.json"
-            },
-            {
-                name: "silverKnightJson",
-                url: "silverKnight.json"
-            },
             {
                 name: "birdJson",
                 url: "bird.json"
@@ -37157,6 +37147,10 @@ class Assets extends _pixiJs.Loader {
             {
                 name: "gameOver",
                 url: _gameOverPngDefault.default
+            },
+            {
+                name: "victory",
+                url: _victoryPngDefault.default
             }
         ];
         this.assets.forEach((asset)=>{
@@ -37168,7 +37162,7 @@ class Assets extends _pixiJs.Loader {
     }
 }
 
-},{"pixi.js":"dsYej","./images/qBoxSprite.png":"kCINV","./images/aBoxSprite.png":"gNbyL","./images/aBoxSpriteDeactivated.png":"5NEcy","./images/crossSprite.png":"2zgrT","./images/checkSprite.png":"8xpXS","./images/background.png":"6zfLI","./images/healthBarSprite.png":"amCwx","./images/utrecht.png":"hE6s5","./images/zuid_holland.png":"8oeNA","./images/noord_holland.png":"1IOVf","./images/nederland.png":"aYioO","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/gameOver.png":"cwiV4"}],"kCINV":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./images/qBoxSprite.png":"kCINV","./images/aBoxSprite.png":"gNbyL","./images/aBoxSpriteDeactivated.png":"5NEcy","./images/crossSprite.png":"2zgrT","./images/checkSprite.png":"8xpXS","./images/background.png":"6zfLI","./images/healthBarSprite.png":"amCwx","./images/utrecht.png":"hE6s5","./images/zuid_holland.png":"8oeNA","./images/noord_holland.png":"1IOVf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/nederland.png":"aYioO","./images/gameOver.png":"cwiV4","./images/victory.png":"5Ewn9"}],"kCINV":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('FLaer') + "qBoxSprite.c6eec9fc.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
@@ -37237,6 +37231,9 @@ module.exports = require('./helpers/bundle-url').getBundleURL('FLaer') + "nederl
 
 },{"./helpers/bundle-url":"lgJ39"}],"cwiV4":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('FLaer') + "gameOver.9ed4fb37.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"5Ewn9":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('FLaer') + "victory.258509e5.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"id06r":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");

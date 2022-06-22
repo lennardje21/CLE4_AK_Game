@@ -87,12 +87,15 @@ export class Enemy extends PIXI.AnimatedSprite {
     this.textures = this.frames[4]
     this.loop = false
     this.play()
-    this.onComplete = function() { console.log('play walking again')}
+    this.onComplete = function() {
+      this.game.gameOver(true);
+      this.destroy
+    }
 
     //spawn a new enemy when the old one dies
-    this.game.spawnZombie(this.game.createEnemyFrames());
+    //this.game.spawnZombie(this.game.createEnemyFrames());
     //destroy the old enemy
-    this.onComplete = this.destroy
+    // this.onComplete = this.destroy
     this.hero.idleAnimation();
   }
 

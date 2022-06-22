@@ -14,6 +14,7 @@ import ZHolland from "./images/zuid_holland.png";
 import NHolland from "./images/noord_holland.png";
 import Nland from "./images/nederland.png";
 import GameOver from "./images/gameOver.png"
+import victory from "./images/victory.png"
 
 type AssetFile = { name: string; url: string };
 
@@ -24,9 +25,6 @@ export class Assets extends PIXI.Loader {
     super();
 
     this.assets = [
-      { name: "enemyJson", url: "enemy.json" },
-      { name: "heroJson", url: "hero.json" },
-      { name: "silverKnightJson", url: "silverKnight.json" },
       { name: "birdJson", url: "bird.json" },
       { name: "heavyBanditJson", url: "heavyBandit.json" },
       { name: "skeletonJson", url: "skeleton.json" },
@@ -41,7 +39,8 @@ export class Assets extends PIXI.Loader {
       { name: "zuid-holland", url: ZHolland },
       { name: "noord-holland", url: NHolland },
       { name: "nederland", url: Nland },
-      { name: "gameOver", url: GameOver }
+      { name: "gameOver", url: GameOver },
+      { name: "victory", url: victory}
     ];
 
     this.assets.forEach((asset) => {

@@ -10,6 +10,7 @@ import { Background } from "./background";
 import { Hero } from "./hero";
 import { Texture } from "pixi.js";
 import { GameOver } from "./gameEnd/gameOver";
+import { Victory } from "./gameEnd/victory";
 
 export class Game {
   pixi: PIXI.Application;
@@ -58,7 +59,7 @@ export class Game {
     this.hero = new Hero(this, heroFrames);
 
     // nieuwe bird
-    this.bird = new Bird(this, birdFrames);
+    //this.bird = new Bird(this, birdFrames);
 
     this.makeQbox();
   }
@@ -118,9 +119,14 @@ export class Game {
     return frames;
   }
 
-  gameOver() {
-    let gameOver = new GameOver(this.loader.resources["gameOver"].texture!, this.screenWidth, this.screenHeight)
-    this.pixi.stage.addChild(gameOver)
+  gameOver(win: boolean) {
+    if (!win) {
+      let gameOver = new GameOver(this.loader.resources["gameOver"].texture!, this.screenWidth, this.screenHeight)
+      this.pixi.stage.addChild(gameOver)  
+    } else {
+      let victory = new Victory(this.loader.resources["victory"].texture!, this.screenWidth, this.screenHeight)
+      this.pixi.stage.addChild(victory)  
+    }
   }
 
   makeQbox() {

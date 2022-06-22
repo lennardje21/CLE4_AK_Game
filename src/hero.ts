@@ -9,7 +9,7 @@ export class Hero extends PIXI.AnimatedSprite {
   private game: Game;
   private frames: PIXI.Texture[][] = [];
 
-  hitPoints = 25;
+  hitPoints = 20;
   health = 100;
   healthBar: HealthBar;
 
@@ -66,7 +66,7 @@ export class Hero extends PIXI.AnimatedSprite {
 
   die() {
     console.log("hero died");
-    this.game.gameOver()
+    this.game.gameOver(false)
   }
 
   idleAnimation() {
