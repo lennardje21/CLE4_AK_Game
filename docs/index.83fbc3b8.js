@@ -548,12 +548,12 @@ class Map {
         let noord = new _noordHolland.noordHolland(this.loader.resources["noord-holland"].texture);
         let ut = new _utrecht.utrecht(this.loader.resources["utrecht"].texture);
         let nl = new _nederland.nederland(this.loader.resources["nederland"].texture);
-        let startscreen = new _startScreen.StartScreen(this.loader.resources["startScreen"].texture);
+        let start = new _startScreen.strt(this.loader.resources["start"].texture);
         this.pixi.stage.addChild(nl);
         this.pixi.stage.addChild(zuid);
         this.pixi.stage.addChild(noord);
         this.pixi.stage.addChild(ut);
-        this.pixi.stage.addChild(startscreen);
+        this.pixi.stage.addChild(start);
     }
 }
 
@@ -37159,7 +37159,7 @@ class Assets extends _pixiJs.Loader {
                 url: _victoryPngDefault.default
             },
             {
-                name: "startScreen",
+                name: "start",
                 url: _startScreenPngDefault.default
             }
         ];
@@ -37329,17 +37329,14 @@ class nederland extends _pixiJs.Sprite {
 },{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3JdQz":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "StartScreen", ()=>StartScreen
+parcelHelpers.export(exports, "strt", ()=>strt
 );
 var _pixiJs = require("pixi.js");
-class StartScreen extends _pixiJs.Sprite {
+class strt extends _pixiJs.Sprite {
     constructor(texture){
         super(texture);
-        this.anchor.set(0.5);
-        this.x = 500;
-        this.y = 400;
-        this.width = 1000;
-        this.height = 800;
+        this.x = 200;
+        this.y = 125;
         this.interactive = true;
         this.buttonMode = true;
         this.on('pointerdown', this.onclick);

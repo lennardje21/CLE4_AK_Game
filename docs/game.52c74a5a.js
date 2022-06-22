@@ -37415,7 +37415,7 @@ class Assets extends _pixiJs.Loader {
                 url: _victoryPngDefault.default
             },
             {
-                name: "startScreen",
+                name: "start",
                 url: _startScreenPngDefault.default
             }
         ];

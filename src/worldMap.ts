@@ -7,7 +7,7 @@ import { zuidHolland } from "./zuidHolland";
 import { noordHolland } from "./noordHolland";
 import { utrecht } from "./utrecht";
 import { nederland } from "./nederland";
-import { StartScreen } from "./startScreen";
+import { strt } from "./startScreen";
 import { Game } from "./game";
 
 export class Map {
@@ -27,12 +27,12 @@ export class Map {
                 let noord = new noordHolland(this.loader.resources["noord-holland"].texture!)
                 let ut = new utrecht(this.loader.resources["utrecht"].texture!)
                 let nl = new nederland(this.loader.resources["nederland"].texture!)
-                let startscreen = new StartScreen(this.loader.resources["startScreen"].texture!)
+                let start = new strt(this.loader.resources["start"].texture!)
                 this.pixi.stage.addChild(nl)
                 this.pixi.stage.addChild(zuid)
                 this.pixi.stage.addChild(noord)
                 this.pixi.stage.addChild(ut)
-                this.pixi.stage.addChild(startscreen)
+                this.pixi.stage.addChild(start)
                 
             }
 
