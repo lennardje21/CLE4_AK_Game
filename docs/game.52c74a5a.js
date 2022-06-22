@@ -526,6 +526,7 @@ parcelHelpers.export(exports, "Game", ()=>Game
 var _pixiJs = require("pixi.js");
 //classes
 var _questionBox = require("./questionBox");
+var _bird = require("./bird");
 var _assets = require("./assets");
 var _enemy = require("./enemy");
 var _background = require("./background");
@@ -571,7 +572,7 @@ class Game {
     spawnObjects(heroFrames, birdFrames) {
         this.hero = new _hero.Hero(this, heroFrames);
         // nieuwe bird
-        //this.bird = new Bird(this, birdFrames);
+        this.bird = new _bird.Bird(this, birdFrames);
         this.makeQbox();
     }
     createHeroFrames() {
@@ -633,7 +634,7 @@ class Game {
     }
 }
 
-},{"pixi.js":"dsYej","./questionBox":"l0HAd","./assets":"jyCU7","./enemy":"e8Rej","./background":"6FKGH","./hero":"jMGFP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./gameEnd/gameOver":"jNnBw","./gameEnd/victory":"hO6y8","./leaveGame":"eRCpX"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./questionBox":"l0HAd","./assets":"jyCU7","./enemy":"e8Rej","./background":"6FKGH","./hero":"jMGFP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./gameEnd/gameOver":"jNnBw","./gameEnd/victory":"hO6y8","./leaveGame":"eRCpX","./bird":"3UkpQ"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37781,6 +37782,41 @@ class LeaveGame extends _pixiJs.Sprite {
     }
     buttonClicked() {
         window.location.href = "index.html";
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3UkpQ":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Bird", ()=>Bird
+);
+var _pixiJs = require("pixi.js");
+class Bird extends _pixiJs.AnimatedSprite {
+    constructor(game, textures){
+        super(textures);
+        this.game = game;
+        this.x = -50;
+        this.y = 50;
+        // this.birdSprite = new PIXI.Sprite(game.loader.resources["birdSprite1"].texture)
+        // this.birdSprite.scale.set(0.5, 0.5)
+        // this.birdSprite.y = 480
+        // this.game.pixi.stage.addChild(this.birdSprite)
+        this.animationSpeed = 0.1;
+        // this.loop = true
+        // this.gotoAndPlay(4)
+        this.game.pixi.stage.addChild(this);
+        this.play();
+    }
+    //gets called every frame
+    update(delta) {
+        super.update(delta);
+        this.move(delta);
+    }
+    //moves gameobject
+    move(delta) {
+        this.x += 1 * delta;
+        this.y += Math.sin(this.x * 0.03);
+        if (this.x >= 1300) this.x = -50;
     }
 }
 

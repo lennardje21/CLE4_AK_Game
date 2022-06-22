@@ -63,7 +63,7 @@ export class Game {
     this.hero = new Hero(this, heroFrames);
 
     // nieuwe bird
-    //this.bird = new Bird(this, birdFrames);
+    this.bird = new Bird(this, birdFrames);
 
     this.makeQbox();
   }
